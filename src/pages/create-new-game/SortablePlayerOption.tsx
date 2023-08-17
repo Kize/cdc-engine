@@ -1,5 +1,5 @@
 import { JSX } from 'react';
-import { Box, Flex, IconButton, ListItem, Spacer } from '@chakra-ui/react';
+import { Box, Flex, IconButton, ListItem } from '@chakra-ui/react';
 import { MdDragIndicator } from 'react-icons/md';
 import { TiDeleteOutline } from 'react-icons/ti';
 import { CSS } from '@dnd-kit/utilities';
