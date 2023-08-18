@@ -15,14 +15,13 @@
     "@dnd-kit/sortable": "7.0.2",
     "@emotion/react": "11.11.1",
     "@emotion/styled": "11.11.0",
+    "@reduxjs/toolkit": "1.9.5",
     "chakra-react-select": "4.7.0",
-    "eslint-config-prettier": "^8.10.0",
-    "eslint-plugin-prettier": "^5.0.0",
     "framer-motion": "10.15.0",
-    "prettier": "^3.0.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "4.10.1",
+    "react-redux": "8.1.2",
     "react-router-dom": "6.14.2"
   },
   "devDependencies": {
@@ -32,8 +31,11 @@
     "@typescript-eslint/parser": "5.61.0",
     "@vitejs/plugin-react": "4.0.1",
     "eslint": "8.44.0",
+    "eslint-config-prettier": "8.10.0",
+    "eslint-plugin-prettier": "5.0.0",
     "eslint-plugin-react-hooks": "4.6.0",
     "eslint-plugin-react-refresh": "0.4.1",
+    "prettier": "3.0.1",
     "typescript": "5.0.2",
     "vite": "4.4.0"
   }

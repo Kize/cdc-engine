@@ -9,6 +9,8 @@ import {
   Spacer,
 } from '@chakra-ui/react';
 import { AiOutlineExclamationCircle } from 'react-icons/ai';
+import { useAppDispatch, useAppSelector } from '../../store.ts';
+import { increment, selectCount } from '../../slices/counter.ts';
 
 interface Player {
   name: string;
@@ -16,6 +18,9 @@ interface Player {
 }
 
 export function PlayerCard({ player }: { player: Player }): JSX.Element {
+  const count = useAppSelector(selectCount);
+  const dispatch = useAppDispatch();
+
   return (
     <Card variant="filled">
       <CardHeader px={3} py={1}>
@@ -32,6 +37,7 @@ export function PlayerCard({ player }: { player: Player }): JSX.Element {
             variant="outline"
             size="xs"
             leftIcon={<AiOutlineExclamationCircle />}
+            onClick={() => dispatch(increment())}
           >
             Bévue
           </Button>
@@ -39,7 +45,7 @@ export function PlayerCard({ player }: { player: Player }): JSX.Element {
       </CardHeader>
 
       <CardBody px={3} py={1}>
-        <Box as="span">This is the body</Box>
+        <Box as="span">{count}</Box>
       </CardBody>
     </Card>
   );
