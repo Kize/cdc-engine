@@ -1,6 +1,4 @@
 module.exports = {
-  root: true,
-  env: { browser: true, es2020: true },
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 'latest',
@@ -8,13 +6,23 @@ module.exports = {
     project: true,
     tsconfigRootDir: __dirname,
   },
-  plugins: ['react-refresh', 'prettier'],
+  plugins: [
+    'react-refresh',
+    '@typescript-eslint/eslint-plugin',
+    'prettier',
+    'import',
+    'unused-imports',
+  ],
+  root: true,
+  env: { browser: true, es2020: true },
   extends: [
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:@typescript-eslint/recommended-requiring-type-checking',
     'plugin:react-hooks/recommended',
     'plugin:prettier/recommended',
+    'plugin:import/recommended',
+    'plugin:import/typescript',
   ],
   rules: {
     'react-refresh/only-export-components': [
