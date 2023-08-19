@@ -15,22 +15,22 @@ export class ChouetteRule extends DiceRule {
   }
 
   protected getChouetteRuleEffect(
-    playerName: string,
+    player: string,
     diceRoll: DiceRoll,
   ): RuleEffect {
     const score = this.getChouetteScore(diceRoll);
     return {
       event: RuleEffectEvent.CHOUETTE,
-      playerName,
-      score,
+      player: player,
+      value: score,
     };
   }
 
   async applyDiceRule({
-    playerName,
+    player,
     diceRoll,
   }: DiceRollGameContext): Promise<RuleEffects> {
-    return [this.getChouetteRuleEffect(playerName, diceRoll)];
+    return [this.getChouetteRuleEffect(player, diceRoll)];
   }
 
   protected getChouetteScore(diceRoll: DiceRoll): number {

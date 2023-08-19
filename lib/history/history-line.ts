@@ -25,7 +25,7 @@ export interface HistoryLine {
 }
 
 export interface PlayerHistoryLine extends HistoryLine {
-  playerName: string;
+  player: string;
 }
 
 export function getNewEventId(): string {

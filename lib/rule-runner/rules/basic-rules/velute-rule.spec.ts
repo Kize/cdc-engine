@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { VeluteRule } from './velute-rule';
 import { RuleEffectEvent, RuleEffects } from '../rule-effect';
 import { DummyContextBuilder } from '../../../tests/dummy-game-context-builder';
@@ -21,16 +21,16 @@ describe('applyRule', () => {
   it('registers a change of score of 32 for a velute of 4', () => {
     const effects = new VeluteRule().applyRule(
       DummyContextBuilder.aDiceRollContext()
-        .withPlayerName('Alban')
+        .withplayer('Alban')
         .withDiceRoll([3, 4, 1])
         .build(),
     );
 
     expect(effects).toEqual<RuleEffects>([
       {
-        playerName: 'Alban',
+        player: 'Alban',
         event: RuleEffectEvent.VELUTE,
-        score: 32,
+        value: 32,
       },
     ]);
   });

@@ -2,7 +2,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { GameHandler } from './game-handler.ts';
 import { Player } from '../player';
 
-describe('getCurrentPlayerName', () => {
+describe('getCurrentplayer', () => {
   it('throws an exception when there are no players', () => {
     const game = new GameHandler('test');
 
@@ -30,13 +30,9 @@ describe('getCurrentPlayerName', () => {
 
     game.history.getNumberOfTurnsPlayed = vi
       .fn()
-      .mockImplementation((player: Player) => {
-        if (player === '1' || player === '2') {
-          return 1;
-        }
-
-        return 0;
-      });
+      .mockReturnValueOnce(1)
+      .mockReturnValueOnce(1)
+      .mockReturnValueOnce(0);
 
     expect(game.getCurrentPlayer([], players)).toEqual<Player>(jules);
   });

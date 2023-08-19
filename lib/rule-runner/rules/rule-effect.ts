@@ -1,8 +1,10 @@
+import { Player } from '../../player.ts';
+
 export type RuleEffects = Array<RuleEffect>;
 
 export interface RuleEffect {
-  playerName: string;
-  score: number;
+  player: Player;
+  value: number;
   event: RuleEffectEvent;
 }
 

@@ -9,7 +9,7 @@ export interface ArtichetteResolution {
 }
 
 export interface ArtichetteResolutionPayload {
-  playerName: string;
+  player: string;
 }
 
 export class ArtichetteRule extends DiceRule {
@@ -32,14 +32,14 @@ export class ArtichetteRule extends DiceRule {
 
   async applyDiceRule(context: DiceRollGameContext): Promise<RuleEffects> {
     const { isRaitournelleClaimed } = await this.resolver.getResolution({
-      playerName: context.playerName,
+      player: context.player,
     });
 
     return [
       {
         event: RuleEffectEvent.ARTICHETTE,
-        score: isRaitournelleClaimed ? 16 : -16,
-        playerName: context.playerName,
+        value: isRaitournelleClaimed ? 16 : -16,
+        player: context.player,
       },
     ];
   }

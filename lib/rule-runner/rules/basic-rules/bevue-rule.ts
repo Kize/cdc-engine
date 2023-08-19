@@ -17,8 +17,8 @@ export class BevueRule implements Rule {
     return [
       {
         event: RuleEffectEvent.BEVUE,
-        playerName: context.asApplyBevue().playerWhoMadeABevue,
-        score: -5,
+        player: context.asApplyBevue().playerWhoMadeABevue,
+        value: -5,
       },
     ];
   }

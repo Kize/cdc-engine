@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { CulDeChouetteRule } from './cul-de-chouette-rule';
 import { RuleEffectEvent, RuleEffects } from '../rule-effect';
 import { DummyContextBuilder } from '../../../tests/dummy-game-context-builder';
@@ -21,7 +21,7 @@ describe('applyRule', () => {
   it('registers a change of score of 60 for a cul de chouette of 2', () => {
     const effects = new CulDeChouetteRule().applyRule(
       DummyContextBuilder.aDiceRollContext()
-        .withPlayerName('Alban')
+        .withplayer('Alban')
         .withDiceRoll([2, 2, 2])
         .build(),
     );
@@ -29,8 +29,8 @@ describe('applyRule', () => {
     expect(effects).toEqual<RuleEffects>([
       {
         event: RuleEffectEvent.CUL_DE_CHOUETTE,
-        playerName: 'Alban',
-        score: 60,
+        player: 'Alban',
+        value: 60,
       },
     ]);
   });

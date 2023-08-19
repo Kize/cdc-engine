@@ -43,8 +43,8 @@ export class BleuRougeRule extends ChouetteRule {
     if (isANeant) {
       addJarretRuleEffects.push({
         event: RuleEffectEvent.ADD_JARRET,
-        playerName: context.playerName,
-        score: 0,
+        player: context.player,
+        value: 0,
       });
     }
 
@@ -57,13 +57,13 @@ export class BleuRougeRule extends ChouetteRule {
 
     const bleuRougeBidRuleEffect: RuleEffect = {
       event: RuleEffectEvent.BLEU_ROUGE_BET_WON,
-      playerName: winningBid.playerName,
-      score: 36 + 2 * winningBid.bet,
+      player: winningBid.player,
+      value: 36 + 2 * winningBid.bet,
     };
 
     const winningBetGameContext: DiceRollGameContext = {
       ...context,
-      playerName: winningBid.playerName,
+      player: winningBid.player,
       diceRoll,
     };
     const winningBidCombinationRuleEffects =
@@ -83,7 +83,7 @@ export class BleuRougeRule extends ChouetteRule {
 }
 
 export interface BleuRougeBid {
-  playerName: string;
+  player: string;
   bet: BleuRougeBetValue;
 }
 

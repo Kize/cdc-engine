@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { ChouetteRule } from './chouette-rule';
 import { RuleEffectEvent, RuleEffects } from '../rule-effect';
 import { DummyContextBuilder } from '../../../tests/dummy-game-context-builder';
@@ -21,7 +21,7 @@ describe('applyRule', () => {
   it('registers a change of score of 25 for a chouette of 5', async () => {
     const effects = await new ChouetteRule().applyRule(
       DummyContextBuilder.aDiceRollContext()
-        .withPlayerName('Alban')
+        .withplayer('Alban')
         .withDiceRoll([5, 5, 2])
         .build(),
     );
@@ -29,8 +29,8 @@ describe('applyRule', () => {
     expect(effects).toEqual<RuleEffects>([
       {
         event: RuleEffectEvent.CHOUETTE,
-        playerName: 'Alban',
-        score: 25,
+        player: 'Alban',
+        value: 25,
       },
     ]);
   });

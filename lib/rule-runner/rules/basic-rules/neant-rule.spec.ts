@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { NeantRule } from './neant-rule';
 import { RuleEffect, RuleEffectEvent } from '../rule-effect';
 import { DummyContextBuilder } from '../../../tests/dummy-game-context-builder';
@@ -14,25 +14,25 @@ describe('isApplicableToDiceRoll', () => {
 describe('applyRule', () => {
   it('applies a grelottine to the current player', () => {
     const effects = new NeantRule().applyRule(
-      DummyContextBuilder.aDiceRollContext().withPlayerName('Alban').build(),
+      DummyContextBuilder.aDiceRollContext().withplayer('Alban').build(),
     );
 
     expect(effects).toContainEqual<RuleEffect>({
       event: RuleEffectEvent.ADD_GRELOTTINE,
-      playerName: 'Alban',
-      score: 0,
+      player: 'Alban',
+      value: 0,
     });
   });
 
-  it('registers a change of score the the current player', async () => {
+  it('registers a change of score the the current player', () => {
     const effects = new NeantRule().applyRule(
-      DummyContextBuilder.aDiceRollContext().withPlayerName('Alban').build(),
+      DummyContextBuilder.aDiceRollContext().withplayer('Alban').build(),
     );
 
     expect(effects).toContainEqual<RuleEffect>({
       event: RuleEffectEvent.NEANT,
-      playerName: 'Alban',
-      score: 0,
+      player: 'Alban',
+      value: 0,
     });
   });
 });

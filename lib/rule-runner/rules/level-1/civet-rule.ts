@@ -39,7 +39,7 @@ export enum CivetBet {
 }
 
 export interface CivetResolutionPayload {
-  playerName: string;
+  player: string;
 }
 
 export class CivetRule implements Rule {
@@ -57,10 +57,10 @@ export class CivetRule implements Rule {
   }
 
   async applyRule(context: GameContextWrapper): Promise<RuleEffects> {
-    const { runner, playerName } = context.asCivet();
+    const { runner, player } = context.asCivet();
 
     const civetResolution = await this.resolver.getResolution({
-      playerName,
+      player,
     });
 
     let diceRollRuleEffects: RuleEffects;
@@ -69,14 +69,14 @@ export class CivetRule implements Rule {
       diceRollRuleEffects = await runner.handleGameEvent({
         event: GameContextEvent.DICE_ROLL,
         diceRoll: civetResolution.diceRoll,
-        playerName,
+        player,
         runner,
       });
     } else {
       diceRollRuleEffects = await runner.handleGameEvent({
         event: GameContextEvent.VERDIER,
         diceValues: civetResolution.diceValues,
-        playerName,
+        player,
         runner,
       });
     }
@@ -89,21 +89,21 @@ export class CivetRule implements Rule {
     if (isCivetWon) {
       civetRuleEffects.push({
         event: RuleEffectEvent.CIVET_WON,
-        playerName,
-        score: civetResolution.betAmount,
+        player: player,
+        value: civetResolution.betAmount,
       });
     } else {
       civetRuleEffects.push({
         event: RuleEffectEvent.CIVET_LOST,
-        playerName,
-        score: -civetResolution.betAmount,
+        player: player,
+        value: -civetResolution.betAmount,
       });
     }
 
     civetRuleEffects.push({
       event: RuleEffectEvent.REMOVE_CIVET,
-      playerName,
-      score: 0,
+      player: player,
+      value: 0,
     });
 
     return [...diceRollRuleEffects, ...civetRuleEffects];

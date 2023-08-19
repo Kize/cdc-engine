@@ -43,6 +43,10 @@ export class GameHandler {
   }
 
   getCurrentPlayer(events: Array<GameEvent>, players: Array<Player>): Player {
+    if (players.length === 0) {
+      throw new Error('no players defined.');
+    }
+
     const playersWithTurnsNumbers = players.map((player) => ({
       player,
       numberOfTurnsPlayed: this.history.getNumberOfTurnsPlayed(events, player),
@@ -65,7 +69,12 @@ export class GameHandler {
   }
 
   async doSomething(context: UnknownGameContext): Promise<GameEvent> {
-    const ruleEffects = await this.ruleRunner.handleGameEvent(context);
+    await this.ruleRunner.handleGameEvent(context);
+
+    return {
+      id: '1',
+      historyLines: [],
+    };
   }
 
   getGameStatus(events: Array<GameEvent>, players: Array<Player>): GameStatus {

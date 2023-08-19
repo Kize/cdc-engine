@@ -26,7 +26,7 @@ describe('applyRule', () => {
     const resolver = {
       getResolution: vi
         .fn()
-        .mockResolvedValue({ loosingPlayerName: 'Alban', multiplier: 1 }),
+        .mockResolvedValue({ loosingplayer: 'Alban', multiplier: 1 }),
     };
 
     const rule = new SuiteRule(resolver);
@@ -36,8 +36,8 @@ describe('applyRule', () => {
     ).toEqual<RuleEffects>([
       {
         event: RuleEffectEvent.SUITE,
-        playerName: 'Alban',
-        score: -10,
+        player: 'Alban',
+        value: -10,
       },
     ]);
   });
@@ -46,7 +46,7 @@ describe('applyRule', () => {
     const resolver = {
       getResolution: vi
         .fn()
-        .mockResolvedValue({ loosingPlayerName: 'Delphin', multiplier: 4 }),
+        .mockResolvedValue({ loosingplayer: 'Delphin', multiplier: 4 }),
     };
 
     const rule = new SuiteRule(resolver);
@@ -56,8 +56,8 @@ describe('applyRule', () => {
     ).toEqual<RuleEffects>([
       {
         event: RuleEffectEvent.SUITE,
-        playerName: 'Delphin',
-        score: -40,
+        player: 'Delphin',
+        value: -40,
       },
     ]);
   });
@@ -66,7 +66,7 @@ describe('applyRule', () => {
     const resolver = {
       getResolution: vi
         .fn()
-        .mockResolvedValue({ loosingPlayerName: 'Delphin', multiplier: 1 }),
+        .mockResolvedValue({ loosingplayer: 'Delphin', multiplier: 1 }),
     };
 
     const rule = new SuiteRule(resolver);
@@ -75,20 +75,20 @@ describe('applyRule', () => {
       await rule.applyRule(
         DummyContextBuilder.aDiceRollContext()
           .withDiceRoll([1, 2, 3])
-          .withPlayerName('Alban')
+          .withplayer('Alban')
           .withRuleRunner(new RuleRunner([new VeluteRule()]))
           .build(),
       ),
     ).toEqual<RuleEffects>([
       {
         event: RuleEffectEvent.SUITE_VELUTE,
-        playerName: 'Alban',
-        score: 18,
+        player: 'Alban',
+        value: 18,
       },
       {
         event: RuleEffectEvent.SUITE,
-        playerName: 'Delphin',
-        score: -10,
+        player: 'Delphin',
+        value: -10,
       },
     ]);
   });

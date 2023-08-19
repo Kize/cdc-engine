@@ -32,14 +32,14 @@ describe('applyRule', () => {
     const rule = new SouffletteRule(resolver);
 
     const context = DummyContextBuilder.aDiceRollContext()
-      .withPlayerName('Alban')
+      .withplayer('Alban')
       .withDiceRoll([4, 2, 1])
       .build();
 
     expect(await rule.applyRule(context)).toContainEqual<RuleEffect>({
       event: RuleEffectEvent.SOUFFLETTE_NO_CHALLENGE,
-      playerName: 'Alban',
-      score: 0,
+      player: 'Alban',
+      value: 0,
     });
   });
 
@@ -62,7 +62,7 @@ describe('applyRule', () => {
       const rule = new SouffletteRule(resolver);
 
       const context = DummyContextBuilder.aDiceRollContext()
-        .withPlayerName('Alban')
+        .withplayer('Alban')
         .withDiceRoll([4, 2, 1])
         .build();
 
@@ -70,14 +70,14 @@ describe('applyRule', () => {
 
       expect(ruleEffects).toContainEqual<RuleEffect>({
         event: RuleEffectEvent.SOUFFLETTE_WON,
-        playerName: 'Delphin',
-        score: winnerScore,
+        player: 'Delphin',
+        value: winnerScore,
       });
 
       expect(ruleEffects).toContainEqual<RuleEffect>({
         event: RuleEffectEvent.SOUFFLETTE_LOST,
-        playerName: 'Alban',
-        score: looserScore,
+        player: 'Alban',
+        value: looserScore,
       });
     },
   );
@@ -95,7 +95,7 @@ describe('applyRule', () => {
     const rule = new SouffletteRule(resolver);
 
     const context = DummyContextBuilder.aDiceRollContext()
-      .withPlayerName('Alban')
+      .withplayer('Alban')
       .withDiceRoll([4, 2, 1])
       .build();
 
@@ -103,14 +103,14 @@ describe('applyRule', () => {
 
     expect(ruleEffects).toContainEqual<RuleEffect>({
       event: RuleEffectEvent.SOUFFLETTE_WON,
-      playerName: 'Alban',
-      score: 30,
+      player: 'Alban',
+      value: 30,
     });
 
     expect(ruleEffects).toContainEqual<RuleEffect>({
       event: RuleEffectEvent.SOUFFLETTE_LOST,
-      playerName: 'Delphin',
-      score: -30,
+      player: 'Delphin',
+      value: -30,
     });
   });
 
@@ -126,8 +126,8 @@ describe('applyRule', () => {
 
     const aRuleEffect: RuleEffect = {
       event: RuleEffectEvent.NEANT,
-      playerName: 'Delphin',
-      score: 0,
+      player: 'Delphin',
+      value: 0,
     };
 
     const rule = new SouffletteRule(resolver);
@@ -135,7 +135,7 @@ describe('applyRule', () => {
     runnerMock.handleGameEvent = vi.fn().mockResolvedValue([aRuleEffect]);
 
     const context = DummyContextBuilder.aDiceRollContext()
-      .withPlayerName('Alban')
+      .withplayer('Alban')
       .withDiceRoll([4, 2, 1])
       .withRuleRunner(runnerMock)
       .build();
@@ -144,7 +144,7 @@ describe('applyRule', () => {
 
     const expectedContext: DiceRollGameContext = {
       event: GameContextEvent.DICE_ROLL,
-      playerName: 'Delphin',
+      player: 'Delphin',
       diceRoll: [1, 3, 6],
       runner: runnerMock,
     };
@@ -152,14 +152,14 @@ describe('applyRule', () => {
 
     expect(ruleEffects).toContainEqual<RuleEffect>({
       event: RuleEffectEvent.SOUFFLETTE_WON,
-      playerName: 'Alban',
-      score: 30,
+      player: 'Alban',
+      value: 30,
     });
 
     expect(ruleEffects).toContainEqual<RuleEffect>({
       event: RuleEffectEvent.SOUFFLETTE_LOST,
-      playerName: 'Delphin',
-      score: -30,
+      player: 'Delphin',
+      value: -30,
     });
 
     expect(ruleEffects).toContainEqual<RuleEffect>(aRuleEffect);

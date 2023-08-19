@@ -6,11 +6,11 @@ import { DiceRollGameContext } from '../../game-context-event';
 import { Rules } from '../rule';
 
 export interface ChouetteVeluteResolution {
-  playerNames: Array<string>;
+  players: Array<string>;
 }
 
 export interface ChouetteVeluteResolutionPayload {
-  playerName: string;
+  player: string;
 }
 
 export class ChouetteVeluteRule extends DiceRule {
@@ -33,32 +33,32 @@ export class ChouetteVeluteRule extends DiceRule {
 
   async applyDiceRule({
     diceRoll,
-    playerName,
+    player,
   }: DiceRollGameContext): Promise<RuleEffects> {
-    const { playerNames } = await this.resolver.getResolution({ playerName });
+    const { players } = await this.resolver.getResolution({ player });
 
     const effects: RuleEffects = [];
 
-    if (!playerNames.includes(playerName)) {
+    if (!players.includes(player)) {
       effects.push({
         event: RuleEffectEvent.CHOUETTE_VELUTE_STOLEN,
-        playerName,
-        score: 0,
+        player: player,
+        value: 0,
       });
     }
 
     const veluteValue = getVeluteValue(diceRoll);
-    const isChouetteVeluteWon = playerNames.length === 1;
+    const isChouetteVeluteWon = players.length === 1;
     const score = isChouetteVeluteWon ? veluteValue : -veluteValue;
     const event = isChouetteVeluteWon
       ? RuleEffectEvent.CHOUETTE_VELUTE_WON
       : RuleEffectEvent.CHOUETTE_VELUTE_LOST;
 
-    playerNames.forEach((playerName) => {
+    players.forEach((player) => {
       effects.push({
         event,
-        score,
-        playerName,
+        value: score,
+        player: player,
       });
     });
 

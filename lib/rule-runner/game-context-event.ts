@@ -71,7 +71,7 @@ export interface ChallengeGrelottineGameContext {
 
 export interface DiceRollGameContext {
   event: GameContextEvent.DICE_ROLL;
-  playerName: string;
+  player: string;
   diceRoll: DiceRoll;
   runner: RuleRunner;
 }
@@ -79,12 +79,12 @@ export interface DiceRollGameContext {
 export interface CivetGameContext {
   event: GameContextEvent.CIVET_BET;
   runner: RuleRunner;
-  playerName: string;
+  player: string;
 }
 
 export interface VerdierGameContext {
   event: GameContextEvent.VERDIER;
   runner: RuleRunner;
-  playerName: string;
+  player: string;
   diceValues: [DieValue, DieValue];
 }

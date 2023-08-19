@@ -15,7 +15,7 @@ import {
 } from './sirotage-rule.types';
 
 export interface SiropResolutionPayload {
-  playerName: string;
+  player: string;
   playableBids: Array<PlayableBid>;
   chouetteValue: DieValue;
 }
@@ -52,23 +52,23 @@ export class SirotageRule extends ChouetteRule {
   }
 
   async applyDiceRule({
-    playerName,
+    player,
     diceRoll,
     runner,
   }: DiceRollGameContext): Promise<RuleEffects> {
     const chouetteValue = this.getChouetteValue(diceRoll);
     const resolution = await this.sirotageResolver.getResolution({
-      playerName,
+      player,
       chouetteValue,
       playableBids: this.getPlayableBids(chouetteValue, SIROTAGE_BID_TYPES),
     });
 
     if (!resolution.isSirote) {
-      return [this.getChouetteRuleEffect(playerName, diceRoll)];
+      return [this.getChouetteRuleEffect(player, diceRoll)];
     }
 
     const sirotageRuleEffects = this.getSirotageRuleEffects(
-      playerName,
+      player,
       diceRoll,
       resolution,
       runner,
@@ -82,7 +82,7 @@ export class SirotageRule extends ChouetteRule {
     diceRoll: DiceRoll,
     lastDieValue: DieValue,
   ): RuleEffect {
-    let score: number;
+    let value: number;
 
     const winningBet =
       lastDieValue === this.getChouetteValue(diceRoll)
@@ -91,22 +91,22 @@ export class SirotageRule extends ChouetteRule {
 
     let event: RuleEffectEvent;
     if (playerBid.playerBid === winningBet) {
-      score = playerBid.isBidValidated ? 25 : 0;
+      value = playerBid.isBidValidated ? 25 : 0;
       event = playerBid.isBidValidated
         ? RuleEffectEvent.SIROP_BET_WON
         : RuleEffectEvent.SIROP_BET_WON_BUT_NOT_CLAIMED;
     } else if (playerBid.playerBid === BidType.COUCHE_SIROP) {
-      score = 0;
+      value = 0;
       event = RuleEffectEvent.SIROP_BET_SKIPPED;
     } else {
-      score = -5;
+      value = -5;
       event = RuleEffectEvent.SIROP_BET_LOST;
     }
 
     return {
       event,
-      playerName: playerBid.playerName,
-      score,
+      player: playerBid.player,
+      value,
     };
   }
 
@@ -124,7 +124,7 @@ export class SirotageRule extends ChouetteRule {
   }
 
   protected getSirotageRuleEffects(
-    currentPlayerName: string,
+    currentplayer: string,
     diceRoll: DiceRoll,
     resolution: ActiveSirotageResolution,
     runner: RuleRunner,
@@ -135,8 +135,8 @@ export class SirotageRule extends ChouetteRule {
       return [
         {
           event: RuleEffectEvent.SIROP_WON,
-          playerName: currentPlayerName,
-          score: getCulDeChouetteScore(diceRoll),
+          player: currentplayer,
+          value: getCulDeChouetteScore(diceRoll),
         },
       ];
     }
@@ -144,16 +144,16 @@ export class SirotageRule extends ChouetteRule {
     const lostSirotageRuleEffects: Array<RuleEffect> = [
       {
         event: RuleEffectEvent.SIROP_LOST,
-        playerName: currentPlayerName,
-        score: -this.getChouetteScore(diceRoll),
+        player: currentplayer,
+        value: -this.getChouetteScore(diceRoll),
       },
     ];
 
     if (chouetteValue === 6 && runner.isRuleEnabled(Rules.CIVET)) {
       lostSirotageRuleEffects.push({
         event: RuleEffectEvent.ADD_CIVET,
-        playerName: currentPlayerName,
-        score: 0,
+        player: currentplayer,
+        value: 0,
       });
     }
 

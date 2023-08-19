@@ -6,12 +6,12 @@ import { DiceRollGameContext } from '../../game-context-event';
 import { Rules } from '../rule';
 
 export interface SuiteResolution {
-  loosingPlayerName: string;
+  loosingplayer: string;
   multiplier: number;
 }
 
 export interface SuiteResolutionPayload {
-  playerName: string;
+  player: string;
 }
 
 export class SuiteRule extends DiceRule {
@@ -34,7 +34,7 @@ export class SuiteRule extends DiceRule {
 
   async applyDiceRule({
     diceRoll,
-    playerName,
+    player,
     runner,
   }: DiceRollGameContext): Promise<RuleEffects> {
     const ruleEffects: RuleEffects = [];
@@ -42,17 +42,17 @@ export class SuiteRule extends DiceRule {
     if (isVelute(diceRoll) && runner.isRuleEnabled(Rules.VELUTE)) {
       ruleEffects.push({
         event: RuleEffectEvent.SUITE_VELUTE,
-        playerName,
-        score: getVeluteValue(diceRoll),
+        player: player,
+        value: getVeluteValue(diceRoll),
       });
     }
 
-    const suiteResolution = await this.resolver.getResolution({ playerName });
+    const suiteResolution = await this.resolver.getResolution({ player });
 
     ruleEffects.push({
       event: RuleEffectEvent.SUITE,
-      playerName: suiteResolution.loosingPlayerName,
-      score: -10 * suiteResolution.multiplier,
+      player: suiteResolution.loosingplayer,
+      value: -10 * suiteResolution.multiplier,
     });
 
     return ruleEffects;

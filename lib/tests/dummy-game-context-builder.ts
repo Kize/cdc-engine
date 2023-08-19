@@ -2,7 +2,6 @@ import { DiceRoll, DieValue } from '../rule-runner/rules/dice-rule';
 import {
   GameContextEvent,
   GameContextWrapper,
-  UnknownGameContext,
 } from '../rule-runner/game-context-event';
 import { RuleRunner } from '../rule-runner/rule-runner';
 import { NeantRule } from '../rule-runner/rules/basic-rules/neant-rule';
@@ -30,12 +29,12 @@ export class DummyContextBuilder {
 }
 
 class DummyDiceRollContextBuilder {
-  private playerName = '';
+  private player = '';
   private diceRoll: DiceRoll = [1, 1, 1];
   private ruleRunner: RuleRunner = new RuleRunner([new NeantRule()]);
 
-  withPlayerName(playerName: string): this {
-    this.playerName = playerName;
+  withplayer(player: string): this {
+    this.player = player;
     return this;
   }
 
@@ -52,7 +51,7 @@ class DummyDiceRollContextBuilder {
   build(): GameContextWrapper {
     return new GameContextWrapper({
       event: GameContextEvent.DICE_ROLL,
-      playerName: this.playerName,
+      player: this.player,
       diceRoll: this.diceRoll,
       runner: this.ruleRunner,
     });
@@ -76,7 +75,7 @@ class DummyGrelottineContextBuilder {
 }
 
 class DummyBevueContextBuilder {
-  private playerWhoMadeABevue = 'APlayerName';
+  private playerWhoMadeABevue = 'Aplayer';
 
   withPlayerWhoMadeABevue(playerWhoMadeABevue: string): this {
     this.playerWhoMadeABevue = playerWhoMadeABevue;
@@ -92,11 +91,11 @@ class DummyBevueContextBuilder {
 }
 
 class DummyCivetContextBuilder {
-  private playerName = '';
+  private player = '';
   private ruleRunner: RuleRunner = new RuleRunner([new NeantRule()]);
 
-  withPlayerName(playerName: string): this {
-    this.playerName = playerName;
+  withplayer(player: string): this {
+    this.player = player;
     return this;
   }
 
@@ -109,18 +108,18 @@ class DummyCivetContextBuilder {
     return new GameContextWrapper({
       event: GameContextEvent.CIVET_BET,
       runner: this.ruleRunner,
-      playerName: this.playerName,
+      player: this.player,
     });
   }
 }
 
 class DummyVerdierContextBuilder {
-  private playerName = '';
+  private player = '';
   private ruleRunner: RuleRunner = new RuleRunner([new NeantRule()]);
   private diceValues: [DieValue, DieValue] = [1, 1];
 
-  withPlayerName(playerName: string): this {
-    this.playerName = playerName;
+  withplayer(player: string): this {
+    this.player = player;
     return this;
   }
 
@@ -137,7 +136,7 @@ class DummyVerdierContextBuilder {
   build(): GameContextWrapper {
     return new GameContextWrapper({
       event: GameContextEvent.VERDIER,
-      playerName: this.playerName,
+      player: this.player,
       runner: this.ruleRunner,
       diceValues: this.diceValues,
     });

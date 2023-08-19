@@ -71,14 +71,14 @@ describe('applyRule', () => {
 
     expect(ruleEffects).toContainEqual<RuleEffect>({
       event: RuleEffectEvent.GRELOTTINE_CHALLENGE_WON,
-      playerName: 'Alban',
-      score: 12,
+      player: 'Alban',
+      value: 12,
     });
 
     expect(ruleEffects).toContainEqual<RuleEffect>({
       event: RuleEffectEvent.GRELOTTINE_CHALLENGE_LOST,
-      playerName: 'Delphin',
-      score: -12,
+      player: 'Delphin',
+      value: -12,
     });
   });
 
@@ -100,8 +100,8 @@ describe('applyRule', () => {
 
     expect(ruleEffects).toContainEqual<RuleEffect>({
       event: RuleEffectEvent.REMOVE_GRELOTTINE,
-      score: 0,
-      playerName: 'Alban',
+      value: 0,
+      player: 'Alban',
     });
   });
 
@@ -125,14 +125,14 @@ describe('applyRule', () => {
 
     expect(ruleEffects).toContainEqual<RuleEffect>({
       event: RuleEffectEvent.GRELOTTINE_CHALLENGE_LOST,
-      playerName: 'Alban',
-      score: -32,
+      player: 'Alban',
+      value: -32,
     });
 
     expect(ruleEffects).toContainEqual<RuleEffect>({
       event: RuleEffectEvent.GRELOTTINE_CHALLENGE_WON,
-      playerName: 'Delphin',
-      score: 32,
+      player: 'Delphin',
+      value: 32,
     });
   });
 
@@ -151,8 +151,8 @@ describe('applyRule', () => {
     const ruleRunner = <RuleRunner>{};
     const aRuleEffect = {
       event: RuleEffectEvent.CUL_DE_CHOUETTE,
-      playerName: 'Delphin',
-      score: 70,
+      player: 'Delphin',
+      value: 70,
     };
     ruleRunner.handleGameEvent = vi.fn().mockResolvedValue([aRuleEffect]);
     const ruleEffects = await rule.applyRule(
@@ -162,7 +162,7 @@ describe('applyRule', () => {
     );
     expect(ruleRunner.handleGameEvent).toHaveBeenCalledWith(
       DummyContextBuilder.aDiceRollContext()
-        .withPlayerName('Delphin')
+        .withplayer('Delphin')
         .withDiceRoll([3, 3, 3])
         .withRuleRunner(ruleRunner)
         .build()
@@ -185,7 +185,7 @@ describe('applyRule', () => {
     const bleuRougeResolver: Resolver<BleuRougeResolution> = {
       getResolution: vi.fn().mockResolvedValue({
         diceRoll: [2, 3, 5],
-        bids: [{ playerName: 'Alban', bet: 10 }],
+        bids: [{ player: 'Alban', bet: 10 }],
       } as BleuRougeResolution),
     };
 
@@ -204,14 +204,14 @@ describe('applyRule', () => {
 
     expect(ruleEffects).toContainEqual<RuleEffect>({
       event: RuleEffectEvent.GRELOTTINE_CHALLENGE_WON,
-      playerName: 'Alban',
-      score: 12,
+      player: 'Alban',
+      value: 12,
     });
 
     expect(ruleEffects).toContainEqual<RuleEffect>({
       event: RuleEffectEvent.GRELOTTINE_CHALLENGE_LOST,
-      playerName: 'Delphin',
-      score: -12,
+      player: 'Delphin',
+      value: -12,
     });
   });
 
@@ -252,14 +252,14 @@ describe('applyRule', () => {
 
     expect(ruleEffects).toContainEqual<RuleEffect>({
       event: RuleEffectEvent.GRELOTTINE_CHALLENGE_WON,
-      playerName: 'Delphin',
-      score: 12,
+      player: 'Delphin',
+      value: 12,
     });
 
     expect(ruleEffects).toContainEqual<RuleEffect>({
       event: RuleEffectEvent.GRELOTTINE_CHALLENGE_LOST,
-      playerName: 'Alban',
-      score: -12,
+      player: 'Alban',
+      value: -12,
     });
   });
 
@@ -293,14 +293,14 @@ describe('applyRule', () => {
 
     expect(ruleEffects).toContainEqual<RuleEffect>({
       event: RuleEffectEvent.CIVET_WON,
-      playerName: 'Delphin',
-      score: 42,
+      player: 'Delphin',
+      value: 42,
     });
 
     expect(ruleEffects).toContainEqual<RuleEffect>({
       event: RuleEffectEvent.GRELOTTINE_CHALLENGE_WON,
-      playerName: 'Delphin',
-      score: 12,
+      player: 'Delphin',
+      value: 12,
     });
   });
 });

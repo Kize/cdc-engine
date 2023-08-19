@@ -48,7 +48,7 @@ export class GrelottineRule implements Rule {
       const civetGameContext: CivetGameContext = {
         event: GameContextEvent.CIVET_BET,
         runner,
-        playerName: challengedPlayer,
+        player: challengedPlayer,
       };
 
       lastCombinationRuleEffects = await runner.handleGameEvent(
@@ -57,7 +57,7 @@ export class GrelottineRule implements Rule {
     } else {
       lastCombinationRuleEffects = await runner.handleGameEvent({
         event: GameContextEvent.DICE_ROLL,
-        playerName: challengedPlayer,
+        player: challengedPlayer,
         diceRoll,
         runner,
       });
@@ -73,23 +73,23 @@ export class GrelottineRule implements Rule {
     return [
       {
         event: RuleEffectEvent.REMOVE_GRELOTTINE,
-        playerName: grelottinPlayer,
-        score: 0,
+        player: grelottinPlayer,
+        value: 0,
       },
       ...lastCombinationRuleEffects,
       {
         event: isGrelottineWon
           ? RuleEffectEvent.GRELOTTINE_CHALLENGE_LOST
           : RuleEffectEvent.GRELOTTINE_CHALLENGE_WON,
-        playerName: grelottinPlayer,
-        score: isGrelottineWon ? getLoserScore() : getWinnerScore(),
+        player: grelottinPlayer,
+        value: isGrelottineWon ? getLoserScore() : getWinnerScore(),
       },
       {
         event: isGrelottineWon
           ? RuleEffectEvent.GRELOTTINE_CHALLENGE_WON
           : RuleEffectEvent.GRELOTTINE_CHALLENGE_LOST,
-        playerName: challengedPlayer,
-        score: isGrelottineWon ? getWinnerScore() : getLoserScore(),
+        player: challengedPlayer,
+        value: isGrelottineWon ? getWinnerScore() : getLoserScore(),
       },
     ];
   }

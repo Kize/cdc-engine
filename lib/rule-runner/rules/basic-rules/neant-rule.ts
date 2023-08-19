@@ -14,13 +14,13 @@ export class NeantRule extends DiceRule {
     return [
       {
         event: RuleEffectEvent.NEANT,
-        playerName: context.playerName,
-        score: 0,
+        player: context.player,
+        value: 0,
       },
       {
         event: RuleEffectEvent.ADD_GRELOTTINE,
-        playerName: context.playerName,
-        score: 0,
+        player: context.player,
+        value: 0,
       },
     ];
   }

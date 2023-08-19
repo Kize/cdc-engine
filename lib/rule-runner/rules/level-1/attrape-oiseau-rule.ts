@@ -51,8 +51,8 @@ export class AttrapeOiseauRule extends SirotageRule {
     if (playerBid.playerBid === BidType.FILE_SIROP) {
       return {
         event: RuleEffectEvent.SIROP_BET_WON,
-        playerName: playerBid.playerName,
-        score: 0,
+        player: playerBid.player,
+        value: 0,
       };
     }
 
@@ -60,7 +60,7 @@ export class AttrapeOiseauRule extends SirotageRule {
   }
 
   async applyDiceRule({
-    playerName,
+    player,
     diceRoll,
     runner,
   }: DiceRollGameContext): Promise<RuleEffects> {
@@ -68,7 +68,7 @@ export class AttrapeOiseauRule extends SirotageRule {
     const chouetteValue = this.getChouetteValue(diceRoll);
 
     const resolution = await this.attrapeOiseauResolver.getResolution({
-      playerName,
+      player,
       chouetteValue,
       playableBids: this.getPlayableBids(
         chouetteValue,
@@ -77,7 +77,7 @@ export class AttrapeOiseauRule extends SirotageRule {
     });
 
     if (!resolution.isSirote) {
-      return [this.getChouetteRuleEffect(playerName, diceRoll)];
+      return [this.getChouetteRuleEffect(player, diceRoll)];
     }
 
     let attrapeOiseauRuleEffects: Array<RuleEffect>;
@@ -105,13 +105,10 @@ export class AttrapeOiseauRule extends SirotageRule {
         return ruleEffect;
       });
 
-      initialChouetteRuleEffect = this.getChouetteRuleEffect(
-        playerName,
-        diceRoll,
-      );
+      initialChouetteRuleEffect = this.getChouetteRuleEffect(player, diceRoll);
     } else {
       attrapeOiseauRuleEffects = this.getSirotageRuleEffects(
-        playerName,
+        player,
         diceRoll,
         resolution,
         runner,

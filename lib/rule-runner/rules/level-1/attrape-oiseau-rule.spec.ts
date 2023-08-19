@@ -37,21 +37,21 @@ it('applies the sirotage to the player who stole the sirop if attrape oiseau is 
 
   const ruleEffects = await rule.applyRule(
     DummyContextBuilder.aDiceRollContext()
-      .withPlayerName('Alban')
+      .withplayer('Alban')
       .withDiceRoll([3, 3, 4])
       .build(),
   );
 
   expect(ruleEffects).toContainEqual<RuleEffect>({
     event: RuleEffectEvent.ATTRAPE_OISEAU_LOST,
-    playerName: 'Delphin',
-    score: -9,
+    player: 'Delphin',
+    value: -9,
   });
 
   expect(ruleEffects).toContainEqual<RuleEffect>({
     event: RuleEffectEvent.CHOUETTE,
-    playerName: 'Alban',
-    score: 9,
+    player: 'Alban',
+    value: 9,
   });
 });
 
@@ -69,28 +69,28 @@ it('applies the sirotage to the player who stole the sirop if attrape oiseau is 
 
   const ruleEffects = await rule.applyRule(
     DummyContextBuilder.aDiceRollContext()
-      .withPlayerName('Alban')
+      .withplayer('Alban')
       .withDiceRoll([3, 3, 4])
       .build(),
   );
 
   expect(ruleEffects).toContainEqual<RuleEffect>({
     event: RuleEffectEvent.ATTRAPE_OISEAU_WON,
-    playerName: 'Delphin',
-    score: 70,
+    player: 'Delphin',
+    value: 70,
   });
 
   expect(ruleEffects).toContainEqual<RuleEffect>({
     event: RuleEffectEvent.CHOUETTE,
-    playerName: 'Alban',
-    score: 9,
+    player: 'Alban',
+    value: 9,
   });
 });
 
 it('handle the fil sirop bet', async () => {
   const bids: Array<SiropBid> = [
     {
-      playerName: 'Alban',
+      player: 'Alban',
       playerBid: BidType.FILE_SIROP,
       isBidValidated: false,
     },
@@ -106,7 +106,7 @@ it('handle the fil sirop bet', async () => {
   const attrapeOiseauRule = new AttrapeOiseauRule(resolver);
 
   const gameContext = DummyContextBuilder.aDiceRollContext()
-    .withPlayerName('Alban')
+    .withplayer('Alban')
     .withDiceRoll([2, 3, 2])
     .build();
 
@@ -114,8 +114,8 @@ it('handle the fil sirop bet', async () => {
 
   expect(ruleEffects).toContainEqual({
     event: RuleEffectEvent.SIROP_BET_WON,
-    playerName: 'Alban',
-    score: 0,
+    player: 'Alban',
+    value: 0,
   });
 });
 
@@ -127,7 +127,7 @@ describe('resolver params', () => {
     const attrapeOiseauRule = new AttrapeOiseauRule(resolver);
 
     const gameContext = DummyContextBuilder.aDiceRollContext()
-      .withPlayerName('Alban')
+      .withplayer('Alban')
       .withDiceRoll([3, 3, 5])
       .build();
 
@@ -135,7 +135,7 @@ describe('resolver params', () => {
     expect(resolver.getResolution).toHaveBeenCalledWith<
       [SiropResolutionPayload]
     >({
-      playerName: 'Alban',
+      player: 'Alban',
       playableBids: [
         { type: BidType.BEAU_SIROP, isPlayable: true },
         { type: BidType.COUCHE_SIROP, isPlayable: true },

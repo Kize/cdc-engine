@@ -62,13 +62,13 @@ describe('applyRule', () => {
 
     const rule = new CivetRule(resolver);
     const ruleEffects = await rule.applyRule(
-      DummyContextBuilder.aCivetContext().withPlayerName('Alban').build(),
+      DummyContextBuilder.aCivetContext().withplayer('Alban').build(),
     );
 
     expect(ruleEffects).toContainEqual<RuleEffect>({
       event: RuleEffectEvent.REMOVE_CIVET,
-      playerName: 'Alban',
-      score: 0,
+      player: 'Alban',
+      value: 0,
     });
   });
 
@@ -84,13 +84,13 @@ describe('applyRule', () => {
 
     const rule = new CivetRule(resolver);
     const ruleEffects = await rule.applyRule(
-      DummyContextBuilder.aCivetContext().withPlayerName('Alban').build(),
+      DummyContextBuilder.aCivetContext().withplayer('Alban').build(),
     );
 
     expect(ruleEffects).toContainEqual<RuleEffect>({
       event: RuleEffectEvent.CIVET_LOST,
-      playerName: 'Alban',
-      score: -42,
+      player: 'Alban',
+      value: -42,
     });
   });
 
@@ -107,15 +107,15 @@ describe('applyRule', () => {
     const rule = new CivetRule(resolver);
     const ruleEffects = await rule.applyRule(
       DummyContextBuilder.aCivetContext()
-        .withPlayerName('Alban')
+        .withplayer('Alban')
         .withRuleRunner(new RuleRunner([new VeluteRule()]))
         .build(),
     );
 
     expect(ruleEffects).toContainEqual<RuleEffect>({
       event: RuleEffectEvent.CIVET_WON,
-      playerName: 'Alban',
-      score: 102,
+      player: 'Alban',
+      value: 102,
     });
   });
 
@@ -132,15 +132,15 @@ describe('applyRule', () => {
     const rule = new CivetRule(resolver);
     const ruleEffects = await rule.applyRule(
       DummyContextBuilder.aCivetContext()
-        .withPlayerName('Alban')
+        .withplayer('Alban')
         .withRuleRunner(new RuleRunner([new VeluteRule()]))
         .build(),
     );
 
     expect(ruleEffects).toContainEqual<RuleEffect>({
       event: RuleEffectEvent.VELUTE,
-      playerName: 'Alban',
-      score: 50,
+      player: 'Alban',
+      value: 50,
     });
   });
 
@@ -157,14 +157,14 @@ describe('applyRule', () => {
     const bleuRougeResolver: Resolver<BleuRougeResolution> = {
       getResolution: vi.fn().mockResolvedValue({
         diceRoll: [2, 3, 5],
-        bids: [{ playerName: 'Alban', bet: 10 }],
+        bids: [{ player: 'Alban', bet: 10 }],
       } as BleuRougeResolution),
     };
 
     const rule = new CivetRule(civetResolver);
     const ruleEffects = await rule.applyRule(
       DummyContextBuilder.aCivetContext()
-        .withPlayerName('Alban')
+        .withplayer('Alban')
         .withRuleRunner(
           new RuleRunner([
             new BleuRougeRule(bleuRougeResolver),
@@ -176,8 +176,8 @@ describe('applyRule', () => {
 
     expect(ruleEffects).toContainEqual<RuleEffect>({
       event: RuleEffectEvent.CIVET_LOST,
-      playerName: 'Alban',
-      score: -102,
+      player: 'Alban',
+      value: -102,
     });
   });
 
@@ -206,7 +206,7 @@ describe('applyRule', () => {
     const rule = new CivetRule(civetResolver);
     const ruleEffects = await rule.applyRule(
       DummyContextBuilder.aCivetContext()
-        .withPlayerName('Alban')
+        .withplayer('Alban')
         .withRuleRunner(
           new RuleRunner([new AttrapeOiseauRule(attrapeOiseauResolver)]),
         )
@@ -215,8 +215,8 @@ describe('applyRule', () => {
 
     expect(ruleEffects).toContainEqual<RuleEffect>({
       event: RuleEffectEvent.CIVET_WON,
-      playerName: 'Alban',
-      score: 102,
+      player: 'Alban',
+      value: 102,
     });
   });
 
@@ -235,7 +235,7 @@ describe('applyRule', () => {
       VerdierResolutionPayload
     > = {
       getResolution: vi.fn().mockResolvedValue({
-        bettingPlayerNames: ['Alban'],
+        bettingplayers: ['Alban'],
         lastDieValue: 6,
       } as VerdierResolution),
     };
@@ -243,7 +243,7 @@ describe('applyRule', () => {
     const rule = new CivetRule(civetResolver);
     const ruleEffects = await rule.applyRule(
       DummyContextBuilder.aCivetContext()
-        .withPlayerName('Alban')
+        .withplayer('Alban')
         .withRuleRunner(
           new RuleRunner([new VerdierRule(verdierResolver), new VeluteRule()]),
         )
@@ -252,14 +252,14 @@ describe('applyRule', () => {
 
     expect(ruleEffects).toContainEqual<RuleEffect>({
       event: RuleEffectEvent.CIVET_LOST,
-      playerName: 'Alban',
-      score: -102,
+      player: 'Alban',
+      value: -102,
     });
 
     expect(ruleEffects).toContainEqual<RuleEffect>({
       event: RuleEffectEvent.VERDIER_WON,
-      playerName: 'Alban',
-      score: 25,
+      player: 'Alban',
+      value: 25,
     });
   });
 });

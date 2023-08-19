@@ -28,7 +28,7 @@ export function testSirotageRule(
       const chouetteRule = new ChouetteRule();
 
       const gameContext = DummyContextBuilder.aDiceRollContext()
-        .withPlayerName('Alban')
+        .withplayer('Alban')
         .withDiceRoll([2, 3, 2])
         .build();
 
@@ -44,7 +44,7 @@ export function testSirotageRule(
         bids: [],
       });
       const gameContext = DummyContextBuilder.aDiceRollContext()
-        .withPlayerName('Alban')
+        .withplayer('Alban')
         .withDiceRoll([2, 3, 2])
         .build();
 
@@ -52,8 +52,8 @@ export function testSirotageRule(
         await sirotageRule.applyRule(gameContext),
       ).toContainEqual<RuleEffect>({
         event: RuleEffectEvent.SIROP_LOST,
-        playerName: 'Alban',
-        score: -4,
+        player: 'Alban',
+        value: -4,
       });
     });
 
@@ -65,7 +65,7 @@ export function testSirotageRule(
       });
 
       const gameContext = DummyContextBuilder.aDiceRollContext()
-        .withPlayerName('Alban')
+        .withplayer('Alban')
         .withDiceRoll([2, 3, 2])
         .build();
 
@@ -73,30 +73,30 @@ export function testSirotageRule(
         await sirotageRule.applyRule(gameContext),
       ).toContainEqual<RuleEffect>({
         event: RuleEffectEvent.SIROP_WON,
-        playerName: 'Alban',
-        score: 60,
+        player: 'Alban',
+        value: 60,
       });
     });
 
     it("registers a change of score for each player's bet", async () => {
       const bids: Array<SiropBid> = [
         {
-          playerName: 'Alban',
+          player: 'Alban',
           playerBid: BidType.MOUETTE,
           isBidValidated: false,
         },
         {
-          playerName: 'DelphinWinner',
+          player: 'DelphinWinner',
           playerBid: BidType.CHOUETTE,
           isBidValidated: true,
         },
         {
-          playerName: 'NathanTooSlowToWin',
+          player: 'NathanTooSlowToWin',
           playerBid: BidType.CHOUETTE,
           isBidValidated: false,
         },
         {
-          playerName: 'JulesNotBetting',
+          player: 'JulesNotBetting',
           playerBid: BidType.COUCHE_SIROP,
           isBidValidated: false,
         },
@@ -109,45 +109,45 @@ export function testSirotageRule(
       });
 
       const gameContext = DummyContextBuilder.aDiceRollContext()
-        .withPlayerName('Alban')
+        .withplayer('Alban')
         .withDiceRoll([2, 3, 2])
         .build();
 
       const ruleEffects = await sirotageRule.applyRule(gameContext);
       expect(ruleEffects).toContainEqual<RuleEffect>({
         event: RuleEffectEvent.SIROP_BET_LOST,
-        playerName: 'Alban',
-        score: -5,
+        player: 'Alban',
+        value: -5,
       });
 
       expect(ruleEffects).toContainEqual<RuleEffect>({
         event: RuleEffectEvent.SIROP_BET_WON,
-        playerName: 'DelphinWinner',
-        score: 25,
+        player: 'DelphinWinner',
+        value: 25,
       });
 
       expect(ruleEffects).toContainEqual<RuleEffect>({
         event: RuleEffectEvent.SIROP_BET_WON_BUT_NOT_CLAIMED,
-        playerName: 'NathanTooSlowToWin',
-        score: 0,
+        player: 'NathanTooSlowToWin',
+        value: 0,
       });
 
       expect(ruleEffects).toContainEqual<RuleEffect>({
         event: RuleEffectEvent.SIROP_BET_SKIPPED,
-        playerName: 'JulesNotBetting',
-        score: 0,
+        player: 'JulesNotBetting',
+        value: 0,
       });
     });
 
     it("registers a change of score for each player's bet on a beau sirop", async () => {
       const bids: Array<SiropBid> = [
         {
-          playerName: 'Alban',
+          player: 'Alban',
           playerBid: BidType.BEAU_SIROP,
           isBidValidated: true,
         },
         {
-          playerName: 'DelphinTooSlow',
+          player: 'DelphinTooSlow',
           playerBid: BidType.BEAU_SIROP,
           isBidValidated: false,
         },
@@ -160,21 +160,21 @@ export function testSirotageRule(
       });
 
       const gameContext = DummyContextBuilder.aDiceRollContext()
-        .withPlayerName('Alban')
+        .withplayer('Alban')
         .withDiceRoll([3, 3, 5])
         .build();
 
       const ruleEffects = await sirotageRule.applyRule(gameContext);
       expect(ruleEffects).toContainEqual<RuleEffect>({
         event: RuleEffectEvent.SIROP_BET_WON,
-        playerName: 'Alban',
-        score: 25,
+        player: 'Alban',
+        value: 25,
       });
 
       expect(ruleEffects).toContainEqual<RuleEffect>({
         event: RuleEffectEvent.SIROP_BET_WON_BUT_NOT_CLAIMED,
-        playerName: 'DelphinTooSlow',
-        score: 0,
+        player: 'DelphinTooSlow',
+        value: 0,
       });
     });
 
@@ -186,7 +186,7 @@ export function testSirotageRule(
       });
 
       const gameContext = DummyContextBuilder.aDiceRollContext()
-        .withPlayerName('Alban')
+        .withplayer('Alban')
         .withDiceRoll([6, 6, 5])
         .withRuleRunner(
           new RuleRunner([
@@ -200,8 +200,8 @@ export function testSirotageRule(
       const ruleEffects = await sirotageRule.applyRule(gameContext);
       expect(ruleEffects).toContainEqual<RuleEffect>({
         event: RuleEffectEvent.ADD_CIVET,
-        playerName: 'Alban',
-        score: 0,
+        player: 'Alban',
+        value: 0,
       });
     });
   });
@@ -221,7 +221,7 @@ describe('resolver params', () => {
     const sirotageRule = new SirotageRule(resolver);
 
     const gameContext = DummyContextBuilder.aDiceRollContext()
-      .withPlayerName('Alban')
+      .withplayer('Alban')
       .withDiceRoll([3, 3, 5])
       .build();
 
@@ -229,7 +229,7 @@ describe('resolver params', () => {
     expect(resolver.getResolution).toHaveBeenCalledWith<
       [SiropResolutionPayload]
     >({
-      playerName: 'Alban',
+      player: 'Alban',
       playableBids: [
         { type: BidType.BEAU_SIROP, isPlayable: true },
         { type: BidType.COUCHE_SIROP, isPlayable: true },

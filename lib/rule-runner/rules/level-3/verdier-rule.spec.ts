@@ -42,7 +42,7 @@ describe('applyRule', () => {
   it('applies the dice roll rule effects to the player', async () => {
     const resolver: Resolver<VerdierResolution, VerdierResolutionPayload> = {
       getResolution: vi.fn().mockResolvedValue({
-        bettingPlayerNames: [],
+        bettingplayers: [],
         lastDieValue: 4,
       } as VerdierResolution),
     };
@@ -51,7 +51,7 @@ describe('applyRule', () => {
 
     const ruleEffects = await rule.applyRule(
       DummyContextBuilder.aVerdierContext()
-        .withPlayerName('Alban')
+        .withplayer('Alban')
         .withDiceValues([2, 4])
         .withRuleRunner(new RuleRunner([new ChouetteRule()]))
         .build(),
@@ -59,15 +59,15 @@ describe('applyRule', () => {
 
     expect(ruleEffects).toContainEqual<RuleEffect>({
       event: RuleEffectEvent.CHOUETTE,
-      playerName: 'Alban',
-      score: 16,
+      player: 'Alban',
+      value: 16,
     });
   });
 
   it('handles bets for a won verdier', async () => {
     const resolver: Resolver<VerdierResolution, VerdierResolutionPayload> = {
       getResolution: vi.fn().mockResolvedValue({
-        bettingPlayerNames: ['Alban', 'Delphin'],
+        bettingplayers: ['Alban', 'Delphin'],
         lastDieValue: 6,
       } as VerdierResolution),
     };
@@ -76,28 +76,28 @@ describe('applyRule', () => {
 
     const ruleEffects = await rule.applyRule(
       DummyContextBuilder.aVerdierContext()
-        .withPlayerName('Alban')
+        .withplayer('Alban')
         .withDiceValues([2, 4])
         .build(),
     );
 
     expect(ruleEffects).toContainEqual<RuleEffect>({
       event: RuleEffectEvent.VERDIER_WON,
-      playerName: 'Alban',
-      score: 25,
+      player: 'Alban',
+      value: 25,
     });
 
     expect(ruleEffects).toContainEqual<RuleEffect>({
       event: RuleEffectEvent.VERDIER_WON,
-      playerName: 'Delphin',
-      score: 25,
+      player: 'Delphin',
+      value: 25,
     });
   });
 
   it('handles bets for a lost verdier', async () => {
     const resolver: Resolver<VerdierResolution, VerdierResolutionPayload> = {
       getResolution: vi.fn().mockResolvedValue({
-        bettingPlayerNames: ['Alban', 'Delphin'],
+        bettingplayers: ['Alban', 'Delphin'],
         lastDieValue: 5,
       } as VerdierResolution),
     };
@@ -106,21 +106,21 @@ describe('applyRule', () => {
 
     const ruleEffects = await rule.applyRule(
       DummyContextBuilder.aVerdierContext()
-        .withPlayerName('Alban')
+        .withplayer('Alban')
         .withDiceValues([2, 4])
         .build(),
     );
 
     expect(ruleEffects).toContainEqual<RuleEffect>({
       event: RuleEffectEvent.VERDIER_LOST,
-      playerName: 'Alban',
-      score: -5,
+      player: 'Alban',
+      value: -5,
     });
 
     expect(ruleEffects).toContainEqual<RuleEffect>({
       event: RuleEffectEvent.VERDIER_LOST,
-      playerName: 'Delphin',
-      score: -5,
+      player: 'Delphin',
+      value: -5,
     });
   });
 });

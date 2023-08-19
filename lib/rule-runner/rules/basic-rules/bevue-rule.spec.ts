@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { BevueRule } from './bevue-rule';
 import { DummyContextBuilder } from '../../../tests/dummy-game-context-builder';
 import { RuleEffectEvent, RuleEffects } from '../rule-effect';
@@ -33,11 +33,12 @@ describe('applyRule', () => {
         .withPlayerWhoMadeABevue('Delphin')
         .build(),
     );
+
     expect(ruleEffects).toEqual<RuleEffects>([
       {
         event: RuleEffectEvent.BEVUE,
-        playerName: 'Delphin',
-        score: -5,
+        player: 'Delphin',
+        value: -5,
       },
     ]);
   });

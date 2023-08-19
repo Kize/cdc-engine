@@ -11,12 +11,12 @@ import { isVelute } from '../basic-rules/velute-rule';
 import { DiceForm } from 'src/components/dice/dice-form';
 
 export interface VerdierResolution {
-  bettingPlayerNames: Array<string>;
+  bettingplayers: Array<string>;
   lastDieValue: DieValue;
 }
 
 export interface VerdierResolutionPayload {
-  playerName: string;
+  player: string;
   diceValues: [DieValue, DieValue];
 }
 
@@ -35,13 +35,12 @@ export class VerdierRule implements Rule {
   }
 
   async applyRule(context: GameContextWrapper): Promise<RuleEffects> {
-    const { runner, playerName, diceValues } = context.asVerdier();
+    const { runner, player, diceValues } = context.asVerdier();
 
-    const { bettingPlayerNames, lastDieValue } =
-      await this.resolver.getResolution({
-        playerName,
-        diceValues,
-      });
+    const { bettingplayers, lastDieValue } = await this.resolver.getResolution({
+      player,
+      diceValues,
+    });
 
     const diceRoll: DiceRoll = [...diceValues, lastDieValue];
 
@@ -49,26 +48,26 @@ export class VerdierRule implements Rule {
       event: GameContextEvent.DICE_ROLL,
       diceRoll,
       runner,
-      playerName,
+      player,
     });
 
     const isVerdierWon = isVelute(diceRoll);
 
     return [
       ...diceRollRuleEffects,
-      ...bettingPlayerNames.map<RuleEffect>((bettingPlayer) => {
+      ...bettingplayers.map<RuleEffect>((bettingPlayer) => {
         if (isVerdierWon) {
           return {
             event: RuleEffectEvent.VERDIER_WON,
-            score: 25,
-            playerName: bettingPlayer,
+            value: 25,
+            player: bettingPlayer,
           };
         }
 
         return {
           event: RuleEffectEvent.VERDIER_LOST,
-          score: -5,
-          playerName: bettingPlayer,
+          value: -5,
+          player: bettingPlayer,
         };
       }),
     ];

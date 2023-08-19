@@ -20,7 +20,7 @@ interface ChallengeSouffletteResolution {
 }
 
 export interface SouffletteResolutionPayload {
-  playerName: string;
+  player: string;
 }
 
 export class SouffletteRule extends DiceRule {
@@ -43,15 +43,15 @@ export class SouffletteRule extends DiceRule {
 
   async applyDiceRule(context: DiceRollGameContext): Promise<RuleEffects> {
     const resolution = await this.resolver.getResolution({
-      playerName: context.playerName,
+      player: context.player,
     });
 
     if (!resolution.isChallenge) {
       return [
         {
           event: RuleEffectEvent.SOUFFLETTE_NO_CHALLENGE,
-          playerName: context.playerName,
-          score: 0,
+          player: context.player,
+          value: 0,
         },
       ];
     }
@@ -65,20 +65,20 @@ export class SouffletteRule extends DiceRule {
       return [
         {
           event: RuleEffectEvent.SOUFFLETTE_WON,
-          playerName: resolution.challengedPlayer,
-          score: challengeScore,
+          player: resolution.challengedPlayer,
+          value: challengeScore,
         },
         {
           event: RuleEffectEvent.SOUFFLETTE_LOST,
-          playerName: context.playerName,
-          score: -challengeScore,
+          player: context.player,
+          value: -challengeScore,
         },
       ];
     }
 
     const challengedPlayerContext: DiceRollGameContext = {
       ...context,
-      playerName: resolution.challengedPlayer,
+      player: resolution.challengedPlayer,
       diceRoll: resolution.diceRoll,
     };
 
@@ -89,13 +89,13 @@ export class SouffletteRule extends DiceRule {
     return [
       {
         event: RuleEffectEvent.SOUFFLETTE_WON,
-        playerName: context.playerName,
-        score: 30,
+        player: context.player,
+        value: 30,
       },
       {
         event: RuleEffectEvent.SOUFFLETTE_LOST,
-        playerName: resolution.challengedPlayer,
-        score: -30,
+        player: resolution.challengedPlayer,
+        value: -30,
       },
       ...lastDiceRollRuleEffects,
     ];

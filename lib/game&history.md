@@ -33,6 +33,6 @@
 
 ## State to retrieve from an history's instance
 
-+ Get the current score of a player
-+ Get the current score of a player at a specific event
++ Get the current value of a player
++ Get the current value of a player at a specific event
 + Get the number of turns played by a player

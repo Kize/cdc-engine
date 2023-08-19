@@ -10,14 +10,14 @@ export class VeluteRule extends DiceRule {
     return isVelute(diceRoll);
   }
 
-  applyDiceRule({ playerName, diceRoll }: DiceRollGameContext): RuleEffects {
+  applyDiceRule({ player, diceRoll }: DiceRollGameContext): RuleEffects {
     const score = getVeluteValue(diceRoll);
 
     return [
       {
         event: RuleEffectEvent.VELUTE,
-        playerName,
-        score,
+        player: player,
+        value: score,
       },
     ];
   }

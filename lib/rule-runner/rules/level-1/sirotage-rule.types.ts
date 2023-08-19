@@ -4,7 +4,7 @@ export interface PlayableBid {
 }
 
 export interface SiropBid {
-  playerName: string;
+  player: string;
   playerBid: BidType;
   isBidValidated: boolean;
 }

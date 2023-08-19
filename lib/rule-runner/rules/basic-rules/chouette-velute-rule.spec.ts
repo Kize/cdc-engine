@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import {
   ChouetteVeluteResolution,
   ChouetteVeluteRule,
@@ -25,7 +25,7 @@ describe('applyRule', () => {
   it('returns a positive change of score for the current player if he claims the chouette velute', async () => {
     const resolver = {
       getResolution: vi.fn().mockResolvedValue({
-        playerNames: ['Alban'],
+        players: ['Alban'],
       } as ChouetteVeluteResolution),
     };
 
@@ -34,15 +34,15 @@ describe('applyRule', () => {
     expect(
       await rule.applyRule(
         DummyContextBuilder.aDiceRollContext()
-          .withPlayerName('Alban')
+          .withplayer('Alban')
           .withDiceRoll([2, 2, 4])
           .build(),
       ),
     ).toEqual<RuleEffects>([
       {
         event: RuleEffectEvent.CHOUETTE_VELUTE_WON,
-        playerName: 'Alban',
-        score: 32,
+        player: 'Alban',
+        value: 32,
       },
     ]);
   });
@@ -50,7 +50,7 @@ describe('applyRule', () => {
   it('returns a positive change of score for a claimer, and a neutral change of score for the current player', async () => {
     const resolver = {
       getResolution: vi.fn().mockResolvedValue({
-        playerNames: ['Delphin'],
+        players: ['Delphin'],
       } as ChouetteVeluteResolution),
     };
 
@@ -59,20 +59,20 @@ describe('applyRule', () => {
     expect(
       await rule.applyRule(
         DummyContextBuilder.aDiceRollContext()
-          .withPlayerName('Alban')
+          .withplayer('Alban')
           .withDiceRoll([2, 2, 4])
           .build(),
       ),
     ).toEqual<RuleEffects>([
       {
         event: RuleEffectEvent.CHOUETTE_VELUTE_STOLEN,
-        playerName: 'Alban',
-        score: 0,
+        player: 'Alban',
+        value: 0,
       },
       {
         event: RuleEffectEvent.CHOUETTE_VELUTE_WON,
-        playerName: 'Delphin',
-        score: 32,
+        player: 'Delphin',
+        value: 32,
       },
     ]);
   });
@@ -80,7 +80,7 @@ describe('applyRule', () => {
   it('returns a negative change of score for every claimers', async () => {
     const resolver = {
       getResolution: vi.fn().mockResolvedValue({
-        playerNames: ['Alban', 'Delphin'],
+        players: ['Alban', 'Delphin'],
       } as ChouetteVeluteResolution),
     };
 
@@ -89,20 +89,20 @@ describe('applyRule', () => {
     expect(
       await rule.applyRule(
         DummyContextBuilder.aDiceRollContext()
-          .withPlayerName('Alban')
+          .withplayer('Alban')
           .withDiceRoll([3, 3, 6])
           .build(),
       ),
     ).toEqual<RuleEffects>([
       {
         event: RuleEffectEvent.CHOUETTE_VELUTE_LOST,
-        playerName: 'Alban',
-        score: -72,
+        player: 'Alban',
+        value: -72,
       },
       {
         event: RuleEffectEvent.CHOUETTE_VELUTE_LOST,
-        playerName: 'Delphin',
-        score: -72,
+        player: 'Delphin',
+        value: -72,
       },
     ]);
   });

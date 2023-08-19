@@ -39,14 +39,14 @@ describe('applyDiceRule', () => {
 
     const context = DummyContextBuilder.aDiceRollContext()
       .withDiceRoll([4, 3, 4])
-      .withPlayerName('Alban')
+      .withplayer('Alban')
       .build()
       .asDiceRoll();
 
     expect(await rule.applyDiceRule(context)).toContainEqual<RuleEffect>({
       event: RuleEffectEvent.ARTICHETTE,
-      score: 16,
-      playerName: 'Alban',
+      value: 16,
+      player: 'Alban',
     });
   });
 
@@ -61,14 +61,14 @@ describe('applyDiceRule', () => {
 
     const context = DummyContextBuilder.aDiceRollContext()
       .withDiceRoll([4, 3, 4])
-      .withPlayerName('Alban')
+      .withplayer('Alban')
       .build()
       .asDiceRoll();
 
     expect(await rule.applyDiceRule(context)).toContainEqual<RuleEffect>({
       event: RuleEffectEvent.ARTICHETTE,
-      score: -16,
-      playerName: 'Alban',
+      value: -16,
+      player: 'Alban',
     });
   });
 });
