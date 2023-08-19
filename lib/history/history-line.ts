@@ -2,7 +2,7 @@ import {
   NotImplementedRuleEffectEvent,
   RuleEffectEvent,
 } from '../rule-runner/rules/rule-effect';
-import { nanoid } from 'nanoid';
+import { nanoid } from '@reduxjs/toolkit';
 
 export enum GodModLineType {
   GOD_MOD = 'Ligne custom',
@@ -29,5 +29,5 @@ export interface PlayerHistoryLine extends HistoryLine {
 }
 
 export function getNewEventId(): string {
-  return nanoid(8);
+  return nanoid(32);
 }

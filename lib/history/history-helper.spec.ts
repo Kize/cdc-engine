@@ -1,36 +1,38 @@
 import { describe, expect, it } from 'vitest';
-import { History } from './history';
+import { HistoryHelper } from './history-helper.ts';
 import { RuleEffectEvent } from '../rule-runner/rules/rule-effect';
 import { GameLineType, GodModLineType } from './history-line';
 
 describe('getPlayerScore', () => {
   it('returns 0 when the player is not in the history yet', () => {
-    const history = new History();
+    const history = new HistoryHelper();
 
-    history.events.push({
-      id: '1',
-      historyLines: [
-        {
-          designation: RuleEffectEvent.CUL_DE_CHOUETTE,
-          player: { id: 'd', name: 'Delphin' },
-          amount: 100,
-        },
-      ],
-    });
-
-    expect(history.getPlayerScore({ id: 'a', name: 'Alban' })).toBe(0);
-  });
-
-  it('returns 50 when the player has 3 scores updates, of 25, -5, 30', () => {
-    const history = new History();
-
-    history.events.push(
+    const events = [
       {
         id: '1',
         historyLines: [
           {
             designation: RuleEffectEvent.CUL_DE_CHOUETTE,
-            player: { id: 'd', name: 'Delphin' },
+            player: 'Delphin',
+            amount: 100,
+          },
+        ],
+      },
+    ];
+
+    expect(history.getPlayerScore(events, 'Alban')).toBe(0);
+  });
+
+  it('returns 50 when the player has 3 scores updates, of 25, -5, 30', () => {
+    const history = new HistoryHelper();
+
+    const events = [
+      {
+        id: '1',
+        historyLines: [
+          {
+            designation: RuleEffectEvent.CUL_DE_CHOUETTE,
+            player: 'Delphin',
             amount: 100,
           },
         ],
@@ -40,7 +42,7 @@ describe('getPlayerScore', () => {
         historyLines: [
           {
             designation: GodModLineType.GOD_MOD,
-            player: { id: 'a', name: 'Alban' },
+            player: 'Alban',
             amount: 25,
           },
         ],
@@ -50,38 +52,38 @@ describe('getPlayerScore', () => {
         historyLines: [
           {
             designation: RuleEffectEvent.BEVUE,
-            player: { id: 'a', name: 'Alban' },
+            player: 'Alban',
             amount: -5,
           },
           {
             designation: RuleEffectEvent.GRELOTTINE_CHALLENGE_WON,
-            player: { id: 'a', name: 'Alban' },
+            player: 'Alban',
             amount: 30,
           },
           {
             designation: RuleEffectEvent.GRELOTTINE_CHALLENGE_LOST,
-            player: { id: 'd', name: 'Delphin' },
+            player: 'Delphin',
             amount: -30,
           },
         ],
       },
-    );
+    ];
 
-    expect(history.getPlayerScore({ id: 'a', name: 'Alban' })).toBe(50);
+    expect(history.getPlayerScore(events, 'Alban')).toBe(50);
   });
 });
 
 describe('getPlayerScoreAtEvent', () => {
   it('returns 25 when called for the event 2', () => {
-    const history = new History();
+    const history = new HistoryHelper();
 
-    history.events.push(
+    const events = [
       {
         id: '1',
         historyLines: [
           {
             designation: RuleEffectEvent.CUL_DE_CHOUETTE,
-            player: { id: 'd', name: 'Delphin' },
+            player: 'Delphin',
             amount: 100,
           },
         ],
@@ -91,7 +93,7 @@ describe('getPlayerScoreAtEvent', () => {
         historyLines: [
           {
             designation: GodModLineType.GOD_MOD,
-            player: { id: 'a', name: 'Alban' },
+            player: 'Alban',
             amount: 25,
           },
         ],
@@ -101,46 +103,45 @@ describe('getPlayerScoreAtEvent', () => {
         historyLines: [
           {
             designation: RuleEffectEvent.BEVUE,
-            player: { id: 'a', name: 'Alban' },
+            player: 'Alban',
             amount: -5,
           },
         ],
       },
-    );
-
-    expect(history.getPlayerScoreAtEvent({ id: 'a', name: 'Alban' }, '2')).toBe(
-      25,
-    );
+    ];
+    expect(history.getPlayerScoreAtEvent(events, 'Alban', '2')).toBe(25);
   });
 });
 
 describe('getNumberOfTurnsPlayed', () => {
   it('returns 0 when the player has not played yet', () => {
-    const history = new History();
+    const history = new HistoryHelper();
 
-    history.events.push({
-      id: '1',
-      historyLines: [
-        {
-          designation: GameLineType.PLAY_TURN,
-          player: { id: '3', name: 'Jules' },
-          amount: 0,
-        },
-      ],
-    });
+    const events = [
+      {
+        id: '1',
+        historyLines: [
+          {
+            designation: GameLineType.PLAY_TURN,
+            player: 'Jules',
+            amount: 0,
+          },
+        ],
+      },
+    ];
 
-    expect(history.getNumberOfTurnsPlayed({ id: 'a', name: 'Alban' })).toBe(0);
+    expect(history.getNumberOfTurnsPlayed(events, 'Alban')).toBe(0);
   });
   it('returns 2 when the player has played 2 turns', () => {
-    const history = new History();
+    const history = new HistoryHelper();
 
-    history.events.push(
+    const events = [
       {
         id: '1',
         historyLines: [
           {
             designation: GameLineType.PLAY_TURN,
-            player: { id: 'a', name: 'Alban' },
+            player: 'Alban',
             amount: 0,
           },
         ],
@@ -150,7 +151,7 @@ describe('getNumberOfTurnsPlayed', () => {
         historyLines: [
           {
             designation: GameLineType.PLAY_TURN,
-            player: { id: '3', name: 'Jules' },
+            player: 'Jules',
             amount: 0,
           },
         ],
@@ -160,13 +161,13 @@ describe('getNumberOfTurnsPlayed', () => {
         historyLines: [
           {
             designation: GameLineType.PLAY_TURN,
-            player: { id: 'a', name: 'Alban' },
+            player: 'Alban',
             amount: 0,
           },
         ],
       },
-    );
+    ];
 
-    expect(history.getNumberOfTurnsPlayed({ id: 'a', name: 'Alban' })).toBe(2);
+    expect(history.getNumberOfTurnsPlayed(events, 'Alban')).toBe(2);
   });
 });
