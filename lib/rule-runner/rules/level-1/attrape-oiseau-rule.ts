@@ -6,9 +6,9 @@ import {
 import { Resolver } from '../rule-resolver';
 import { DiceRoll, DieValue } from '../dice-rule';
 import { RuleEffect, RuleEffectEvent, RuleEffects } from '../rule-effect';
-import { DiceRollGameContext } from '../../game-context-event';
 import { Rules } from '../rule';
 import { BidType, SiropBid } from './sirotage-rule.types';
+import { DiceRollGameContext } from '../../game-context.ts';
 
 export type AttrapeOiseauResolution =
   | { isSirote: false }

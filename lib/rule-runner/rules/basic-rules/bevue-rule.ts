@@ -1,10 +1,7 @@
 import { Rule, Rules } from '../rule';
-import {
-  GameContextEvent,
-  GameContextWrapper,
-  UnknownGameContext,
-} from '../../game-context-event';
+import { GameContextEvent, GameContextWrapper } from '../../game-context-event';
 import { RuleEffectEvent, RuleEffects } from '../rule-effect';
+import { UnknownGameContext } from '../../game-context.ts';
 
 export class BevueRule implements Rule {
   name = Rules.BEVUE;

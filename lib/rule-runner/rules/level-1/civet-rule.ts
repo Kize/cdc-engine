@@ -1,12 +1,9 @@
 import { Rule, Rules } from '../rule';
 import { RuleEffectEvent, RuleEffects } from '../rule-effect';
-import {
-  GameContextEvent,
-  GameContextWrapper,
-  UnknownGameContext,
-} from '../../game-context-event';
+import { GameContextEvent, GameContextWrapper } from '../../game-context-event';
 import { Resolver } from '../rule-resolver';
 import { DiceRoll, DieValue } from '../dice-rule';
+import { UnknownGameContext } from '../../game-context.ts';
 
 export type CivetResolution = DiceRollCivetResolution | VerdierCivetResolution;
 

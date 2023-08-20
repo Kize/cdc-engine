@@ -2,8 +2,8 @@ import { getVeluteValue } from './velute-rule';
 import { Resolver } from '../rule-resolver';
 import { DiceRoll, DiceRule } from '../dice-rule';
 import { RuleEffectEvent, RuleEffects } from '../rule-effect';
-import { DiceRollGameContext } from '../../game-context-event';
 import { Rules } from '../rule';
+import { DiceRollGameContext } from '../../game-context.ts';
 
 export interface ChouetteVeluteResolution {
   players: Array<string>;

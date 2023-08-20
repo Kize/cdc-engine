@@ -1,11 +1,7 @@
 import { Rule, Rules } from './rule';
 import { RuleEffects } from './rule-effect';
-import {
-  DiceRollGameContext,
-  GameContextEvent,
-  GameContextWrapper,
-  UnknownGameContext,
-} from '../game-context-event';
+import { GameContextEvent, GameContextWrapper } from '../game-context-event';
+import { DiceRollGameContext, UnknownGameContext } from '../game-context.ts';
 
 export type DieValue = 1 | 2 | 3 | 4 | 5 | 6;
 export type DiceRoll = [DieValue, DieValue, DieValue];

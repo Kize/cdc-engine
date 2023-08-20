@@ -1,13 +1,9 @@
 import { Rule, Rules } from '../rule';
 import { RuleEffectEvent, RuleEffects } from '../rule-effect';
-import {
-  CivetGameContext,
-  GameContextEvent,
-  GameContextWrapper,
-  UnknownGameContext,
-} from '../../game-context-event';
+import { GameContextEvent, GameContextWrapper } from '../../game-context-event';
 import { Resolver } from '../rule-resolver';
 import { DiceRoll } from '../dice-rule';
+import { CivetGameContext, UnknownGameContext } from '../../game-context.ts';
 
 export interface GrelottineResolution {
   grelottinPlayer: string;

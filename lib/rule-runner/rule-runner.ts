@@ -1,6 +1,7 @@
 import { Rule, Rules } from './rules/rule';
 import { RuleEffects } from './rules/rule-effect';
-import { GameContextWrapper, UnknownGameContext } from './game-context-event';
+import { GameContextWrapper } from './game-context-event';
+import { UnknownGameContext } from './game-context.ts';
 
 export class RuleRunner {
   constructor(private readonly rules: Array<Rule>) {}

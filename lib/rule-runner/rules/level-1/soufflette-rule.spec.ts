@@ -3,10 +3,8 @@ import { SouffletteResolution, SouffletteRule } from './soufflette-rule';
 import { DummyContextBuilder } from '../../../tests/dummy-game-context-builder';
 import { RuleEffect, RuleEffectEvent } from '../rule-effect';
 import { RuleRunner } from '../../rule-runner';
-import {
-  DiceRollGameContext,
-  GameContextEvent,
-} from '../../game-context-event';
+import { GameContextEvent } from '../../game-context-event';
+import { DiceRollGameContext } from '../../game-context.ts';
 
 describe('isApplicableToGameContext', () => {
   it('returns true if dice make a 4, 2, 1 combination', () => {

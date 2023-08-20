@@ -1,8 +1,8 @@
 import { DiceRoll, DiceRule } from '../dice-rule';
 import { RuleEffectEvent, RuleEffects } from '../rule-effect';
-import { DiceRollGameContext } from '../../game-context-event';
 import { Resolver } from '../rule-resolver';
 import { Rules } from '../rule';
+import { DiceRollGameContext } from '../../game-context.ts';
 
 export type SouffletteResolution =
   | NoChallengeSouffletteResolution

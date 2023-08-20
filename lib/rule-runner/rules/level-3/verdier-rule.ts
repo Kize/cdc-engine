@@ -1,14 +1,11 @@
 import { Rule, Rules } from '../rule';
-import {
-  GameContextEvent,
-  GameContextWrapper,
-  UnknownGameContext,
-} from '../../game-context-event';
+import { GameContextEvent, GameContextWrapper } from '../../game-context-event';
 import { RuleEffect, RuleEffectEvent, RuleEffects } from '../rule-effect';
 import { DiceRoll, DieValue } from '../dice-rule';
 import { Resolver } from '../rule-resolver';
 import { isVelute } from '../basic-rules/velute-rule';
 import { DiceForm } from 'src/components/dice/dice-form';
+import { UnknownGameContext } from '../../game-context.ts';
 
 export interface VerdierResolution {
   bettingplayers: Array<string>;

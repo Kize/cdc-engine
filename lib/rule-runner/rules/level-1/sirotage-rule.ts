@@ -3,7 +3,6 @@ import { Resolver } from '../rule-resolver';
 import { getCulDeChouetteScore } from '../basic-rules/cul-de-chouette-rule';
 import { DiceRoll, DieValue } from '../dice-rule';
 import { RuleEffect, RuleEffectEvent, RuleEffects } from '../rule-effect';
-import { DiceRollGameContext } from '../../game-context-event';
 import { RuleRunner } from '../../rule-runner';
 import { Rules } from '../rule';
 import {
@@ -13,6 +12,7 @@ import {
   SiropBid,
   SIROTAGE_BID_TYPES,
 } from './sirotage-rule.types';
+import { DiceRollGameContext } from '../../game-context.ts';
 
 export interface SiropResolutionPayload {
   player: string;

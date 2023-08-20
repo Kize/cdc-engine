@@ -1,5 +1,11 @@
-import { DiceRoll, DieValue } from './rules/dice-rule';
-import { RuleRunner } from './rule-runner';
+import {
+  ApplyBevueGameContext,
+  ChallengeGrelottineGameContext,
+  CivetGameContext,
+  DiceRollGameContext,
+  UnknownGameContext,
+  VerdierGameContext,
+} from './game-context.ts';
 
 export class GameContextWrapper {
   constructor(private gameContext: UnknownGameContext) {}
@@ -50,41 +56,4 @@ export enum GameContextEvent {
   APPLY_BEVUE,
   CIVET_BET,
   VERDIER,
-}
-
-export type UnknownGameContext =
-  | DiceRollGameContext
-  | ChallengeGrelottineGameContext
-  | ApplyBevueGameContext
-  | CivetGameContext
-  | VerdierGameContext;
-
-export interface ApplyBevueGameContext {
-  event: GameContextEvent.APPLY_BEVUE;
-  playerWhoMadeABevue: string;
-}
-
-export interface ChallengeGrelottineGameContext {
-  event: GameContextEvent.CHALLENGE_GRELOTTINE;
-  runner: RuleRunner;
-}
-
-export interface DiceRollGameContext {
-  event: GameContextEvent.DICE_ROLL;
-  player: string;
-  diceRoll: DiceRoll;
-  runner: RuleRunner;
-}
-
-export interface CivetGameContext {
-  event: GameContextEvent.CIVET_BET;
-  runner: RuleRunner;
-  player: string;
-}
-
-export interface VerdierGameContext {
-  event: GameContextEvent.VERDIER;
-  runner: RuleRunner;
-  player: string;
-  diceValues: [DieValue, DieValue];
 }

@@ -1,10 +1,10 @@
 import { DiceRoll } from '../dice-rule';
-import { DiceRollGameContext } from '../../game-context-event';
 import { RuleEffect, RuleEffectEvent, RuleEffects } from '../rule-effect';
 import { Resolver } from '../rule-resolver';
 import { ChouetteRule } from '../basic-rules/chouette-rule';
 import { NeantRule } from '../basic-rules/neant-rule';
 import { Rules } from '../rule';
+import { DiceRollGameContext } from '../../game-context.ts';
 
 export interface BleuRougeResolution {
   diceRoll: DiceRoll;

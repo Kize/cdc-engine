@@ -2,7 +2,13 @@ import { Player } from '../player';
 import { GameEvent, HistoryHelper } from '../history/history-helper.ts';
 import { RuleRunner } from '../rule-runner/rule-runner';
 import { Rules } from '../rule-runner/rules/rule';
-import { UnknownGameContext } from '../rule-runner/game-context-event.ts';
+import { GameLineType, getNewEventId } from '../history/history-line.ts';
+import {
+  ApplyBevueGameContext,
+  ChallengeGrelottineGameContext,
+  PlayATurnGameContext,
+  UnknownGameContext,
+} from '../rule-runner/game-context.ts';
 
 export enum GameStatus {
   CREATION = 'creation',
@@ -17,6 +23,27 @@ export class GameHandler {
   constructor(public name: string) {
     this.history = new HistoryHelper();
     this.ruleRunner = new RuleRunner([]);
+  }
+
+  getGameStatus(events: Array<GameEvent>, players: Array<Player>): GameStatus {
+    if (
+      events.length === 0 ||
+      players.length === 0 ||
+      !this.ruleRunner.isRuleEnabled(Rules.NEANT)
+    ) {
+      return GameStatus.CREATION;
+    }
+
+    const playerScores = players.map((player) =>
+      this.history.getPlayerScore(events, player),
+    );
+
+    const maxScore = Math.max(...playerScores);
+    if (maxScore >= 343) {
+      return GameStatus.FINISHED;
+    }
+
+    return GameStatus.IN_GAME;
   }
 
   getNumberOfTurns(events: Array<GameEvent>, players: Array<Player>): number {
@@ -68,33 +95,51 @@ export class GameHandler {
     return currentPlayer ?? players[0];
   }
 
-  async doSomething(context: UnknownGameContext): Promise<GameEvent> {
-    await this.ruleRunner.handleGameEvent(context);
+  async playATurn(context: PlayATurnGameContext): Promise<GameEvent> {
+    const turnPlayed: GameEvent['historyLines'][0] = {
+      player: context.player,
+      amount: 0,
+      designation: GameLineType.PLAY_TURN,
+    };
+
+    const gameEvent = await this.applyRuleEngine(context);
 
     return {
-      id: '1',
-      historyLines: [],
+      ...gameEvent,
+      historyLines: [turnPlayed, ...gameEvent.historyLines],
     };
   }
 
-  getGameStatus(events: Array<GameEvent>, players: Array<Player>): GameStatus {
-    if (
-      events.length === 0 ||
-      players.length === 0 ||
-      !this.ruleRunner.isRuleEnabled(Rules.NEANT)
-    ) {
-      return GameStatus.CREATION;
-    }
+  async applyBevue(context: ApplyBevueGameContext): Promise<GameEvent> {
+    return this.applyRuleEngine(context);
+  }
 
-    const playerScores = players.map((player) =>
-      this.history.getPlayerScore(events, player),
-    );
+  async startGrelottineChallenge(
+    context: ChallengeGrelottineGameContext,
+  ): Promise<GameEvent> {
+    return this.applyRuleEngine(context);
+  }
 
-    const maxScore = Math.max(...playerScores);
-    if (maxScore >= 343) {
-      return GameStatus.FINISHED;
-    }
+  singSloubi(): Promise<GameEvent> {
+    throw new Error('not implemented yet :(');
+  }
 
-    return GameStatus.IN_GAME;
+  addOperations(): Promise<GameEvent> {
+    throw new Error('not implemented yet :(');
+  }
+
+  private async applyRuleEngine(
+    context: UnknownGameContext,
+  ): Promise<GameEvent> {
+    const ruleEffects = await this.ruleRunner.handleGameEvent(context);
+
+    return {
+      id: getNewEventId(),
+      historyLines: ruleEffects.map((ruleEffect) => ({
+        designation: ruleEffect.event,
+        player: ruleEffect.player,
+        amount: ruleEffect.value,
+      })),
+    };
   }
 }

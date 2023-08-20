@@ -1,5 +1,6 @@
 import { RuleEffects } from './rule-effect';
-import { GameContextWrapper, UnknownGameContext } from '../game-context-event';
+import { GameContextWrapper } from '../game-context-event';
+import { UnknownGameContext } from '../game-context.ts';
 
 export interface Rule {
   name: Rules;

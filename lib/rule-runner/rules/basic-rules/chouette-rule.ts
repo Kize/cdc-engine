@@ -1,7 +1,7 @@
 import { DiceRoll, DiceRule, DieValue } from '../dice-rule';
 import { RuleEffect, RuleEffectEvent, RuleEffects } from '../rule-effect';
-import { DiceRollGameContext } from '../../game-context-event';
 import { Rules } from '../rule';
+import { DiceRollGameContext } from '../../game-context.ts';
 
 export class ChouetteRule extends DiceRule {
   name = Rules.CHOUETTE;

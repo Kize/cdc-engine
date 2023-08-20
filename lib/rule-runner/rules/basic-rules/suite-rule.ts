@@ -2,8 +2,8 @@ import { Resolver } from '../rule-resolver';
 import { getVeluteValue, isVelute } from './velute-rule';
 import { DiceRoll, DiceRule } from '../dice-rule';
 import { RuleEffectEvent, RuleEffects } from '../rule-effect';
-import { DiceRollGameContext } from '../../game-context-event';
 import { Rules } from '../rule';
+import { DiceRollGameContext } from '../../game-context.ts';
 
 export interface SuiteResolution {
   loosingplayer: string;
