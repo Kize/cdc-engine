@@ -2,7 +2,6 @@ import { JSX, useState } from 'react';
 import './CreateNewGame.css';
 import { Button, Heading } from '@chakra-ui/react';
 import { PlayersSelection } from './PlayersSelection.tsx';
-import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../store/store.ts';
 import { selectRulesConfiguration } from '../../store/current-game/current-game-selectors.ts';
 import { RulesSelection } from './RulesSelection.tsx';
@@ -14,14 +13,7 @@ export function CreateNewGame(): JSX.Element {
   const [playersForm, setPlayersForm] = useState([] as Array<string>);
   const [rulesForm, setRulesForm] = useState(rulesConfiguration);
 
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
-
-  const startGame = () => {
-    dispatch(startGameThunk(playersForm, rulesForm));
-
-    navigate('/scribe-panel');
-  };
 
   return (
     <>
@@ -35,7 +27,7 @@ export function CreateNewGame(): JSX.Element {
 
       <Button
         isDisabled={playersForm.length < 2 || playersForm.length > 8}
-        onClick={startGame}
+        onClick={() => dispatch(startGameThunk(playersForm, rulesForm))}
       >
         Jouer
       </Button>

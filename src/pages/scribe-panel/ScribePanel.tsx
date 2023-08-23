@@ -2,25 +2,18 @@ import { JSX } from 'react';
 import { PlayerCard } from './PlayerCard.tsx';
 import { Button, Center, Stack } from '@chakra-ui/react';
 import { useAppDispatch, useAppSelector } from '../../store/store.ts';
-import { useNavigate } from 'react-router-dom';
 import { selectPlayersWithScore } from '../../store/current-game/current-game-selectors.ts';
-import { currentGameSlice } from '../../store/current-game/current-game.slice.ts';
+import { resetGameThunk } from '../../store/current-game/current-game-thunks.ts';
 
 export function ScribePanel(): JSX.Element {
   const players = useAppSelector(selectPlayersWithScore);
 
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-
-  const onReset = () => {
-    dispatch(currentGameSlice.actions.resetGame());
-    navigate('/');
-  };
 
   return (
     <>
       <Center>
-        <Button onClick={onReset}>Reset</Button>
+        <Button onClick={() => dispatch(resetGameThunk())}>Reset</Button>
 
         <Stack width="80vw">
           {players.map((player) => (

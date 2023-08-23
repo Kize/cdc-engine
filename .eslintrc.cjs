@@ -25,6 +25,12 @@ module.exports = {
     'plugin:import/typescript',
   ],
   rules: {
+    '@typescript-eslint/no-misused-promises': [
+      'error',
+      {
+        checksVoidReturn: false,
+      },
+    ],
     'react-refresh/only-export-components': [
       'warn',
       { allowConstantExport: true },

@@ -13,73 +13,74 @@ export interface CurrentGameState {
   rulesConfiguration: RulesConfiguration;
 }
 
-const defaultNewState: CurrentGameState = {
-  id: getNewGameId(),
-  startDate: new Date().toISOString(),
-  players: [],
-  events: [],
-  rulesConfiguration: {
-    isSouffletteEnabled: false,
-    isSiropEnabled: false,
-    isAttrapeOiseauEnabled: false,
-    isCivetEnabled: false,
-    isArtichetteEnabled: false,
-    isVerdierEnabled: false,
-    isBleuRougeEnabled: false,
-  },
-};
-
 export const currentGameSlice = createSlice({
   name: 'currentGame',
   initialState,
   reducers: {
+    startGame: (state, { payload }: PayloadAction<CurrentGameState>) => {
+      state.id = payload.id;
+      state.startDate = payload.startDate;
+      state.players = payload.players;
+      state.events = payload.events;
+      state.rulesConfiguration = payload.rulesConfiguration;
+    },
     resetGame: (state) => {
-      const newState = { ...defaultNewState };
+      const newState = getNewCurrentGameState();
       state.id = newState.id;
       state.startDate = newState.startDate;
       state.players = newState.players;
       state.events = newState.events;
       state.rulesConfiguration = newState.rulesConfiguration;
     },
-    addEvent: (state, event: PayloadAction<GameEvent>) => {
-      state.events.push(event.payload);
+
+    addEvent: (state, { payload }: PayloadAction<GameEvent>) => {
+      state.events.push(payload);
     },
-    setEvents: (state, action: PayloadAction<Array<GameEvent>>) => {
-      state.events = action.payload;
+    setEvents: (state, { payload }: PayloadAction<Array<GameEvent>>) => {
+      state.events = payload;
     },
-    addPlayer: (state, action: PayloadAction<string>) => {
-      state.players.push(action.payload);
+    addPlayer: (state, { payload }: PayloadAction<string>) => {
+      state.players.push(payload);
     },
-    setPlayers: (state, action: PayloadAction<Array<string>>) => {
-      state.players = [...action.payload];
+    setPlayers: (state, { payload }: PayloadAction<Array<string>>) => {
+      state.players = [...payload];
     },
     setRulesConfiguration: (
       state,
-      action: PayloadAction<RulesConfiguration>,
+      { payload }: PayloadAction<RulesConfiguration>,
     ) => {
-      state.rulesConfiguration = { ...action.payload };
+      state.rulesConfiguration = { ...payload };
     },
   },
 });
 
-export const currentGameReducer = currentGameSlice.reducer;
-
-export const {
-  addEvent: addEventAction,
-  setEvents: setEventsAction,
-  addPlayer: addPlayerAction,
-  setPlayers: setPlayersAction,
-} = currentGameSlice.actions;
+export function getNewCurrentGameState(): CurrentGameState {
+  return {
+    id: getNewGameId(),
+    startDate: new Date().toISOString(),
+    players: [],
+    events: [],
+    rulesConfiguration: {
+      isSouffletteEnabled: false,
+      isSiropEnabled: false,
+      isAttrapeOiseauEnabled: false,
+      isCivetEnabled: false,
+      isArtichetteEnabled: false,
+      isVerdierEnabled: false,
+      isBleuRougeEnabled: false,
+    },
+  };
+}
 
 function initialState(): CurrentGameState {
   try {
     const stateString = localStorage.getItem('currentGame');
     if (stateString === null) {
-      return defaultNewState;
+      return getNewCurrentGameState();
     }
 
     return JSON.parse(stateString) as CurrentGameState;
   } catch (_) {
-    return defaultNewState;
+    return getNewCurrentGameState();
   }
 }

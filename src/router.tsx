@@ -24,7 +24,6 @@ export const router = createBrowserRouter([
 ]);
 
 function createNewGameLoader() {
-  console.log('loading create');
   const { currentGame } = store.getState();
 
   const gameStatus = cdcGameHandler.getGameStatus(
@@ -34,7 +33,6 @@ function createNewGameLoader() {
 
   switch (gameStatus) {
     case GameStatus.IN_GAME:
-      console.log('redirect scribe', gameStatus);
       return redirect('/scribe-panel');
     case GameStatus.FINISHED:
       persistGameToLocalStorage(currentGame);
@@ -45,7 +43,6 @@ function createNewGameLoader() {
 }
 
 function scribePanelLoader() {
-  console.log('loading scribe');
   const { currentGame } = store.getState();
 
   configureGameHandlerRules(currentGame.rulesConfiguration);
@@ -55,12 +52,9 @@ function scribePanelLoader() {
     currentGame.players,
   );
 
-  console.log(currentGame, gameStatus);
-
   switch (gameStatus) {
     case GameStatus.CREATION:
     case GameStatus.FINISHED:
-      console.log('redirect create', gameStatus);
       return redirect('/');
   }
 
