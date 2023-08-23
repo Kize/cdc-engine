@@ -2,7 +2,8 @@ import { Player } from '../../../lib/player.ts';
 import { GameEvent } from '../../../lib/history/history-helper.ts';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { getNewGameId } from '../../../lib/game/game-handler.ts';
-import { RulesConfiguration } from '../../../lib/rule-runner/rule-runner.ts';
+
+import { RulesConfiguration } from '../../../lib/rule-runner/rule-runner-configuration.ts';
 
 export interface CurrentGameState {
   id: string;

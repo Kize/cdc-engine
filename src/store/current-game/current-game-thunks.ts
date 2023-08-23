@@ -6,6 +6,7 @@ import {
   setEventsAction,
   setPlayersAction,
 } from './current-game.slice.ts';
+import { RulesConfiguration } from '../../../lib/rule-runner/rule-runner-configuration.ts';
 
 export const cdcGameHandler = new GameHandler();
 
@@ -20,5 +21,11 @@ export const applyBevueThunk =
 export const resetGameThunk = (): AppThunk => (dispatch) => {
   dispatch(setPlayersAction([]));
   dispatch(setEventsAction([]));
-  cdcGameHandler.setRules([]);
 };
+
+export const startGameThunk =
+  (players: Array<Player>, rulesConfiguration: RulesConfiguration): AppThunk =>
+  (dispatch) => {
+    dispatch(setPlayersAction(players));
+    dispatch(setEventsAction([]));
+  };

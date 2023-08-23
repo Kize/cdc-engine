@@ -1,7 +1,7 @@
 import { Player } from '../player';
 import { GameEvent, HistoryHelper } from '../history/history-helper.ts';
 import { RuleRunner } from '../rule-runner/rule-runner';
-import { Rule, Rules } from '../rule-runner/rules/rule';
+import { Rules } from '../rule-runner/rules/rule';
 import { GameLineType, getNewEventId } from '../history/history-line.ts';
 import {
   ChallengeGrelottineGameContext,
@@ -10,6 +10,10 @@ import {
 } from '../rule-runner/game-context.ts';
 import { nanoid } from '@reduxjs/toolkit';
 import { GameContextEvent } from '../rule-runner/game-context-event.ts';
+import {
+  Resolvers,
+  RulesConfiguration,
+} from '../rule-runner/rule-runner-configuration.ts';
 
 export enum GameStatus {
   CREATION = 'creation',
@@ -23,7 +27,7 @@ export class GameHandler {
 
   constructor() {
     this.history = new HistoryHelper();
-    this.ruleRunner = new RuleRunner([]);
+    this.ruleRunner = new RuleRunner();
   }
 
   getGameStatus(events: Array<GameEvent>, players: Array<Player>): GameStatus {
@@ -92,8 +96,8 @@ export class GameHandler {
     return currentPlayer ?? players[0];
   }
 
-  setRules(rules: Array<Rule>): void {
-    this.ruleRunner = new RuleRunner(rules);
+  setRules(rulesConfiguration: RulesConfiguration, resolvers: Resolvers): void {
+    this.ruleRunner = new RuleRunner(rulesConfiguration, resolvers);
   }
 
   async playATurn(context: PlayATurnGameContext): Promise<GameEvent> {
