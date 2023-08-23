@@ -1,14 +1,15 @@
 import { Player } from '../player';
 import { GameEvent, HistoryHelper } from '../history/history-helper.ts';
 import { RuleRunner } from '../rule-runner/rule-runner';
-import { Rules } from '../rule-runner/rules/rule';
+import { Rule, Rules } from '../rule-runner/rules/rule';
 import { GameLineType, getNewEventId } from '../history/history-line.ts';
 import {
-  ApplyBevueGameContext,
   ChallengeGrelottineGameContext,
   PlayATurnGameContext,
   UnknownGameContext,
 } from '../rule-runner/game-context.ts';
+import { nanoid } from '@reduxjs/toolkit';
+import { GameContextEvent } from '../rule-runner/game-context-event.ts';
 
 export enum GameStatus {
   CREATION = 'creation',
@@ -20,17 +21,13 @@ export class GameHandler {
   history: HistoryHelper;
   ruleRunner: RuleRunner;
 
-  constructor(public name: string) {
+  constructor() {
     this.history = new HistoryHelper();
     this.ruleRunner = new RuleRunner([]);
   }
 
   getGameStatus(events: Array<GameEvent>, players: Array<Player>): GameStatus {
-    if (
-      events.length === 0 ||
-      players.length === 0 ||
-      !this.ruleRunner.isRuleEnabled(Rules.NEANT)
-    ) {
+    if (players.length === 0 || !this.ruleRunner.isRuleEnabled(Rules.NEANT)) {
       return GameStatus.CREATION;
     }
 
@@ -95,6 +92,10 @@ export class GameHandler {
     return currentPlayer ?? players[0];
   }
 
+  setRules(rules: Array<Rule>): void {
+    this.ruleRunner = new RuleRunner(rules);
+  }
+
   async playATurn(context: PlayATurnGameContext): Promise<GameEvent> {
     const turnPlayed: GameEvent['historyLines'][0] = {
       player: context.player,
@@ -110,8 +111,11 @@ export class GameHandler {
     };
   }
 
-  async applyBevue(context: ApplyBevueGameContext): Promise<GameEvent> {
-    return this.applyRuleEngine(context);
+  async applyBevue(player: Player): Promise<GameEvent> {
+    return this.applyRuleEngine({
+      event: GameContextEvent.APPLY_BEVUE,
+      playerWhoMadeABevue: player,
+    });
   }
 
   async startGrelottineChallenge(
@@ -142,4 +146,8 @@ export class GameHandler {
       })),
     };
   }
+}
+
+export function getNewGameId(): string {
+  return nanoid(16);
 }

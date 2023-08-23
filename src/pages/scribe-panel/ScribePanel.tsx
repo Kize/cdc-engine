@@ -1,21 +1,34 @@
 import { JSX } from 'react';
-import { useLocalStorage } from '../../hooks/useLocalStorage.ts';
 import { PlayerCard } from './PlayerCard.tsx';
-import { Center, Stack } from '@chakra-ui/react';
+import { Button, Center, Stack } from '@chakra-ui/react';
+import { useAppDispatch, useAppSelector } from '../../store/store.ts';
+import { resetGameThunk } from '../../store/current-game/current-game-thunks.ts';
+import { useNavigate } from 'react-router-dom';
+import { selectPlayersWithScore } from '../../store/current-game/current-game-selectors.ts';
 
 export function ScribePanel(): JSX.Element {
-  const [savedPlayers] = useLocalStorage<Array<string>>('players', []);
+  const players = useAppSelector(selectPlayersWithScore);
 
-  const players = savedPlayers
-    .slice(0, 6)
-    .map((p, i) => ({ name: p, score: (1 + i) * 57 }));
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const onReset = () => {
+    dispatch(resetGameThunk());
+    navigate('/');
+  };
 
   return (
     <>
       <Center>
+        <Button onClick={onReset}>Reset</Button>
+
         <Stack width="80vw">
           {players.map((player) => (
-            <PlayerCard key={player.name} player={player}></PlayerCard>
+            <PlayerCard
+              key={player.name}
+              player={player.name}
+              score={player.score}
+            ></PlayerCard>
           ))}
         </Stack>
       </Center>

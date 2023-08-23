@@ -30,3 +30,13 @@ export class RuleRunner {
     return !!rule;
   }
 }
+
+export interface RulesConfiguration {
+  isSouffletteEnabled: boolean;
+  isSiropEnabled: boolean;
+  isAttrapeOiseauEnabled: boolean;
+  isCivetEnabled: boolean;
+  isArtichetteEnabled: boolean;
+  isVerdierEnabled: boolean;
+  isBleuRougeEnabled: boolean;
+}

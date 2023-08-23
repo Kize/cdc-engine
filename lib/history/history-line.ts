@@ -18,16 +18,6 @@ export type AllHistoryLineTypes =
   | GodModLineType
   | GameLineType;
 
-export interface HistoryLine {
-  eventId: string;
-  designation: AllHistoryLineTypes;
-  amount: number;
-}
-
-export interface PlayerHistoryLine extends HistoryLine {
-  player: string;
-}
-
 export function getNewEventId(): string {
   return nanoid(32);
 }
