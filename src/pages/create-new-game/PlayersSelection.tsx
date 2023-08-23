@@ -17,7 +17,7 @@ import {
 import { Box, List } from '@chakra-ui/react';
 import { CreatableSelect } from 'chakra-react-select';
 import { SortablePlayerOption } from './SortablePlayerOption.tsx';
-import { useLocalStorage } from '../../hooks/useLocalStorage.ts';
+import { useLocalStorage } from '../../utils/use-local-storage.hook.ts';
 
 type SelectOption = { value: string; label: string; isDisabled?: boolean };
 const sortOptions = (a: SelectOption, b: SelectOption) =>

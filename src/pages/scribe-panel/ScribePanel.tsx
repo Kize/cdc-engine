@@ -2,9 +2,9 @@ import { JSX } from 'react';
 import { PlayerCard } from './PlayerCard.tsx';
 import { Button, Center, Stack } from '@chakra-ui/react';
 import { useAppDispatch, useAppSelector } from '../../store/store.ts';
-import { resetGameThunk } from '../../store/current-game/current-game-thunks.ts';
 import { useNavigate } from 'react-router-dom';
 import { selectPlayersWithScore } from '../../store/current-game/current-game-selectors.ts';
+import { currentGameSlice } from '../../store/current-game/current-game.slice.ts';
 
 export function ScribePanel(): JSX.Element {
   const players = useAppSelector(selectPlayersWithScore);
@@ -13,7 +13,7 @@ export function ScribePanel(): JSX.Element {
   const navigate = useNavigate();
 
   const onReset = () => {
-    dispatch(resetGameThunk());
+    dispatch(currentGameSlice.actions.resetGame());
     navigate('/');
   };
 

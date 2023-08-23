@@ -1,23 +1,11 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.css';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { CreateNewGame } from './pages/create-new-game/CreateNewGame.tsx';
-import { ScribePanel } from './pages/scribe-panel/ScribePanel.tsx';
+import { RouterProvider } from 'react-router-dom';
 import { ChakraProvider } from '@chakra-ui/react';
 import { Provider } from 'react-redux';
 import { store } from './store/store.ts';
-
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <CreateNewGame />,
-  },
-  {
-    path: '/scribe-panel',
-    element: <ScribePanel />,
-  },
-]);
+import { router } from './router.tsx';
 
 const container = document.getElementById('root');
 

@@ -13,10 +13,34 @@ export interface CurrentGameState {
   rulesConfiguration: RulesConfiguration;
 }
 
+const defaultNewState: CurrentGameState = {
+  id: getNewGameId(),
+  startDate: new Date().toISOString(),
+  players: [],
+  events: [],
+  rulesConfiguration: {
+    isSouffletteEnabled: false,
+    isSiropEnabled: false,
+    isAttrapeOiseauEnabled: false,
+    isCivetEnabled: false,
+    isArtichetteEnabled: false,
+    isVerdierEnabled: false,
+    isBleuRougeEnabled: false,
+  },
+};
+
 export const currentGameSlice = createSlice({
   name: 'currentGame',
   initialState,
   reducers: {
+    resetGame: (state) => {
+      const newState = { ...defaultNewState };
+      state.id = newState.id;
+      state.startDate = newState.startDate;
+      state.players = newState.players;
+      state.events = newState.events;
+      state.rulesConfiguration = newState.rulesConfiguration;
+    },
     addEvent: (state, event: PayloadAction<GameEvent>) => {
       state.events.push(event.payload);
     },
@@ -38,6 +62,8 @@ export const currentGameSlice = createSlice({
   },
 });
 
+export const currentGameReducer = currentGameSlice.reducer;
+
 export const {
   addEvent: addEventAction,
   setEvents: setEventsAction,
@@ -45,25 +71,7 @@ export const {
   setPlayers: setPlayersAction,
 } = currentGameSlice.actions;
 
-export const currentGameReducer = currentGameSlice.reducer;
-
 function initialState(): CurrentGameState {
-  const defaultNewState: CurrentGameState = {
-    id: getNewGameId(),
-    startDate: new Date().toISOString(),
-    players: [],
-    events: [],
-    rulesConfiguration: {
-      isSouffletteEnabled: true,
-      isSiropEnabled: true,
-      isAttrapeOiseauEnabled: true,
-      isCivetEnabled: true,
-      isArtichetteEnabled: true,
-      isVerdierEnabled: true,
-      isBleuRougeEnabled: true,
-    },
-  };
-
   try {
     const stateString = localStorage.getItem('currentGame');
     if (stateString === null) {

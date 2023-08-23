@@ -1,6 +1,7 @@
 import { RootState } from '../store.ts';
 import { createSelector } from '@reduxjs/toolkit';
-import { cdcGameHandler } from './current-game-thunks.ts';
+
+import { cdcGameHandler } from '../../utils/game-handler-configuration.ts';
 
 export const selectPlayers = (state: RootState) => state.currentGame.players;
 export const selectEvents = (state: RootState) => state.currentGame.events;

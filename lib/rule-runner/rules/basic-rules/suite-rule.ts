@@ -4,6 +4,7 @@ import { DiceRoll, DiceRule } from '../dice-rule';
 import { RuleEffectEvent, RuleEffects } from '../rule-effect';
 import { Rules } from '../rule';
 import { DiceRollGameContext } from '../../game-context.ts';
+import { Player } from '../../../player.ts';
 
 export interface SuiteResolution {
   loosingplayer: string;
@@ -11,7 +12,7 @@ export interface SuiteResolution {
 }
 
 export interface SuiteResolutionPayload {
-  player: string;
+  player: Player;
 }
 
 export class SuiteRule extends DiceRule {
