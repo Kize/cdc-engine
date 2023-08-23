@@ -1,6 +1,6 @@
 import { RootState } from '../store.ts';
 import { createSelector } from '@reduxjs/toolkit';
-import { gameHandler } from './current-game-thunks.ts';
+import { cdcGameHandler } from './current-game-thunks.ts';
 
 export const selectPlayers = (state: RootState) => state.currentGame.players;
 export const selectEvents = (state: RootState) => state.currentGame.events;
@@ -13,6 +13,6 @@ export const selectPlayersWithScore = createSelector(
   (players, events) =>
     players.map((player) => ({
       name: player,
-      score: gameHandler.history.getPlayerScore(events, player),
+      score: cdcGameHandler.history.getPlayerScore(events, player),
     })),
 );
