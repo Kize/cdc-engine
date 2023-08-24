@@ -3,7 +3,10 @@ import { PlayerCard } from './PlayerCard.tsx';
 import { Button, Center, Stack } from '@chakra-ui/react';
 import { useAppDispatch, useAppSelector } from '../../store/store.ts';
 import { selectPlayersWithScore } from '../../store/current-game/current-game-selectors.ts';
-import { resetGameThunk } from '../../store/current-game/current-game-thunks.ts';
+import {
+  playATurnThunk,
+  resetGameThunk,
+} from '../../store/current-game/current-game-thunks.ts';
 import { DiceForm, isDiceFormValid } from '../../components/dice/dice-form.ts';
 import { DiceFormComponent } from '../../components/dice/DiceForm.tsx';
 
@@ -19,11 +22,17 @@ export function ScribePanel(): JSX.Element {
   const dispatch = useAppDispatch();
 
   const onChangeForm = (form: DiceForm): DiceForm => {
-    const newForm = isDiceFormValid(form) ? getNewDiceForm() : form;
+    let newForm: DiceForm;
+
+    if (isDiceFormValid(form)) {
+      dispatch(playATurnThunk(form));
+
+      newForm = getNewDiceForm();
+    } else {
+      newForm = form;
+    }
 
     setDiceForm(newForm);
-    console.log(newForm);
-
     return newForm;
   };
 

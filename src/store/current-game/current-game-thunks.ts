@@ -7,14 +7,8 @@ import {
 import { RulesConfiguration } from '../../../lib/rule-runner/rule-runner-configuration.ts';
 import { cdcGameHandler } from '../../utils/game-handler-configuration.ts';
 import { router } from '../../router.tsx';
-
-export const applyBevueThunk =
-  (player: Player): AsyncAppThunk =>
-  async (dispatch) => {
-    const gameEvent = await cdcGameHandler.applyBevue(player);
-
-    dispatch(currentGameSlice.actions.addEvent(gameEvent));
-  };
+import { DiceRoll } from '../../../lib/rule-runner/rules/dice-rule.ts';
+import { GameContextEvent } from '../../../lib/rule-runner/game-context-event.ts';
 
 export const startGameThunk =
   (
@@ -35,3 +29,30 @@ export const resetGameThunk = (): AsyncAppThunk => async (dispatch) => {
   dispatch(currentGameSlice.actions.resetGame());
   await router.navigate('/');
 };
+
+export const applyBevueThunk =
+  (player: Player): AsyncAppThunk =>
+  async (dispatch) => {
+    const gameEvent = await cdcGameHandler.applyBevue(player);
+
+    dispatch(currentGameSlice.actions.addEvent(gameEvent));
+  };
+
+export const playATurnThunk =
+  (diceRoll: DiceRoll): AsyncAppThunk =>
+  async (dispatch, getState) => {
+    const { currentGame } = getState();
+    const currentPlayer = cdcGameHandler.getCurrentPlayer(
+      currentGame.events,
+      currentGame.players,
+    );
+
+    const gameEvent = await cdcGameHandler.playATurn({
+      event: GameContextEvent.DICE_ROLL,
+      diceRoll,
+      runner: cdcGameHandler.ruleRunner,
+      player: currentPlayer,
+    });
+
+    dispatch(currentGameSlice.actions.addEvent(gameEvent));
+  };

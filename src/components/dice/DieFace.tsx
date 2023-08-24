@@ -75,7 +75,7 @@ export function DieFace(props: DieFaceProps): JSX.Element {
           color: 'blue.600',
         }}
       >
-        <Icon as={getDieIcon(props.dieValue)} boxSize="12vw" />
+        <Icon as={getDieIcon(props.dieValue)} boxSize="10vw" />
       </Box>
     </Box>
   );
