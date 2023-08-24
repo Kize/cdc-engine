@@ -4,6 +4,8 @@ import { Button, Center, Stack } from '@chakra-ui/react';
 import { useAppDispatch, useAppSelector } from '../../store/store.ts';
 import { selectPlayersWithScore } from '../../store/current-game/current-game-selectors.ts';
 import { resetGameThunk } from '../../store/current-game/current-game-thunks.ts';
+import { DiceForm } from '../../components/dice/DiceForm.tsx';
+import { DieValue } from '../../../lib/rule-runner/rules/dice-rule.ts';
 
 export function ScribePanel(): JSX.Element {
   const players = useAppSelector(selectPlayersWithScore);
@@ -12,19 +14,19 @@ export function ScribePanel(): JSX.Element {
 
   return (
     <>
-      <Center>
-        <Button onClick={() => dispatch(resetGameThunk())}>Reset</Button>
+      <Button onClick={() => dispatch(resetGameThunk())}>Reset</Button>
 
+      <Center>
         <Stack width="80vw">
-          {players.map((player) => (
-            <PlayerCard
-              key={player.name}
-              player={player.name}
-              score={player.score}
-            ></PlayerCard>
+          {players.map((details) => (
+            <PlayerCard key={details.player} details={details}></PlayerCard>
           ))}
         </Stack>
       </Center>
+
+      <DiceForm
+        selectValue={(value: DieValue | null) => console.log(value)}
+      ></DiceForm>
     </>
   );
 }

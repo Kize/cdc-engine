@@ -5,23 +5,30 @@ import { useAppDispatch } from '../../store/store.ts';
 import { applyBevueThunk } from '../../store/current-game/current-game-thunks.ts';
 import { Player } from '../../../lib/player.ts';
 
-export function PlayerCard({
-  player,
-  score,
-}: {
+export interface PlayerCardDetails {
   player: Player;
   score: number;
+  isCurrentPlayer: boolean;
+}
+
+export function PlayerCard({
+  details,
+}: {
+  details: PlayerCardDetails;
 }): JSX.Element {
   const dispatch = useAppDispatch();
 
   return (
-    <Card variant="filled">
+    <Card
+      variant="filled"
+      bgColor={details.isCurrentPlayer ? 'blue.100' : 'blue.50'}
+    >
       <CardHeader px={3} py={1}>
         <Flex>
-          <Box as="span">{player}</Box>
+          <Box as="span">{details.player}</Box>
           <Spacer />
 
-          <Box as="u">{score} points</Box>
+          <Box as="u">{details.score} points</Box>
           <Spacer />
 
           <Button
@@ -30,7 +37,7 @@ export function PlayerCard({
             variant="outline"
             size="xs"
             leftIcon={<AiOutlineExclamationCircle />}
-            onClick={() => dispatch(applyBevueThunk(player))}
+            onClick={() => dispatch(applyBevueThunk(details.player))}
           >
             Bévue
           </Button>
