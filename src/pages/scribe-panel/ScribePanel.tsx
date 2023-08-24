@@ -5,7 +5,6 @@ import { useAppDispatch, useAppSelector } from '../../store/store.ts';
 import { selectPlayersWithScore } from '../../store/current-game/current-game-selectors.ts';
 import { resetGameThunk } from '../../store/current-game/current-game-thunks.ts';
 import { DiceForm } from '../../components/dice/DiceForm.tsx';
-import { DieValue } from '../../../lib/rule-runner/rules/dice-rule.ts';
 
 export function ScribePanel(): JSX.Element {
   const players = useAppSelector(selectPlayersWithScore);
@@ -24,9 +23,7 @@ export function ScribePanel(): JSX.Element {
         </Stack>
       </Center>
 
-      <DiceForm
-        selectValue={(value: DieValue | null) => console.log(value)}
-      ></DiceForm>
+      <DiceForm onChangeForm={console.log} />
     </>
   );
 }

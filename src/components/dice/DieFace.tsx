@@ -1,0 +1,72 @@
+import { JSX, useCallback } from 'react';
+import {
+  Box,
+  Icon,
+  useRadio,
+  UseRadioGroupReturn,
+  UseRadioProps,
+} from '@chakra-ui/react';
+import {
+  BsDice1,
+  BsDice2,
+  BsDice3,
+  BsDice4,
+  BsDice5,
+  BsDice6,
+} from 'react-icons/bs';
+import { DieValue } from '../../../lib/rule-runner/rules/dice-rule.ts';
+import { IconType } from 'react-icons/lib/cjs/iconBase';
+
+interface DieFaceProps extends UseRadioProps {
+  dieValue: DieValue;
+}
+
+export function DieFace(props: DieFaceProps): JSX.Element {
+  const { getInputProps, getRadioProps } = useRadio(props);
+
+  const input = getInputProps();
+  const checkbox = getRadioProps();
+
+  const handleSelect = useCallback(() => {
+    if (props.isChecked && input.onChange) {
+      (input.onChange as UseRadioGroupReturn['onChange'])('');
+    }
+  }, [input.onChange, props.isChecked]);
+
+  const getDieIcon = (value: DieValue): IconType => {
+    switch (value) {
+      case 1:
+        return BsDice1;
+      case 2:
+        return BsDice2;
+      case 3:
+        return BsDice3;
+      case 4:
+        return BsDice4;
+      case 5:
+        return BsDice5;
+      case 6:
+        return BsDice6;
+    }
+  };
+
+  return (
+    <Box as="label">
+      <input
+        {...input}
+        onClick={handleSelect}
+        onKeyDown={(e) => {
+          if (e.key !== ' ') return;
+          if (props.isChecked) {
+            e.preventDefault();
+            handleSelect();
+          }
+        }}
+      />
+
+      <Box {...checkbox} color="blue.400" _checked={{ color: 'blue.600' }}>
+        <Icon as={getDieIcon(props.dieValue)} boxSize="12vw" />
+      </Box>
+    </Box>
+  );
+}

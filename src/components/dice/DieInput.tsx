@@ -1,77 +1,39 @@
-import { JSX, useCallback } from 'react';
-import {
-  Box,
-  Icon,
-  useRadio,
-  UseRadioGroupReturn,
-  UseRadioProps,
-} from '@chakra-ui/react';
-import {
-  BsDice1,
-  BsDice2,
-  BsDice3,
-  BsDice4,
-  BsDice5,
-  BsDice6,
-} from 'react-icons/bs';
+import { JSX } from 'react';
+import { HStack, useRadioGroup } from '@chakra-ui/react';
+import { DieFace } from './DieFace.tsx';
 import { DieValue } from '../../../lib/rule-runner/rules/dice-rule.ts';
-import { IconType } from 'react-icons/lib/cjs/iconBase';
+import { OptionalDieValue } from './DiceForm.tsx';
 
-interface DieProps extends UseRadioProps {
-  dieValue: DieValue;
-  // onClick: (dieValue: DieValue) => void;
+interface DieInputProps {
+  defaultValue?: DieValue;
+  selectValue: (dieValue: OptionalDieValue) => void;
 }
 
-export function DieInput(props: DieProps): JSX.Element {
-  const { getInputProps, getRadioProps } = useRadio(props);
+export function DieInput({
+  selectValue,
+  defaultValue,
+}: DieInputProps): JSX.Element {
+  const options: Array<DieValue> = [1, 2, 3, 4, 5, 6];
 
-  const input = getInputProps();
-  const checkbox = getRadioProps();
+  const onChange = (nextValue: string) => {
+    const dieValue =
+      nextValue === '' ? null : (parseInt(nextValue) as DieValue);
 
-  const handleSelect = useCallback(() => {
-    if (props.isChecked && input.onChange) {
-      (input.onChange as UseRadioGroupReturn['onChange'])('');
-    }
-  }, [input.onChange, props.isChecked]);
-
-  const getDieIcon = (value: DieValue): IconType => {
-    switch (value) {
-      case 1:
-        return BsDice1;
-      case 2:
-        return BsDice2;
-      case 3:
-        return BsDice3;
-      case 4:
-        return BsDice4;
-      case 5:
-        return BsDice5;
-      case 6:
-        return BsDice6;
-    }
+    selectValue(dieValue);
   };
 
-  return (
-    <Box as="label">
-      <input
-        {...input}
-        onClick={handleSelect}
-        onKeyDown={(e) => {
-          if (e.key !== ' ') return;
-          if (props.isChecked) {
-            e.preventDefault();
-            handleSelect();
-          }
-        }}
-      />
+  const { getRootProps, getRadioProps } = useRadioGroup({
+    name: 'DieInput',
+    defaultValue: defaultValue ? defaultValue.toString() : '',
+    onChange,
+  });
 
-      <Box {...checkbox} color="blue.400" _checked={{ color: 'blue.600' }}>
-        <Icon
-          as={getDieIcon(props.dieValue)}
-          boxSize="12vw"
-          // onClick={() => props.onClick(props.dieValue)}
-        />
-      </Box>
-    </Box>
+  return (
+    <HStack {...getRootProps()}>
+      {options.map((value) => {
+        const radio = getRadioProps({ value: value.toString() });
+        return <DieFace key={value.toString()} dieValue={value} {...radio} />;
+      })}
+    </HStack>
   );
 }
