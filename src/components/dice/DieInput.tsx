@@ -1,30 +1,32 @@
-import { JSX } from 'react';
+import { JSX, useEffect } from 'react';
 import { HStack, useRadioGroup } from '@chakra-ui/react';
 import { DieFace } from './DieFace.tsx';
 import { DieValue } from '../../../lib/rule-runner/rules/dice-rule.ts';
-import { OptionalDieValue } from './DiceForm.tsx';
+import { OptionalDieValue } from './dice-form.ts';
 
 interface DieInputProps {
-  defaultValue?: DieValue;
-  selectValue: (dieValue: OptionalDieValue) => void;
+  dieValue: OptionalDieValue;
+  selectDie: (dieValue: OptionalDieValue) => OptionalDieValue;
 }
 
-export function DieInput({
-  selectValue,
-  defaultValue,
-}: DieInputProps): JSX.Element {
+export function DieInput({ dieValue, selectDie }: DieInputProps): JSX.Element {
   const options: Array<DieValue> = [1, 2, 3, 4, 5, 6];
+
+  useEffect(() => {
+    setValue(dieValue ? dieValue.toString() : '');
+  }, [dieValue]);
 
   const onChange = (nextValue: string) => {
     const dieValue =
       nextValue === '' ? null : (parseInt(nextValue) as DieValue);
 
-    selectValue(dieValue);
+    const newValue = selectDie(dieValue);
+    setValue(newValue ? newValue.toString() : '');
   };
 
-  const { getRootProps, getRadioProps } = useRadioGroup({
+  const { getRootProps, getRadioProps, setValue } = useRadioGroup({
     name: 'DieInput',
-    defaultValue: defaultValue ? defaultValue.toString() : '',
+    defaultValue: '',
     onChange,
   });
 

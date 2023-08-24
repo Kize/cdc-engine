@@ -1,30 +1,35 @@
-import { JSX, useState } from 'react';
+import { JSX } from 'react';
 import { Stack } from '@chakra-ui/react';
-import { DieValue } from '../../../lib/rule-runner/rules/dice-rule.ts';
 import { DieInput } from './DieInput.tsx';
-
-export type OptionalDieValue = DieValue | null;
-
-export type DiceForm = [OptionalDieValue, OptionalDieValue, OptionalDieValue];
+import { DiceForm, OptionalDieValue } from './dice-form.ts';
 
 interface DiceFormProps {
-  onChangeForm: (form: DiceForm) => void;
+  diceForm: DiceForm;
+  onChangeForm: (form: DiceForm) => DiceForm;
 }
 
-export function DiceForm({ onChangeForm }: DiceFormProps): JSX.Element {
-  const [form, setForm] = useState([null, null, null] as DiceForm);
+export function DiceFormComponent({
+  diceForm,
+  onChangeForm,
+}: DiceFormProps): JSX.Element {
+  const selectDie =
+    (index: number) =>
+    (dieValue: OptionalDieValue): OptionalDieValue => {
+      const newForm = [...diceForm] as DiceForm;
+      newForm[index] = dieValue;
 
-  const selectDie = (index: number) => (dieValue: OptionalDieValue) => {
-    const newForm = [...form] as DiceForm;
-    newForm[index] = dieValue;
-    setForm(newForm);
-    onChangeForm(newForm);
-  };
+      const updatedForm = onChangeForm(newForm);
+      return updatedForm[index];
+    };
 
   return (
     <Stack>
-      {form.map((_, index) => (
-        <DieInput key={index} selectValue={selectDie(index)} />
+      {diceForm.map((dieValue, index) => (
+        <DieInput
+          key={index}
+          dieValue={dieValue}
+          selectDie={selectDie(index)}
+        />
       ))}
     </Stack>
   );
