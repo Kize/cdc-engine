@@ -22,6 +22,8 @@ export function ScribePanel(): JSX.Element {
     const newForm = isDiceFormValid(form) ? getNewDiceForm() : form;
 
     setDiceForm(newForm);
+    console.log(newForm);
+
     return newForm;
   };
 

@@ -1,0 +1,10 @@
+
+
+.die-transition {
+  transition: transform 400ms;
+}
+
+.die-checked {
+  transform: scale(1.1);
+  transition-duration: 200ms;
+}

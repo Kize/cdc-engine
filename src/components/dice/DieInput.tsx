@@ -13,7 +13,9 @@ export function DieInput({ dieValue, selectDie }: DieInputProps): JSX.Element {
   const options: Array<DieValue> = [1, 2, 3, 4, 5, 6];
 
   useEffect(() => {
-    setValue(dieValue ? dieValue.toString() : '');
+    setTimeout(() => {
+      setValue(dieValue ? dieValue.toString() : '');
+    }, 200);
   }, [dieValue]);
 
   const onChange = (nextValue: string) => {
@@ -21,7 +23,10 @@ export function DieInput({ dieValue, selectDie }: DieInputProps): JSX.Element {
       nextValue === '' ? null : (parseInt(nextValue) as DieValue);
 
     const newValue = selectDie(dieValue);
-    setValue(newValue ? newValue.toString() : '');
+
+    setTimeout(() => {
+      setValue(newValue ? newValue.toString() : '');
+    }, 200);
   };
 
   const { getRootProps, getRadioProps, setValue } = useRadioGroup({
