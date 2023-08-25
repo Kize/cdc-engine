@@ -7,7 +7,7 @@ import { DiceRollGameContext } from '../../game-context.ts';
 import { Player } from '../../../player.ts';
 
 export interface SuiteResolution {
-  loosingplayer: string;
+  losingPlayer: string;
   multiplier: number;
 }
 
@@ -52,7 +52,7 @@ export class SuiteRule extends DiceRule {
 
     ruleEffects.push({
       event: RuleEffectEvent.SUITE,
-      player: suiteResolution.loosingplayer,
+      player: suiteResolution.losingPlayer,
       value: -10 * suiteResolution.multiplier,
     });
 

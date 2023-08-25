@@ -35,14 +35,14 @@ export const resolversSlice = createSlice({
     ) => {
       state.grelottine = action.payload;
     },
-    setSuite: (state, action: PayloadAction<ResolversState['suite']>) => {
-      state.suite = action.payload;
+    setSuite: (state, { payload }: PayloadAction<ResolversState['suite']>) => {
+      state.suite = { ...payload };
     },
     setChouetteVelute: (
       state,
-      action: PayloadAction<ResolversState['suite']>,
+      { payload }: PayloadAction<ResolversState['suite']>,
     ) => {
-      state.chouetteVelute = action.payload;
+      state.chouetteVelute = payload;
     },
   },
 });

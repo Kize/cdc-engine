@@ -9,6 +9,7 @@ import {
 } from '../../store/current-game/current-game-thunks.ts';
 import { DiceForm, isDiceFormValid } from '../../components/dice/dice-form.ts';
 import { DiceFormComponent } from '../../components/dice/DiceForm.tsx';
+import { RulesModals } from './modals/RulesModals.tsx';
 
 function getNewDiceForm(): DiceForm {
   return [null, null, null];
@@ -49,6 +50,8 @@ export function ScribePanel(): JSX.Element {
       </Center>
 
       <DiceFormComponent diceForm={diceForm} onChangeForm={onChangeForm} />
+
+      <RulesModals />
     </>
   );
 }
