@@ -33,10 +33,17 @@ export function SuiteModalResolver(): JSX.Element {
 
   const onClose = () => {
     suiteResolver.reject();
+    resetForm();
   };
 
   const onValidate = () => {
     suiteResolver.resolve({ losingPlayer: selectedPlayer, multiplier });
+    resetForm();
+  };
+
+  const resetForm = () => {
+    setSelectedPlayer('');
+    setMultiplier(1);
   };
 
   return (
