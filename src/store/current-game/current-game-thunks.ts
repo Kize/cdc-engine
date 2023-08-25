@@ -47,12 +47,18 @@ export const playATurnThunk =
       currentGame.players,
     );
 
-    const gameEvent = await cdcGameHandler.playATurn({
-      event: GameContextEvent.DICE_ROLL,
-      diceRoll,
-      runner: cdcGameHandler.ruleRunner,
-      player: currentPlayer,
-    });
+    try {
+      const gameEvent = await cdcGameHandler.playATurn({
+        event: GameContextEvent.DICE_ROLL,
+        diceRoll,
+        runner: cdcGameHandler.ruleRunner,
+        player: currentPlayer,
+      });
 
-    dispatch(currentGameSlice.actions.addEvent(gameEvent));
+      dispatch(currentGameSlice.actions.addEvent(gameEvent));
+    } catch (error) {
+      if (error !== undefined) {
+        throw error;
+      }
+    }
   };
