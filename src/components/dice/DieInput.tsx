@@ -1,5 +1,5 @@
 import { JSX, useEffect } from 'react';
-import { HStack, useRadioGroup } from '@chakra-ui/react';
+import { Box, SimpleGrid, useRadioGroup } from '@chakra-ui/react';
 import { DieFace } from './DieFace.tsx';
 import { DieValue } from '../../../lib/rule-runner/rules/dice-rule.ts';
 import { OptionalDieValue } from './dice-form.ts';
@@ -7,14 +7,9 @@ import { OptionalDieValue } from './dice-form.ts';
 interface DieInputProps {
   dieValue: OptionalDieValue;
   selectDie: (dieValue: OptionalDieValue) => OptionalDieValue;
-  dieFaceBoxSize: string;
 }
 
-export function DieInput({
-  dieValue,
-  selectDie,
-  dieFaceBoxSize,
-}: DieInputProps): JSX.Element {
+export function DieInput({ dieValue, selectDie }: DieInputProps): JSX.Element {
   const options: Array<DieValue> = [1, 2, 3, 4, 5, 6];
 
   useEffect(() => {
@@ -41,18 +36,15 @@ export function DieInput({
   });
 
   return (
-    <HStack {...getRootProps()}>
+    <SimpleGrid columns={6} spacingX={2} mx={2} {...getRootProps()}>
       {options.map((value) => {
         const radio = getRadioProps({ value: value.toString() });
         return (
-          <DieFace
-            key={value.toString()}
-            dieValue={value}
-            boxSize={dieFaceBoxSize}
-            {...radio}
-          />
+          <Box>
+            <DieFace key={value.toString()} dieValue={value} {...radio} />
+          </Box>
         );
       })}
-    </HStack>
+    </SimpleGrid>
   );
 }

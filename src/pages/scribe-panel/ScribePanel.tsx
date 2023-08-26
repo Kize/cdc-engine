@@ -1,6 +1,6 @@
 import { JSX, useState } from 'react';
 import { PlayerCard } from './PlayerCard.tsx';
-import { Button, Center, Container, Stack } from '@chakra-ui/react';
+import { Button, SimpleGrid } from '@chakra-ui/react';
 import { useAppDispatch, useAppSelector } from '../../store/store.ts';
 import { selectPlayerCardDetails } from '../../store/current-game/current-game-selectors.ts';
 import {
@@ -50,21 +50,15 @@ export function ScribePanel(): JSX.Element {
         Grelottine
       </Button>
 
-      <Center>
-        <Stack width="80vw">
+      <SimpleGrid columns={[1, 2]} spacing={10}>
+        <SimpleGrid minChildWidth={['100%', '25%']} spacingX={10} spacingY={2}>
           {players.map((details) => (
             <PlayerCard key={details.player} details={details}></PlayerCard>
           ))}
-        </Stack>
-      </Center>
+        </SimpleGrid>
 
-      <Container>
-        <DiceFormComponent
-          diceForm={diceForm}
-          onChangeForm={onChangeForm}
-          dieFaceBoxSize="10vw"
-        />
-      </Container>
+        <DiceFormComponent diceForm={diceForm} onChangeForm={onChangeForm} />
+      </SimpleGrid>
 
       <RulesModals />
     </>

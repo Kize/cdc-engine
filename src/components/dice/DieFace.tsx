@@ -20,7 +20,6 @@ import './DieFace.css';
 
 interface DieFaceProps extends UseRadioProps {
   dieValue: DieValue;
-  boxSize: string;
 }
 
 export function DieFace(props: DieFaceProps): JSX.Element {
@@ -76,7 +75,7 @@ export function DieFace(props: DieFaceProps): JSX.Element {
           color: 'blue.600',
         }}
       >
-        <Icon as={getDieIcon(props.dieValue)} boxSize={props.boxSize} />
+        <Icon as={getDieIcon(props.dieValue)} boxSize="100%" />
       </Box>
     </Box>
   );
