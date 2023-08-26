@@ -43,7 +43,7 @@ export function RulesSelection({
   };
 
   return (
-    <>
+    <Stack>
       <CheckboxGroup value={form} onChange={onChangeRules}>
         <Heading as="h2" size="md">
           <HStack>
@@ -85,6 +85,6 @@ export function RulesSelection({
           <Checkbox value="isBleuRougeEnabled">Le Bleu-Rouge</Checkbox>
         </Stack>
       </CheckboxGroup>
-    </>
+    </Stack>
   );
 }

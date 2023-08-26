@@ -124,7 +124,7 @@ export function PlayersSelection(props: {
   );
 
   return (
-    <Box width="80%">
+    <>
       <Box as="span" p={2} display="block">
         Sélectionner de 2 à 8 joueurs:
       </Box>
@@ -158,6 +158,6 @@ export function PlayersSelection(props: {
           </List>
         </SortableContext>
       </DndContext>
-    </Box>
+    </>
   );
 }

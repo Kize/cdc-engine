@@ -1,6 +1,6 @@
 import { JSX, useState } from 'react';
 import './CreateNewGame.css';
-import { Button, Heading } from '@chakra-ui/react';
+import { Box, Button, Center, Heading, SimpleGrid } from '@chakra-ui/react';
 import { PlayersSelection } from './PlayersSelection.tsx';
 import { useAppDispatch, useAppSelector } from '../../store/store.ts';
 import { selectRulesConfiguration } from '../../store/current-game/current-game-selectors.ts';
@@ -21,16 +21,24 @@ export function CreateNewGame(): JSX.Element {
         Nouvelle partie
       </Heading>
 
-      <RulesSelection rules={rulesForm} setRules={setRulesForm} />
+      <SimpleGrid columns={[1, 2]}>
+        <Center p={3}>
+          <RulesSelection rules={rulesForm} setRules={setRulesForm} />
+        </Center>
 
-      <PlayersSelection setPlayers={setPlayersForm} maxPlayers={8} />
+        <Box p={3}>
+          <PlayersSelection setPlayers={setPlayersForm} maxPlayers={8} />
+        </Box>
+      </SimpleGrid>
 
-      <Button
-        isDisabled={playersForm.length < 2 || playersForm.length > 8}
-        onClick={() => dispatch(startGameThunk(playersForm, rulesForm))}
-      >
-        Jouer
-      </Button>
+      <Center>
+        <Button
+          isDisabled={playersForm.length < 2 || playersForm.length > 8}
+          onClick={() => dispatch(startGameThunk(playersForm, rulesForm))}
+        >
+          Jouer
+        </Button>
+      </Center>
     </>
   );
 }
