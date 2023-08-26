@@ -6,11 +6,13 @@ import { DiceForm, OptionalDieValue } from './dice-form.ts';
 interface DiceFormProps {
   diceForm: DiceForm;
   onChangeForm: (form: DiceForm) => DiceForm;
+  dieFaceBoxSize: string;
 }
 
 export function DiceFormComponent({
   diceForm,
   onChangeForm,
+  dieFaceBoxSize,
 }: DiceFormProps): JSX.Element {
   const selectDie =
     (index: number) =>
@@ -29,6 +31,7 @@ export function DiceFormComponent({
           key={index}
           dieValue={dieValue}
           selectDie={selectDie(index)}
+          dieFaceBoxSize={dieFaceBoxSize}
         />
       ))}
     </Stack>

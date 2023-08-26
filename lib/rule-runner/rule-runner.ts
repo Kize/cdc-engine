@@ -2,20 +2,9 @@ import { Rule, Rules } from './rules/rule';
 import { RuleEffects } from './rules/rule-effect';
 import { GameContextWrapper } from './game-context-event';
 import { UnknownGameContext } from './game-context.ts';
-import { Resolvers, RulesConfiguration } from './rule-runner-configuration.ts';
-import { getAllRulesEnabled, instanciateRules } from './rule-runner.utils.ts';
 
 export class RuleRunner {
-  private readonly rules: Array<Rule>;
-  constructor(rulesConfiguration?: RulesConfiguration, resolvers?: Resolvers) {
-    if (!rulesConfiguration || !resolvers) {
-      this.rules = [];
-      return;
-    }
-
-    const enabledRules = getAllRulesEnabled(rulesConfiguration);
-    this.rules = instanciateRules(enabledRules, resolvers);
-  }
+  constructor(private readonly rules: Array<Rule>) {}
 
   async handleGameEvent(event: UnknownGameContext): Promise<RuleEffects> {
     return this.getFirstApplicableRule(event).applyRule(

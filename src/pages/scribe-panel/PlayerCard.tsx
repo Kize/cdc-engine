@@ -1,14 +1,26 @@
 import { JSX } from 'react';
-import { Box, Button, Card, CardHeader, Flex, Spacer } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Card,
+  CardHeader,
+  Flex,
+  Spacer,
+  Tag,
+  TagLabel,
+  TagLeftIcon,
+} from '@chakra-ui/react';
 import { AiOutlineExclamationCircle } from 'react-icons/ai';
 import { useAppDispatch } from '../../store/store.ts';
 import { applyBevueThunk } from '../../store/current-game/current-game-thunks.ts';
 import { Player } from '../../../lib/player.ts';
+import { FaRegBell } from 'react-icons/fa';
 
 export interface PlayerCardDetails {
   player: Player;
   score: number;
   isCurrentPlayer: boolean;
+  hasGrelottine: boolean;
 }
 
 export function PlayerCard({
@@ -26,6 +38,10 @@ export function PlayerCard({
       <CardHeader px={3} py={1}>
         <Flex>
           <Box as="span">{details.player}</Box>
+          <Tag colorScheme="red" mx={3} hidden={!details.hasGrelottine}>
+            <TagLeftIcon as={FaRegBell} />
+            <TagLabel>Grelottine</TagLabel>
+          </Tag>
           <Spacer />
 
           <Box as="u">{details.score} points</Box>

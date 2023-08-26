@@ -62,3 +62,19 @@ export const playATurnThunk =
       }
     }
   };
+
+export const startGrelottineChallengeThunk =
+  (): AsyncAppThunk => async (dispatch) => {
+    try {
+      const gameEvent = await cdcGameHandler.startGrelottineChallenge({
+        event: GameContextEvent.CHALLENGE_GRELOTTINE,
+        runner: cdcGameHandler.ruleRunner,
+      });
+
+      dispatch(currentGameSlice.actions.addEvent(gameEvent));
+    } catch (error) {
+      if (error !== undefined) {
+        throw error;
+      }
+    }
+  };

@@ -7,9 +7,14 @@ import { OptionalDieValue } from './dice-form.ts';
 interface DieInputProps {
   dieValue: OptionalDieValue;
   selectDie: (dieValue: OptionalDieValue) => OptionalDieValue;
+  dieFaceBoxSize: string;
 }
 
-export function DieInput({ dieValue, selectDie }: DieInputProps): JSX.Element {
+export function DieInput({
+  dieValue,
+  selectDie,
+  dieFaceBoxSize,
+}: DieInputProps): JSX.Element {
   const options: Array<DieValue> = [1, 2, 3, 4, 5, 6];
 
   useEffect(() => {
@@ -39,7 +44,14 @@ export function DieInput({ dieValue, selectDie }: DieInputProps): JSX.Element {
     <HStack {...getRootProps()}>
       {options.map((value) => {
         const radio = getRadioProps({ value: value.toString() });
-        return <DieFace key={value.toString()} dieValue={value} {...radio} />;
+        return (
+          <DieFace
+            key={value.toString()}
+            dieValue={value}
+            boxSize={dieFaceBoxSize}
+            {...radio}
+          />
+        );
       })}
     </HStack>
   );

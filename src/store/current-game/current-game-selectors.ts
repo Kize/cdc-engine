@@ -9,7 +9,7 @@ export const selectEvents = (state: RootState) => state.currentGame.events;
 export const selectRulesConfiguration = (state: RootState) =>
   state.currentGame.rulesConfiguration;
 
-export const selectPlayersWithScore = createSelector(
+export const selectPlayerCardDetails = createSelector(
   selectPlayers,
   selectEvents,
   (players, events) =>
@@ -18,5 +18,6 @@ export const selectPlayersWithScore = createSelector(
       score: cdcGameHandler.history.getPlayerScore(events, player),
       isCurrentPlayer:
         cdcGameHandler.getCurrentPlayer(events, players) === player,
+      hasGrelottine: cdcGameHandler.history.hasGrelottine(events, player),
     })),
 );

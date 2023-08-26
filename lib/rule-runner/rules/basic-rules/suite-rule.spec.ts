@@ -26,7 +26,7 @@ describe('applyRule', () => {
     const resolver = {
       getResolution: vi
         .fn()
-        .mockResolvedValue({ loosingplayer: 'Alban', multiplier: 1 }),
+        .mockResolvedValue({ losingPlayer: 'Alban', multiplier: 1 }),
     };
 
     const rule = new SuiteRule(resolver);
@@ -46,7 +46,7 @@ describe('applyRule', () => {
     const resolver = {
       getResolution: vi
         .fn()
-        .mockResolvedValue({ loosingplayer: 'Delphin', multiplier: 4 }),
+        .mockResolvedValue({ losingPlayer: 'Delphin', multiplier: 4 }),
     };
 
     const rule = new SuiteRule(resolver);
@@ -66,7 +66,7 @@ describe('applyRule', () => {
     const resolver = {
       getResolution: vi
         .fn()
-        .mockResolvedValue({ loosingplayer: 'Delphin', multiplier: 1 }),
+        .mockResolvedValue({ losingPlayer: 'Delphin', multiplier: 1 }),
     };
 
     const rule = new SuiteRule(resolver);

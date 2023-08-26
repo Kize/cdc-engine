@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { HistoryHelper } from './history-helper.ts';
 import { RuleEffectEvent } from '../rule-runner/rules/rule-effect';
 import { GameLineType, GodModLineType } from './history-line';
@@ -110,6 +110,122 @@ describe('getPlayerScoreAtEvent', () => {
       },
     ];
     expect(history.getPlayerScoreAtEvent(events, 'Alban', '2')).toBe(25);
+  });
+});
+
+describe('hasGrelottine', () => {
+  let history: HistoryHelper;
+
+  beforeEach(() => {
+    history = new HistoryHelper();
+  });
+
+  it('returns false when there are no events for the player', () => {
+    const events = [
+      {
+        id: '1',
+        historyLines: [
+          {
+            designation: RuleEffectEvent.ADD_GRELOTTINE,
+            player: 'Delphin',
+            amount: 0,
+          },
+        ],
+      },
+    ];
+
+    expect(history.hasGrelottine(events, 'Alban')).toBe(false);
+  });
+
+  it('returns true when the player has a history line to add a grelottine', () => {
+    const events = [
+      {
+        id: '1',
+        historyLines: [
+          {
+            designation: RuleEffectEvent.ADD_GRELOTTINE,
+            player: 'Alban',
+            amount: 0,
+          },
+        ],
+      },
+      {
+        id: '1',
+        historyLines: [
+          {
+            designation: RuleEffectEvent.ADD_GRELOTTINE,
+            player: 'Delphin',
+            amount: 0,
+          },
+        ],
+      },
+    ];
+
+    expect(history.hasGrelottine(events, 'Alban')).toBe(true);
+  });
+
+  it('returns false when the player has a history line to remove a grelottine after one to add', () => {
+    const events = [
+      {
+        id: '1',
+        historyLines: [
+          {
+            designation: RuleEffectEvent.ADD_GRELOTTINE,
+            player: 'Alban',
+            amount: 0,
+          },
+        ],
+      },
+      {
+        id: '2',
+        historyLines: [
+          {
+            designation: RuleEffectEvent.REMOVE_GRELOTTINE,
+            player: 'Alban',
+            amount: 0,
+          },
+        ],
+      },
+    ];
+
+    expect(history.hasGrelottine(events, 'Alban')).toBe(false);
+  });
+
+  it('returns true when the player has history lines: ADD, REMOVE, ADD', () => {
+    const events = [
+      {
+        id: '1',
+        historyLines: [
+          {
+            designation: RuleEffectEvent.ADD_GRELOTTINE,
+            player: 'Alban',
+            amount: 0,
+          },
+          {
+            designation: RuleEffectEvent.ADD_GRELOTTINE,
+            player: 'Delphin',
+            amount: 0,
+          },
+        ],
+      },
+      {
+        id: '2',
+        historyLines: [
+          {
+            designation: RuleEffectEvent.REMOVE_GRELOTTINE,
+            player: 'Alban',
+            amount: 0,
+          },
+          {
+            designation: RuleEffectEvent.ADD_GRELOTTINE,
+            player: 'Alban',
+            amount: 0,
+          },
+        ],
+      },
+    ];
+
+    expect(history.hasGrelottine(events, 'Alban')).toBe(true);
   });
 });
 

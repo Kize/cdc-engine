@@ -14,6 +14,10 @@ import {
   Resolvers,
   RulesConfiguration,
 } from '../rule-runner/rule-runner-configuration.ts';
+import {
+  getAllRulesEnabled,
+  instanciateRules,
+} from '../rule-runner/rule-runner.utils.ts';
 
 export enum GameStatus {
   CREATION = 'creation',
@@ -27,7 +31,7 @@ export class GameHandler {
 
   constructor() {
     this.history = new HistoryHelper();
-    this.ruleRunner = new RuleRunner();
+    this.ruleRunner = new RuleRunner([]);
   }
 
   getGameStatus(events: Array<GameEvent>, players: Array<Player>): GameStatus {
@@ -97,7 +101,12 @@ export class GameHandler {
   }
 
   setRules(rulesConfiguration: RulesConfiguration, resolvers: Resolvers): void {
-    this.ruleRunner = new RuleRunner(rulesConfiguration, resolvers);
+    const test = !rulesConfiguration || !resolvers;
+    const rules = test
+      ? []
+      : instanciateRules(getAllRulesEnabled(rulesConfiguration), resolvers);
+
+    this.ruleRunner = new RuleRunner(rules);
   }
 
   async playATurn(context: PlayATurnGameContext): Promise<GameEvent> {

@@ -1,5 +1,6 @@
 import { AllHistoryLineTypes, GameLineType } from './history-line';
 import { Player } from '../player';
+import { RuleEffectEvent } from '../rule-runner/rules/rule-effect.ts';
 
 interface HistoryLine {
   player: Player;
@@ -25,6 +26,22 @@ export class HistoryHelper {
     const index = events.findIndex((event) => event.id === eventId);
 
     return this.getPlayerScoreFromEvents(events.slice(0, index + 1), player);
+  }
+
+  hasGrelottine(events: Array<GameEvent>, player: Player): boolean {
+    const playerHistory = this.getPlayerHistory(player, events);
+
+    return playerHistory.reduce((has: boolean, historyLine: HistoryLine) => {
+      if (historyLine.designation === RuleEffectEvent.ADD_GRELOTTINE) {
+        return true;
+      }
+
+      if (historyLine.designation === RuleEffectEvent.REMOVE_GRELOTTINE) {
+        return false;
+      }
+
+      return has;
+    }, false);
   }
 
   getNumberOfTurnsPlayed(events: Array<GameEvent>, player: Player): number {
@@ -63,5 +80,18 @@ export class HistoryHelper {
 
       return sum + historyLinesSum;
     }, 0);
+  }
+
+  private getPlayerHistory(
+    player: Player,
+    events: Array<GameEvent>,
+  ): Array<HistoryLine> {
+    return events.reduce((lines: Array<HistoryLine>, event) => {
+      const playerLines = event.historyLines.filter(
+        (line) => line.player === player,
+      );
+
+      return [...lines, ...playerLines];
+    }, []);
   }
 }
