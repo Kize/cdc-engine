@@ -19,7 +19,6 @@ export enum RuleEffectEvent {
   CHOUETTE_VELUTE_WON = 'Chouette velute gagnée',
   CHOUETTE_VELUTE_LOST = 'Chouette velute perdue',
   CHOUETTE_VELUTE_STOLEN = 'Chouette velute volée',
-  SLOUBI = 'Sloubi',
 
   ARTICHETTE = 'Artichette',
 

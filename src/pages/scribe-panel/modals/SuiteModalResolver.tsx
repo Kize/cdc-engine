@@ -1,7 +1,11 @@
 import { JSX, useState } from 'react';
 import { useAppSelector } from '../../../store/store.ts';
 import {
+  Box,
   Button,
+  Center,
+  Container,
+  Flex,
   FormControl,
   FormLabel,
   Modal,
@@ -18,6 +22,8 @@ import {
   NumberInputStepper,
   Radio,
   RadioGroup,
+  SimpleGrid,
+  Spacer,
   Stack,
 } from '@chakra-ui/react';
 import { suiteResolver } from '../../../store/resolvers/rules/suite-rule.resolver.ts';
@@ -48,44 +54,53 @@ export function SuiteModalResolver(): JSX.Element {
 
   return (
     <>
-      <Modal closeOnOverlayClick={false} isOpen={active} onClose={onClose}>
+      <Modal
+        closeOnOverlayClick={false}
+        isOpen={active}
+        onClose={onClose}
+        size="xl"
+      >
         <ModalOverlay />
         <ModalContent>
           <ModalCloseButton />
           <ModalHeader>{player} a réalisé une suite</ModalHeader>
 
           <ModalBody>
-            <FormControl as="fieldset">
-              <FormLabel as="legend">Joueur ayant perdu la suite</FormLabel>
+            <SimpleGrid columns={[1, 2]}>
+              <FormControl as="fieldset">
+                <FormLabel as="legend">Joueur ayant perdu la suite</FormLabel>
 
-              <RadioGroup onChange={setSelectedPlayer} value={selectedPlayer}>
-                <Stack>
-                  {players.map((player) => (
-                    <Radio value={player} key={player}>
-                      {player}
-                    </Radio>
-                  ))}
-                </Stack>
-              </RadioGroup>
-            </FormControl>
+                <RadioGroup onChange={setSelectedPlayer} value={selectedPlayer}>
+                  <Stack>
+                    {players.map((player) => (
+                      <Radio value={player} key={player} size="lg" mb={2}>
+                        {player}
+                      </Radio>
+                    ))}
+                  </Stack>
+                </RadioGroup>
+              </FormControl>
 
-            <FormControl>
-              <FormLabel>Multiplicateur</FormLabel>
+              <Center>
+                <FormControl w={['100%', null, '50%']}>
+                  <FormLabel>Multiplicateur</FormLabel>
 
-              <NumberInput
-                size="md"
-                maxW={24}
-                min={1}
-                value={multiplier}
-                onChange={(_, value) => setMultiplier(value)}
-              >
-                <NumberInputField />
-                <NumberInputStepper>
-                  <NumberIncrementStepper />
-                  <NumberDecrementStepper />
-                </NumberInputStepper>
-              </NumberInput>
-            </FormControl>
+                  <NumberInput
+                    size="md"
+                    maxW={24}
+                    min={1}
+                    value={multiplier}
+                    onChange={(_, value) => setMultiplier(value)}
+                  >
+                    <NumberInputField />
+                    <NumberInputStepper>
+                      <NumberIncrementStepper />
+                      <NumberDecrementStepper />
+                    </NumberInputStepper>
+                  </NumberInput>
+                </FormControl>
+              </Center>
+            </SimpleGrid>
           </ModalBody>
 
           <ModalFooter>

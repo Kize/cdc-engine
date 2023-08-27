@@ -60,7 +60,7 @@ export function ChouetteVeluteModalResolver(): JSX.Element {
               >
                 <Stack>
                   {players.map((player) => (
-                    <Checkbox value={player} key={player}>
+                    <Checkbox value={player} key={player} size="lg" mb={2}>
                       {player}
                     </Checkbox>
                   ))}

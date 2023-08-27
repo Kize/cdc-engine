@@ -1,4 +1,4 @@
-import { AsyncAppThunk } from '../store.ts';
+import { AppThunk, AsyncAppThunk } from '../store.ts';
 import { Player } from '../../../lib/player.ts';
 import {
   currentGameSlice,
@@ -9,6 +9,8 @@ import { cdcGameHandler } from '../../utils/game-handler-configuration.ts';
 import { router } from '../../router.tsx';
 import { DiceRoll } from '../../../lib/rule-runner/rules/dice-rule.ts';
 import { GameContextEvent } from '../../../lib/rule-runner/game-context-event.ts';
+import { resolversSlice } from '../resolvers/resolvers.slice.ts';
+import { ChanteSloubiGameContext } from '../../../lib/game/game-handler.ts';
 
 export const startGameThunk =
   (
@@ -77,4 +79,43 @@ export const startGrelottineChallengeThunk =
         throw error;
       }
     }
+  };
+
+export const cancelLastEventThunk = (): AppThunk => (dispatch, getState) => {
+  const events = [...getState().currentGame.events];
+
+  events.pop();
+
+  dispatch(currentGameSlice.actions.setEvents(events));
+};
+
+export const addPlayerWithChanteSloubiThunk =
+  (context: ChanteSloubiGameContext): AppThunk =>
+  (dispatch, getState) => {
+    const inGamePlayers = getState().currentGame.players;
+    if (inGamePlayers.length > 7) {
+      console.error('Sloubi canceled, Too many players already.');
+      return;
+    }
+
+    const gameEvent = cdcGameHandler.singSloubi(
+      context,
+      getState().currentGame.events,
+      inGamePlayers,
+    );
+
+    const { sloubiPlayer, previousPlayer } = context;
+
+    const players = inGamePlayers.reduce(
+      (acc: Array<Player>, player) => [
+        ...acc,
+        player,
+        ...(player === previousPlayer ? [sloubiPlayer] : []),
+      ],
+      [],
+    );
+
+    dispatch(currentGameSlice.actions.setPlayers(players));
+    dispatch(currentGameSlice.actions.addEvent(gameEvent));
+    dispatch(resolversSlice.actions.setChanteSloubi({ active: false }));
   };

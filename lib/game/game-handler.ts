@@ -2,7 +2,11 @@ import { Player } from '../player';
 import { GameEvent, HistoryHelper } from '../history/history-helper.ts';
 import { RuleRunner } from '../rule-runner/rule-runner';
 import { Rules } from '../rule-runner/rules/rule';
-import { GameLineType, getNewEventId } from '../history/history-line.ts';
+import {
+  GameLineType,
+  getNewEventId,
+  HistoryLine,
+} from '../history/history-line.ts';
 import {
   ChallengeGrelottineGameContext,
   PlayATurnGameContext,
@@ -137,8 +141,65 @@ export class GameHandler {
     return this.applyRuleEngine(context);
   }
 
-  singSloubi(): Promise<GameEvent> {
-    throw new Error('not implemented yet :(');
+  singSloubi(
+    {
+      isSloubiCompleted,
+      sloubiPlayer,
+      previousPlayer,
+      sloubiScore,
+    }: ChanteSloubiGameContext,
+    events: Array<GameEvent>,
+    players: Array<Player>,
+  ): GameEvent {
+    if (players.length === 0) {
+      throw new Error('There should be at least 2 players to sing a sloubi.');
+    }
+
+    const currentPlayer = this.getCurrentPlayer(events, players);
+    const lastPlayerToPlay = players.reduce(
+      (lastPlayer: Player, player, index) => {
+        if (currentPlayer === player) {
+          const previousPlayer = players.at(index - 1);
+
+          return previousPlayer ? previousPlayer : lastPlayer;
+        }
+
+        return lastPlayer;
+      },
+      players.at(-1)!,
+    );
+
+    const previousPlayerNumberOfTurns = this.history.getNumberOfTurnsPlayed(
+      events,
+      previousPlayer,
+    );
+
+    const sloubiPlayerTurnNumber =
+      previousPlayer === lastPlayerToPlay
+        ? previousPlayerNumberOfTurns - 1
+        : previousPlayerNumberOfTurns;
+
+    const turnsPlayedHistory = Array.from({
+      length: sloubiPlayerTurnNumber,
+    }).map<HistoryLine>(() => ({
+      designation: GameLineType.PLAY_TURN,
+      player: sloubiPlayer,
+      amount: 0,
+    }));
+
+    return {
+      id: getNewEventId(),
+      historyLines: [
+        ...turnsPlayedHistory,
+        {
+          designation: GameLineType.SLOUBI,
+          player: sloubiPlayer,
+          amount: isSloubiCompleted
+            ? Math.ceil(sloubiScore * 1.5)
+            : sloubiScore,
+        },
+      ],
+    };
   }
 
   addOperations(): Promise<GameEvent> {
@@ -163,4 +224,12 @@ export class GameHandler {
 
 export function getNewGameId(): string {
   return nanoid(16);
+}
+
+//TODO: refactor this to be a rule of the rule runner
+export interface ChanteSloubiGameContext {
+  sloubiPlayer: Player;
+  previousPlayer: Player;
+  sloubiScore: number;
+  isSloubiCompleted: boolean;
 }

@@ -32,15 +32,11 @@ export const currentGameSlice = createSlice({
       state.events = newState.events;
       state.rulesConfiguration = newState.rulesConfiguration;
     },
-
     addEvent: (state, { payload }: PayloadAction<GameEvent>) => {
       state.events.push(payload);
     },
     setEvents: (state, { payload }: PayloadAction<Array<GameEvent>>) => {
       state.events = payload;
-    },
-    addPlayer: (state, { payload }: PayloadAction<string>) => {
-      state.players.push(payload);
     },
     setPlayers: (state, { payload }: PayloadAction<Array<string>>) => {
       state.players = [...payload];

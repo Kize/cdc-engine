@@ -1,12 +1,6 @@
-import { AllHistoryLineTypes, GameLineType } from './history-line';
+import { GameLineType, HistoryLine } from './history-line';
 import { Player } from '../player';
 import { RuleEffectEvent } from '../rule-runner/rules/rule-effect.ts';
-
-interface HistoryLine {
-  player: Player;
-  designation: AllHistoryLineTypes;
-  amount: number;
-}
 
 export interface GameEvent {
   id: string;

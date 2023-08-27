@@ -18,10 +18,10 @@ import { Box, List } from '@chakra-ui/react';
 import { CreatableSelect } from 'chakra-react-select';
 import { SortablePlayerOption } from './SortablePlayerOption.tsx';
 import { useLocalStorage } from '../../utils/use-local-storage.hook.ts';
-
-type SelectOption = { value: string; label: string; isDisabled?: boolean };
-const sortOptions = (a: SelectOption, b: SelectOption) =>
-  a.value.localeCompare(b.value);
+import {
+  CustomSelectOption,
+  sortCustomSelectOptions,
+} from '../../utils/custom-select.utils.ts';
 
 export function PlayersSelection(props: {
   maxPlayers: number;
@@ -34,18 +34,18 @@ export function PlayersSelection(props: {
 
   const [playerOptions, setPlayerOptions] = useState(
     savedPlayers
-      .map<SelectOption>((player) => ({
+      .map<CustomSelectOption>((player) => ({
         value: player,
         label: player,
       }))
-      .sort(sortOptions),
+      .sort(sortCustomSelectOptions),
   );
 
   const [selectedPlayers, setSelectedPlayers] = useState([] as Array<string>);
 
   const [selectedOption, setSelectedOption] = useState(null);
 
-  const selectPlayer = (option: SelectOption | null) => {
+  const selectPlayer = (option: CustomSelectOption | null) => {
     if (!option) {
       return;
     }
