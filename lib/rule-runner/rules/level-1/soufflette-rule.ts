@@ -36,9 +36,7 @@ export class SouffletteRule extends DiceRule {
   }
 
   isApplicableToDiceRoll(diceRoll: DiceRoll): boolean {
-    const [dieValue1, dieValue2, dieValue3] = [...diceRoll].sort();
-
-    return dieValue1 === 1 && dieValue2 === 2 && dieValue3 === 4;
+    return isDiceRollASoufflette(diceRoll);
   }
 
   async applyDiceRule(context: DiceRollGameContext): Promise<RuleEffects> {
@@ -100,4 +98,10 @@ export class SouffletteRule extends DiceRule {
       ...lastDiceRollRuleEffects,
     ];
   }
+}
+
+export function isDiceRollASoufflette(diceRoll: DiceRoll): boolean {
+  const [dieValue1, dieValue2, dieValue3] = [...diceRoll].sort();
+
+  return dieValue1 === 1 && dieValue2 === 2 && dieValue3 === 4;
 }

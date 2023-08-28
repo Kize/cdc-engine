@@ -5,6 +5,7 @@ import { GrelottineModalResolver } from './modals/GrelottineModalResolver.tsx';
 import { ChanteSloubiModal } from './modals/ChanteSloubiModal.tsx';
 import { AddOperationsModal } from './modals/AddOperationsModal.tsx';
 import { ArtichetteModalResolver } from './modals/ArtichetteModalResolver.tsx';
+import { SouffletteModalResolver } from './modals/SouffletteModalResolver.tsx';
 
 export function RulesModals(): JSX.Element {
   return (
@@ -17,6 +18,7 @@ export function RulesModals(): JSX.Element {
       <ChouetteVeluteModalResolver />
 
       <ArtichetteModalResolver />
+      <SouffletteModalResolver />
     </>
   );
 }

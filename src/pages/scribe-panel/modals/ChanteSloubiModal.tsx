@@ -30,7 +30,10 @@ import { Player } from '../../../../lib/player.ts';
 import { resolversSlice } from '../../../store/resolvers/resolvers.slice.ts';
 import { CreatableSelect, Select } from 'chakra-react-select';
 import { useLocalStorage } from '../../../utils/use-local-storage.hook.ts';
-import { CustomSelectOption } from '../../../utils/custom-select.utils.ts';
+import {
+  CustomSelectOption,
+  customSelectStyles,
+} from '../../../utils/custom-select.utils.ts';
 import { addPlayerWithChanteSloubiThunk } from '../../../store/current-game/current-game-actions-thunks.ts';
 
 export function ChanteSloubiModal(): JSX.Element {
@@ -127,6 +130,7 @@ export function ChanteSloubiModal(): JSX.Element {
                     setSingingPlayer({ value: player, label: player });
                     setSavedPlayers([...savedPlayers, player].sort());
                   }}
+                  {...customSelectStyles}
                 />
               </FormControl>
 
@@ -150,6 +154,7 @@ export function ChanteSloubiModal(): JSX.Element {
                   value={previousPlayer}
                   options={previousOptions}
                   onChange={setPreviousPlayer}
+                  {...customSelectStyles}
                 />
               </FormControl>
 
