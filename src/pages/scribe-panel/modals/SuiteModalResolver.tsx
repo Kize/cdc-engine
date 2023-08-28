@@ -22,7 +22,7 @@ import {
   SimpleGrid,
   Stack,
 } from '@chakra-ui/react';
-import { suiteResolver } from '../../../store/resolvers/rules/suite-rule.resolver.ts';
+import { suiteRuleResolver } from '../../../store/resolvers/rules/suite-rule.resolver.ts';
 import { selectPlayers } from '../../../store/current-game/current-game-selectors.ts';
 import { Player } from '../../../../lib/player.ts';
 
@@ -34,12 +34,12 @@ export function SuiteModalResolver(): JSX.Element {
   const [multiplier, setMultiplier] = useState(1);
 
   const onClose = () => {
-    suiteResolver.reject();
+    suiteRuleResolver.reject();
     resetForm();
   };
 
   const onValidate = () => {
-    suiteResolver.resolve({ losingPlayer: selectedPlayer, multiplier });
+    suiteRuleResolver.resolve({ losingPlayer: selectedPlayer, multiplier });
     resetForm();
   };
 
@@ -59,12 +59,12 @@ export function SuiteModalResolver(): JSX.Element {
         <ModalOverlay />
         <ModalContent>
           <ModalCloseButton />
-          <ModalHeader>{player} a réalisé une suite</ModalHeader>
+          <ModalHeader>{player} a réalisé une Suite</ModalHeader>
 
           <ModalBody>
             <SimpleGrid columns={[1, 2]}>
               <FormControl as="fieldset">
-                <FormLabel as="legend">Joueur ayant perdu la suite</FormLabel>
+                <FormLabel as="legend">Joueur ayant perdu la Suite</FormLabel>
 
                 <RadioGroup onChange={setSelectedPlayer} value={selectedPlayer}>
                   <Stack>

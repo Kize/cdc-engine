@@ -31,7 +31,7 @@ import { resolversSlice } from '../../../store/resolvers/resolvers.slice.ts';
 import { CreatableSelect, Select } from 'chakra-react-select';
 import { useLocalStorage } from '../../../utils/use-local-storage.hook.ts';
 import { CustomSelectOption } from '../../../utils/custom-select.utils.ts';
-import { addPlayerWithChanteSloubiThunk } from '../../../store/current-game/current-game-thunks.ts';
+import { addPlayerWithChanteSloubiThunk } from '../../../store/current-game/current-game-actions-thunks.ts';
 
 export function ChanteSloubiModal(): JSX.Element {
   const { active } = useAppSelector((state) => state.resolvers.chanteSloubi);

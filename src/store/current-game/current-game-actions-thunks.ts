@@ -1,37 +1,12 @@
 import { AppThunk, AsyncAppThunk } from '../store.ts';
 import { Player } from '../../../lib/player.ts';
-import {
-  currentGameSlice,
-  getNewCurrentGameState,
-} from './current-game.slice.ts';
-import { RulesConfiguration } from '../../../lib/rule-runner/rule-runner-configuration.ts';
+import { currentGameSlice } from './current-game.slice.ts';
 import { cdcGameHandler } from '../../utils/game-handler-configuration.ts';
-import { router } from '../../router.tsx';
 import { DiceRoll } from '../../../lib/rule-runner/rules/dice-rule.ts';
 import { GameContextEvent } from '../../../lib/rule-runner/game-context-event.ts';
 import { resolversSlice } from '../resolvers/resolvers.slice.ts';
 import { ChanteSloubiGameContext } from '../../../lib/game/game-handler.ts';
 import { AddOperationLinesContext } from '../../../lib/game/add-operations.ts';
-
-export const startGameThunk =
-  (
-    players: Array<Player>,
-    rulesConfiguration: RulesConfiguration,
-  ): AsyncAppThunk =>
-  async (dispatch) => {
-    const newGame = getNewCurrentGameState();
-    newGame.players = [...players];
-    newGame.rulesConfiguration = { ...rulesConfiguration };
-
-    dispatch(currentGameSlice.actions.startGame(newGame));
-
-    await router.navigate('/scribe-panel');
-  };
-
-export const resetGameThunk = (): AsyncAppThunk => async (dispatch) => {
-  dispatch(currentGameSlice.actions.resetGame());
-  await router.navigate('/');
-};
 
 export const applyBevueThunk =
   (player: Player): AsyncAppThunk =>

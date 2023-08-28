@@ -22,9 +22,8 @@ import {
 import {
   cancelLastEventThunk,
   playATurnThunk,
-  resetGameThunk,
   startGrelottineChallengeThunk,
-} from '../../store/current-game/current-game-thunks.ts';
+} from '../../store/current-game/current-game-actions-thunks.ts';
 import {
   DiceForm,
   getNewDiceForm,
@@ -40,6 +39,7 @@ import {
 import { MdCancelPresentation, MdFormatListBulletedAdd } from 'react-icons/md';
 import { TbArrowBackUp } from 'react-icons/tb';
 import { resolversSlice } from '../../store/resolvers/resolvers.slice.ts';
+import { resetGameThunk } from '../../store/current-game/current-game-lifecycle-thunks.ts';
 
 export function ScribePanel(): JSX.Element {
   const players = useAppSelector(selectPlayerCardDetails);

@@ -31,7 +31,7 @@ import { resolversSlice } from '../../../store/resolvers/resolvers.slice.ts';
 import { CustomSelectOption } from '../../../utils/custom-select.utils.ts';
 import { Player } from '../../../../lib/player.ts';
 import { AddOperationLinesContext } from '../../../../lib/game/add-operations.ts';
-import { addOperationsThunk } from '../../../store/current-game/current-game-thunks.ts';
+import { addOperationsThunk } from '../../../store/current-game/current-game-actions-thunks.ts';
 import {
   GodModLineType,
   HistoryLine,

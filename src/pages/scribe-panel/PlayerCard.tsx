@@ -12,7 +12,7 @@ import {
 } from '@chakra-ui/react';
 import { AiOutlineExclamationCircle } from 'react-icons/ai';
 import { useAppDispatch } from '../../store/store.ts';
-import { applyBevueThunk } from '../../store/current-game/current-game-thunks.ts';
+import { applyBevueThunk } from '../../store/current-game/current-game-actions-thunks.ts';
 import { Player } from '../../../lib/player.ts';
 import { FaRegBell } from 'react-icons/fa';
 

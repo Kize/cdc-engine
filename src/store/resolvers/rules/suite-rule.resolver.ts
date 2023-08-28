@@ -26,4 +26,4 @@ class SuiteRuleResolver extends RuleResolver<
   }
 }
 
-export const suiteResolver = new SuiteRuleResolver();
+export const suiteRuleResolver = new SuiteRuleResolver();
