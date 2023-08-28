@@ -22,6 +22,7 @@ import {
   getAllRulesEnabled,
   instanciateRules,
 } from '../rule-runner/rule-runner.utils.ts';
+import { AddOperationLinesContext } from './add-operations.ts';
 
 export enum GameStatus {
   CREATION = 'creation',
@@ -202,8 +203,26 @@ export class GameHandler {
     };
   }
 
-  addOperations(): Promise<GameEvent> {
-    throw new Error('not implemented yet :(');
+  addOperations(
+    { operations, shouldHandleEndTurn }: AddOperationLinesContext,
+    events: Array<GameEvent>,
+    players: Array<Player>,
+  ): GameEvent {
+    const gameEvent: GameEvent = {
+      id: getNewEventId(),
+      historyLines: operations,
+    };
+
+    if (shouldHandleEndTurn) {
+      const currentPlayer = this.getCurrentPlayer(events, players);
+      gameEvent.historyLines.push({
+        designation: GameLineType.PLAY_TURN,
+        player: currentPlayer,
+        amount: 0,
+      });
+    }
+
+    return gameEvent;
   }
 
   private async applyRuleEngine(

@@ -150,7 +150,11 @@ export function ScribePanel(): JSX.Element {
                 leftIcon={<MdFormatListBulletedAdd />}
                 colorScheme="green"
                 h={[16, 32]}
-                onClick={() => dispatch(startGrelottineChallengeThunk())}
+                onClick={() =>
+                  dispatch(
+                    resolversSlice.actions.setAddOperations({ active: true }),
+                  )
+                }
               >
                 Ajouter des Opérations
               </Button>

@@ -2,16 +2,19 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Player } from '../../../lib/player.ts';
 
 export interface ResolversState {
+  chanteSloubi: { active: boolean };
+  addOperations: { active: boolean };
   grelottine: {
     active: boolean;
   };
   suite: { active: boolean; player: Player };
   chouetteVelute: { active: boolean; player: Player };
-  chanteSloubi: { active: boolean };
 }
 
 function initialState(): ResolversState {
   return {
+    chanteSloubi: { active: false },
+    addOperations: { active: false },
     grelottine: {
       active: false,
     },
@@ -23,7 +26,6 @@ function initialState(): ResolversState {
       active: false,
       player: '',
     },
-    chanteSloubi: { active: false },
   };
 }
 
@@ -31,6 +33,12 @@ export const resolversSlice = createSlice({
   name: 'resolvers',
   initialState,
   reducers: {
+    setAddOperations: (
+      state,
+      { payload }: PayloadAction<ResolversState['chanteSloubi']>,
+    ) => {
+      state.addOperations = payload;
+    },
     setChanteSloubi: (
       state,
       { payload }: PayloadAction<ResolversState['chanteSloubi']>,

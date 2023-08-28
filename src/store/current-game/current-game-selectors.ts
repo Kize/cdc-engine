@@ -7,6 +7,7 @@ import {
   GameLineType,
   historyLineToMessage,
 } from '../../../lib/history/history-line.ts';
+import { RuleEffectEvent } from '../../../lib/rule-runner/rules/rule-effect.ts';
 
 export const selectPlayers = (state: RootState) => state.currentGame.players;
 export const selectEvents = (state: RootState) => state.currentGame.events;
@@ -42,7 +43,11 @@ export const selectLastEventMessage = createSelector(
     }
 
     return lastEvent.historyLines
-      .filter((line) => line.designation !== GameLineType.PLAY_TURN)
+      .filter(
+        (line) =>
+          line.designation !== GameLineType.PLAY_TURN &&
+          line.designation !== RuleEffectEvent.ADD_GRELOTTINE,
+      )
       .map(historyLineToMessage);
   },
 );

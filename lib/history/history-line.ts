@@ -6,8 +6,8 @@ import { nanoid } from '@reduxjs/toolkit';
 import { Player } from '../player.ts';
 
 export interface HistoryLine {
-  player: Player;
   designation: AllHistoryLineTypes;
+  player: Player;
   amount: number;
 }
 
@@ -83,6 +83,7 @@ export function historyLineToMessage(line: HistoryLine): string {
     case RuleEffectEvent.SIROP_BET_WON_BUT_NOT_CLAIMED:
       return `${line.player} n'a pas annoncé "Sirop Gagnant!"`;
 
+    case RuleEffectEvent.REMOVE_GRELOTTINE:
     case RuleEffectEvent.ADD_CIVET:
     case RuleEffectEvent.REMOVE_CIVET:
     case RuleEffectEvent.CIVET_WON:
@@ -93,6 +94,9 @@ export function historyLineToMessage(line: HistoryLine): string {
     case RuleEffectEvent.REMOVE_JARRET:
     case RuleEffectEvent.BLEU_ROUGE_BET_WON:
       return `${line.designation} pour ${line.player}`;
+
+    case GodModLineType.GOD_MOD:
+      return `Ajout manuel - ${line.player} => ${line.amount} points`;
 
     default:
       return `${JSON.stringify(line)}`;

@@ -11,6 +11,7 @@ import { DiceRoll } from '../../../lib/rule-runner/rules/dice-rule.ts';
 import { GameContextEvent } from '../../../lib/rule-runner/game-context-event.ts';
 import { resolversSlice } from '../resolvers/resolvers.slice.ts';
 import { ChanteSloubiGameContext } from '../../../lib/game/game-handler.ts';
+import { AddOperationLinesContext } from '../../../lib/game/add-operations.ts';
 
 export const startGameThunk =
   (
@@ -118,4 +119,15 @@ export const addPlayerWithChanteSloubiThunk =
     dispatch(currentGameSlice.actions.setPlayers(players));
     dispatch(currentGameSlice.actions.addEvent(gameEvent));
     dispatch(resolversSlice.actions.setChanteSloubi({ active: false }));
+  };
+
+export const addOperationsThunk =
+  (context: AddOperationLinesContext): AppThunk =>
+  (dispatch, getState) => {
+    const { events, players } = getState().currentGame;
+
+    const gameEvent = cdcGameHandler.addOperations(context, events, players);
+
+    dispatch(currentGameSlice.actions.addEvent(gameEvent));
+    dispatch(resolversSlice.actions.setAddOperations({ active: false }));
   };
