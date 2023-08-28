@@ -1,11 +1,8 @@
 import { JSX, useState } from 'react';
 import { useAppSelector } from '../../../store/store.ts';
 import {
-  Box,
   Button,
   Center,
-  Container,
-  Flex,
   FormControl,
   FormLabel,
   Modal,
@@ -23,7 +20,6 @@ import {
   Radio,
   RadioGroup,
   SimpleGrid,
-  Spacer,
   Stack,
 } from '@chakra-ui/react';
 import { suiteResolver } from '../../../store/resolvers/rules/suite-rule.resolver.ts';

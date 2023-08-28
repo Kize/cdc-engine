@@ -1,5 +1,5 @@
 import { JSX, useEffect } from 'react';
-import { Box, SimpleGrid, useRadioGroup } from '@chakra-ui/react';
+import { SimpleGrid, useRadioGroup } from '@chakra-ui/react';
 import { DieFace } from './DieFace.tsx';
 import { DieValue } from '../../../lib/rule-runner/rules/dice-rule.ts';
 import { OptionalDieValue } from './dice-form.ts';

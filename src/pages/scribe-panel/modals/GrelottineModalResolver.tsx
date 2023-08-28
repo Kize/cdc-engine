@@ -1,4 +1,4 @@
-import { JSX, SyntheticEvent, useEffect, useState } from 'react';
+import { BaseSyntheticEvent, JSX, useEffect, useState } from 'react';
 import { useAppSelector } from '../../../store/store.ts';
 import {
   Box,
@@ -167,7 +167,10 @@ export function GrelottineModalResolver(): JSX.Element {
               <FormControl as="fieldset">
                 <FormLabel as="legend">Choix du Défi</FormLabel>
 
-                <RadioGroup value={grelottinBet} onChange={setGrelottinBet}>
+                <RadioGroup
+                  value={grelottinBet}
+                  onChange={(value) => setGrelottinBet(value as GrelottineBet)}
+                >
                   <Stack>
                     {grelottineChallengeBets.map((bet) => (
                       <Radio value={bet} key={bet} size="lg" height={6}>
@@ -219,7 +222,6 @@ export function GrelottineModalResolver(): JSX.Element {
                   setDiceForm(diceForm);
                   return diceForm;
                 }}
-                dieFaceBoxSize="8vw"
               />
             </Container>
           </ModalBody>
@@ -256,9 +258,11 @@ function GrelottineCustomRadioGroup({
   selectedOption,
   setOption,
 }: CustomRadioProps): JSX.Element {
-  const handleClickWithReset = (event: SyntheticEvent) => {
-    const input = event.target.parentElement
-      ?.children[0] as unknown as HTMLInputElement;
+  const handleClickWithReset = (event: BaseSyntheticEvent) => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
+    const input = event.target.parentElement?.children.at(
+      0,
+    ) as unknown as HTMLInputElement;
 
     if (input.checked) {
       event.preventDefault();
