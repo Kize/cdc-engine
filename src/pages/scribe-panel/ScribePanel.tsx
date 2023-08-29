@@ -31,7 +31,7 @@ import {
   isDiceFormValid,
 } from '../../components/dice/dice-form.ts';
 import { DiceFormComponent } from '../../components/dice/DiceForm.tsx';
-import { RulesModals } from './RulesModals.tsx';
+import { ScribePanelModals } from './ScribePanelModals.tsx';
 import {
   HiOutlineBell,
   HiOutlineExternalLink,
@@ -159,9 +159,7 @@ export function ScribePanel(): JSX.Element {
                 colorScheme="green"
                 h={[16, 32]}
                 onClick={() =>
-                  dispatch(
-                    resolversSlice.actions.setAddOperations({ active: true }),
-                  )
+                  dispatch(resolversSlice.actions.setEndGame({ active: true }))
                 }
               >
                 Ajouter des Opérations
@@ -182,7 +180,7 @@ export function ScribePanel(): JSX.Element {
         </Card>
       </SimpleGrid>
 
-      <RulesModals />
+      <ScribePanelModals />
     </>
   );
 }

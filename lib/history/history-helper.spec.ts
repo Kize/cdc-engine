@@ -113,6 +113,97 @@ describe('getPlayerScoreAtEvent', () => {
   });
 });
 
+describe('getPlayerPositiveSumScore', () => {
+  it('returns 25 with an history of +10 / +15 / -10 for Alban', () => {
+    const history = new HistoryHelper();
+
+    const events = [
+      {
+        id: '1',
+        historyLines: [
+          {
+            designation: RuleEffectEvent.CUL_DE_CHOUETTE,
+            player: 'Delphin',
+            amount: 100,
+          },
+
+          {
+            designation: GodModLineType.GOD_MOD,
+            player: 'Alban',
+            amount: 10,
+          },
+        ],
+      },
+      {
+        id: '2',
+        historyLines: [
+          {
+            designation: GodModLineType.GOD_MOD,
+            player: 'Alban',
+            amount: 15,
+          },
+        ],
+      },
+      {
+        id: '3',
+        historyLines: [
+          {
+            designation: RuleEffectEvent.BEVUE,
+            player: 'Alban',
+            amount: -10,
+          },
+        ],
+      },
+    ];
+    expect(history.getPlayerPositiveSumScore(events, 'Alban')).toBe(25);
+  });
+});
+describe('getPlayerNegativeSumScore', () => {
+  it('returns -10 with an history of +10 / +15 / -10 for Alban', () => {
+    const history = new HistoryHelper();
+
+    const events = [
+      {
+        id: '1',
+        historyLines: [
+          {
+            designation: RuleEffectEvent.CUL_DE_CHOUETTE,
+            player: 'Delphin',
+            amount: 100,
+          },
+
+          {
+            designation: GodModLineType.GOD_MOD,
+            player: 'Alban',
+            amount: 10,
+          },
+        ],
+      },
+      {
+        id: '2',
+        historyLines: [
+          {
+            designation: GodModLineType.GOD_MOD,
+            player: 'Alban',
+            amount: 15,
+          },
+        ],
+      },
+      {
+        id: '3',
+        historyLines: [
+          {
+            designation: RuleEffectEvent.BEVUE,
+            player: 'Alban',
+            amount: -10,
+          },
+        ],
+      },
+    ];
+    expect(history.getPlayerNegativeSumScore(events, 'Alban')).toBe(-10);
+  });
+});
+
 describe('hasGrelottine', () => {
   let history: HistoryHelper;
 

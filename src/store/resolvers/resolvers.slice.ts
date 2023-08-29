@@ -4,6 +4,7 @@ import { Player } from '../../../lib/player.ts';
 export interface ResolversState {
   addOperations: { active: boolean };
   chanteSloubi: { active: boolean };
+  endGame: { active: boolean };
 
   grelottine: {
     active: boolean;
@@ -18,6 +19,7 @@ function initialState(): ResolversState {
   return {
     chanteSloubi: { active: false },
     addOperations: { active: false },
+    endGame: { active: false },
     grelottine: {
       active: false,
     },
@@ -46,7 +48,7 @@ export const resolversSlice = createSlice({
   reducers: {
     setAddOperations: (
       state,
-      { payload }: PayloadAction<ResolversState['chanteSloubi']>,
+      { payload }: PayloadAction<ResolversState['addOperations']>,
     ) => {
       state.addOperations = payload;
     },
@@ -55,6 +57,12 @@ export const resolversSlice = createSlice({
       { payload }: PayloadAction<ResolversState['chanteSloubi']>,
     ) => {
       state.chanteSloubi = payload;
+    },
+    setEndGame: (
+      state,
+      { payload }: PayloadAction<ResolversState['endGame']>,
+    ) => {
+      state.endGame = payload;
     },
     setGrelottine: (
       state,
@@ -67,19 +75,19 @@ export const resolversSlice = createSlice({
     },
     setChouetteVelute: (
       state,
-      { payload }: PayloadAction<ResolversState['suite']>,
+      { payload }: PayloadAction<ResolversState['chouetteVelute']>,
     ) => {
       state.chouetteVelute = payload;
     },
     setSoufflette: (
       state,
-      { payload }: PayloadAction<ResolversState['suite']>,
+      { payload }: PayloadAction<ResolversState['soufflette']>,
     ) => {
       state.soufflette = payload;
     },
     setArtichette: (
       state,
-      { payload }: PayloadAction<ResolversState['suite']>,
+      { payload }: PayloadAction<ResolversState['artichette']>,
     ) => {
       state.artichette = payload;
     },

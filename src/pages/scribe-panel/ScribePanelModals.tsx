@@ -6,8 +6,9 @@ import { ChanteSloubiModal } from './modals/ChanteSloubiModal.tsx';
 import { AddOperationsModal } from './modals/AddOperationsModal.tsx';
 import { ArtichetteModalResolver } from './modals/ArtichetteModalResolver.tsx';
 import { SouffletteModalResolver } from './modals/SouffletteModalResolver.tsx';
+import { EndGameModal } from './modals/EndGameModal.tsx';
 
-export function RulesModals(): JSX.Element {
+export function ScribePanelModals(): JSX.Element {
   return (
     <>
       <AddOperationsModal />
@@ -19,6 +20,8 @@ export function RulesModals(): JSX.Element {
 
       <ArtichetteModalResolver />
       <SouffletteModalResolver />
+
+      <EndGameModal />
     </>
   );
 }

@@ -8,6 +8,7 @@ import {
   historyLineToMessage,
 } from '../../../lib/history/history-line.ts';
 import { RuleEffectEvent } from '../../../lib/rule-runner/rules/rule-effect.ts';
+import { PlayerWithSumScores } from '../../pages/scribe-panel/modals/EndGameModal.tsx';
 
 export const selectPlayers = (state: RootState) => state.currentGame.players;
 export const selectEvents = (state: RootState) => state.currentGame.events;
@@ -25,6 +26,26 @@ export const selectPlayerCardDetails = createSelector(
         cdcGameHandler.getCurrentPlayer(events, players) === player,
       hasGrelottine: cdcGameHandler.history.hasGrelottine(events, player),
     })),
+);
+
+export const selectPlayersWithSumScores = createSelector(
+  selectPlayers,
+  selectEvents,
+  (players, events) =>
+    players
+      .map<PlayerWithSumScores>((player) => ({
+        player,
+        score: cdcGameHandler.history.getPlayerScore(events, player),
+        positiveScore: cdcGameHandler.history.getPlayerPositiveSumScore(
+          events,
+          player,
+        ),
+        negativeScore: cdcGameHandler.history.getPlayerNegativeSumScore(
+          events,
+          player,
+        ),
+      }))
+      .sort((a, b) => (a.score < b.score ? 1 : -1)),
 );
 
 export const selectNumberOfTurns = createSelector(

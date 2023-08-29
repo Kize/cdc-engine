@@ -12,6 +12,7 @@ export class HistoryHelper {
     return this.getPlayerScoreFromEvents(events, player);
   }
 
+  //TODO: rewrite this to history view
   getPlayerScoreAtEvent(
     events: Array<GameEvent>,
     player: Player,
@@ -20,6 +21,36 @@ export class HistoryHelper {
     const index = events.findIndex((event) => event.id === eventId);
 
     return this.getPlayerScoreFromEvents(events.slice(0, index + 1), player);
+  }
+
+  getPlayerPositiveSumScore(events: Array<GameEvent>, player: Player): number {
+    return events.reduce(
+      (eventSum, event) =>
+        eventSum +
+        event.historyLines.reduce(
+          (lineSum, line) =>
+            line.player === player && line.amount > 0
+              ? lineSum + line.amount
+              : lineSum,
+          0,
+        ),
+      0,
+    );
+  }
+
+  getPlayerNegativeSumScore(events: Array<GameEvent>, player: Player): number {
+    return events.reduce(
+      (eventSum, event) =>
+        eventSum +
+        event.historyLines.reduce(
+          (lineSum, line) =>
+            line.player === player && line.amount < 0
+              ? lineSum + line.amount
+              : lineSum,
+          0,
+        ),
+      0,
+    );
   }
 
   hasGrelottine(events: Array<GameEvent>, player: Player): boolean {
