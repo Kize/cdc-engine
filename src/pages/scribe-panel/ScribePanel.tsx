@@ -133,7 +133,7 @@ export function ScribePanel(): JSX.Element {
                 colorScheme="blackAlpha"
                 onClick={() => dispatch(cancelLastEventThunk())}
               >
-                Annuler la dernière action
+                <Text whiteSpace="initial">Annuler la dernière action</Text>
               </Button>
 
               <Button
@@ -168,7 +168,7 @@ export function ScribePanel(): JSX.Element {
                   )
                 }
               >
-                Ajouter des Opérations
+                <Text whiteSpace="initial">Ajouter des Opérations</Text>
               </Button>
             </SimpleGrid>
           </CardBody>

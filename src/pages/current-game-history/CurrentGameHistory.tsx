@@ -1,5 +1,6 @@
 import { JSX } from 'react';
 import {
+  Button,
   Center,
   Flex,
   Heading,
@@ -15,7 +16,7 @@ import {
   Thead,
   Tr,
 } from '@chakra-ui/react';
-import { useAppSelector } from '../../store/store.ts';
+import { useAppDispatch, useAppSelector } from '../../store/store.ts';
 import {
   selectEvents,
   selectPlayers,
@@ -23,10 +24,13 @@ import {
 import { GameLineType } from '../../../lib/history/history-line.ts';
 import { Player } from '../../../lib/player.ts';
 import { cdcGameHandler } from '../../utils/game-handler-configuration.ts';
+import { TbArrowBackUp } from 'react-icons/tb';
+import { cancelLastEventThunk } from '../../store/current-game/current-game-actions-thunks.ts';
 
 export function CurrentGameHistory(): JSX.Element {
   const players = useAppSelector(selectPlayers);
   const events = useAppSelector(selectEvents);
+  const dispatch = useAppDispatch();
 
   const getPlayerScore = (player: Player): number => {
     return cdcGameHandler.history.getPlayerScore(events, player);
@@ -89,6 +93,17 @@ export function CurrentGameHistory(): JSX.Element {
           </Tbody>
         </Table>
       </TableContainer>
+
+      <Center mt={6}>
+        <Button
+          leftIcon={<TbArrowBackUp />}
+          variant="outline"
+          colorScheme="orange"
+          onClick={() => dispatch(cancelLastEventThunk())}
+        >
+          <Text whiteSpace="initial">Annuler la dernière action</Text>
+        </Button>
+      </Center>
     </>
   );
 }
