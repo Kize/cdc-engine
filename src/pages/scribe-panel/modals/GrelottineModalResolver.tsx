@@ -3,11 +3,15 @@ import { useAppSelector } from '../../../store/store.ts';
 import {
   Box,
   Button,
+  ButtonGroup,
   Container,
   Divider,
+  Flex,
   FormControl,
   FormLabel,
+  Heading,
   HStack,
+  ListItem,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -22,8 +26,12 @@ import {
   NumberInputStepper,
   Radio,
   RadioGroup,
+  Show,
+  SimpleGrid,
+  Spacer,
   Stack,
   Text,
+  UnorderedList,
 } from '@chakra-ui/react';
 import { selectPlayerCardDetails } from '../../../store/current-game/current-game-selectors.ts';
 import { grelottineResolver } from '../../../store/resolvers/rules/grelottine-rule.resolver.ts';
@@ -46,6 +54,8 @@ export function GrelottineModalResolver(): JSX.Element {
   const grelottinePlayers = useAppSelector(selectPlayerCardDetails).filter(
     (details) => details.hasGrelottine && details.score > 0,
   );
+
+  const isEnoughPlayers = grelottinePlayers.length >= 2;
 
   const isSiropEnabled = useAppSelector(
     (state) => state.currentGame.rulesConfiguration.isSiropEnabled,
@@ -128,41 +138,40 @@ export function GrelottineModalResolver(): JSX.Element {
           <ModalCloseButton />
           <ModalHeader bgColor="yellow.300">Défi de Grelottine</ModalHeader>
 
-          <ModalBody>
-            <HStack shouldWrapChildren={true}>
-              <GrelottineCustomRadioGroup
-                label="Grelottin"
-                options={grelottinePlayers}
-                selectedOption={grelottinPlayer}
-                opposedOption={challengedPlayer}
-                setOption={setGrelottinPlayer}
-              />
+          <ModalBody hidden={!isEnoughPlayers}>
+            <SimpleGrid columns={[1, 1, 4]} spacingY={2}>
+              <HStack shouldWrapChildren={true}>
+                <GrelottineCustomRadioGroup
+                  label="Grelottin"
+                  options={grelottinePlayers}
+                  selectedOption={grelottinPlayer}
+                  opposedOption={challengedPlayer}
+                  setOption={setGrelottinPlayer}
+                />
 
-              <Stack align="center" mx={4}>
-                <Text as="b">Joueurs</Text>
-                {grelottinePlayers.map((details) => (
-                  <Box key={details.player} as="span" height={6}>
-                    <Box as={'b'} mr={2}>
-                      {details.player}
+                <Stack align="center" mx={4}>
+                  <Text as="b">Joueurs</Text>
+                  {grelottinePlayers.map((details) => (
+                    <Box key={details.player} as="span" height={6}>
+                      <Box as={'b'} mr={2}>
+                        {details.player}
+                      </Box>
+                      <Box as="span" fontSize="xs">
+                        ({details.score} pts)
+                      </Box>
                     </Box>
-                    <Box as="span" fontSize="xs">
-                      ({details.score} pts)
-                    </Box>
-                  </Box>
-                ))}
-              </Stack>
+                  ))}
+                </Stack>
 
-              <GrelottineCustomRadioGroup
-                label="Joueur défié"
-                options={grelottinePlayers}
-                selectedOption={challengedPlayer}
-                opposedOption={grelottinPlayer}
-                setOption={setChallengedPlayer}
-              />
-
-              <Box h="8em" mx={5}>
-                <Divider orientation="vertical" />
-              </Box>
+                <GrelottineCustomRadioGroup
+                  label="Joueur défié"
+                  options={grelottinePlayers}
+                  selectedOption={challengedPlayer}
+                  opposedOption={grelottinPlayer}
+                  setOption={setChallengedPlayer}
+                />
+              </HStack>
+              <Spacer />
 
               <FormControl as="fieldset">
                 <FormLabel as="legend">Choix du Défi</FormLabel>
@@ -181,12 +190,8 @@ export function GrelottineModalResolver(): JSX.Element {
                 </RadioGroup>
               </FormControl>
 
-              <Box h="8em" mx={5}>
-                <Divider orientation="vertical" />
-              </Box>
-
-              <Stack>
-                <FormControl as="fieldset">
+              <Flex flexFlow={['row-reverse', 'row']}>
+                <FormControl as="fieldset" w="initial">
                   <FormLabel as="legend">Montant du Défi</FormLabel>
 
                   <NumberInput
@@ -212,8 +217,8 @@ export function GrelottineModalResolver(): JSX.Element {
                     Au Max
                   </Button>
                 </FormControl>
-              </Stack>
-            </HStack>
+              </Flex>
+            </SimpleGrid>
 
             <Container mt={6}>
               <DiceFormComponent
@@ -226,16 +231,32 @@ export function GrelottineModalResolver(): JSX.Element {
             </Container>
           </ModalBody>
 
-          <ModalFooter>
-            <Button
-              colorScheme="blue"
-              mr={3}
-              isDisabled={!isFormValid}
-              onClick={onValidate}
-            >
-              Valider
-            </Button>
-            <Button onClick={onClose}>Annuler</Button>
+          <ModalBody hidden={isEnoughPlayers}>
+            <Heading fontSize="lg">
+              Nécessite au moins deux joueurs remplissant les conditions
+              suivantes:
+            </Heading>
+
+            <UnorderedList>
+              <ListItem>Le joueur doit posséder une Grelottine</ListItem>
+              <ListItem>
+                Le score du joueur doit être strictement positif
+              </ListItem>
+            </UnorderedList>
+          </ModalBody>
+
+          <ModalFooter hidden={!isEnoughPlayers}>
+            <ButtonGroup>
+              <Button
+                colorScheme="blue"
+                isDisabled={!isFormValid}
+                onClick={onValidate}
+              >
+                Valider
+              </Button>
+
+              <Button onClick={onClose}>Annuler</Button>
+            </ButtonGroup>
           </ModalFooter>
         </ModalContent>
       </Modal>

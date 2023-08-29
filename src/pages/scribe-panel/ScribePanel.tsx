@@ -119,7 +119,12 @@ export function ScribePanel(): JSX.Element {
         ))}
       </SimpleGrid>
 
-      <SimpleGrid columns={[1, 2]} spacing={10} p={[2, null, null, 10]}>
+      <SimpleGrid
+        columns={[1, 2]}
+        spacingX={10}
+        spacingY={4}
+        p={[2, null, null, 10]}
+      >
         <Card pb={[2, 4]} variant="filled" colorScheme="gray">
           <CardHeader fontSize={'xs'}>
             <SimpleGrid minChildWidth={['100%', '45%']} spacingX={2}>

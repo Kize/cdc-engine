@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   Card,
+  CardBody,
   CardHeader,
   Flex,
   Spacer,
@@ -38,10 +39,6 @@ export function PlayerCard({
       <CardHeader px={3} py={1}>
         <Flex>
           <Box as="span">{details.player}</Box>
-          <Tag colorScheme="red" mx={3} hidden={!details.hasGrelottine}>
-            <TagLeftIcon as={FaRegBell} />
-            <TagLabel>Grelottine</TagLabel>
-          </Tag>
           <Spacer />
 
           <Box as="u">{details.score} points</Box>
@@ -59,6 +56,12 @@ export function PlayerCard({
           </Button>
         </Flex>
       </CardHeader>
+      <CardBody px={3}>
+        <Tag colorScheme="red" hidden={!details.hasGrelottine}>
+          <TagLeftIcon as={FaRegBell} />
+          <TagLabel>Grelottine</TagLabel>
+        </Tag>{' '}
+      </CardBody>
     </Card>
   );
 }

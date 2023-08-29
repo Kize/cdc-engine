@@ -106,7 +106,7 @@ export function SouffletteModalResolver(): JSX.Element {
                 <FormLabel>Joueur défié</FormLabel>
 
                 <Select
-                  placeholder={options[0].label}
+                  placeholder={options[0]?.label ?? ''}
                   value={challengedPlayer}
                   options={options}
                   onChange={setChallengedPlayer}

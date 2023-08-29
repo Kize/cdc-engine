@@ -5,7 +5,6 @@ import { PlayersSelection } from './PlayersSelection.tsx';
 import { useAppDispatch, useAppSelector } from '../../store/store.ts';
 import { selectRulesConfiguration } from '../../store/current-game/current-game-selectors.ts';
 import { RulesSelection } from './RulesSelection.tsx';
-
 import { startGameThunk } from '../../store/current-game/current-game-lifecycle-thunks.ts';
 
 export function CreateNewGame(): JSX.Element {
