@@ -5,13 +5,10 @@ import {
   Card,
   CardBody,
   CardHeader,
-  Center,
-  Flex,
   Heading,
   Icon,
   Link,
   SimpleGrid,
-  Spacer,
   Text,
 } from '@chakra-ui/react';
 import { useAppDispatch, useAppSelector } from '../../store/store.ts';
@@ -77,27 +74,20 @@ export function ScribePanel(): JSX.Element {
 
   return (
     <>
-      <Flex mb={[2, 6]} mt={1} mx={2}>
-        <Center pl={2}>
-          <Heading fontSize="x-large">Partie en cours</Heading>
-        </Center>
-        <Spacer />
+      <SimpleGrid columns={[2, 4]} mb={[4, 6]} mt={1} mx={4}>
+        <Heading fontSize="x-large">Partie en cours</Heading>
 
-        <Center>
-          <Link
-            href="https://docs.google.com/document/d/111XDCFHeqVqV-DvnJqJ31rp05tMZbmpxJWQDvPJdIHY/edit#heading=h.kr2581jfe5r"
-            isExternal
-          >
-            Accéder aux règles <Icon mx="2px" as={HiOutlineExternalLink} />
-          </Link>
-        </Center>
+        <Link
+          pt={2}
+          href="https://docs.google.com/document/d/111XDCFHeqVqV-DvnJqJ31rp05tMZbmpxJWQDvPJdIHY/edit#heading=h.kr2581jfe5r"
+          isExternal
+        >
+          Accéder aux règles <Icon mx="2px" as={HiOutlineExternalLink} />
+        </Link>
 
-        <Spacer />
-
-        <Center>
-          <Link href="/history">Afficher l'historique</Link>
-        </Center>
-        <Spacer />
+        <Link pt={2} href="/history">
+          Afficher l'historique
+        </Link>
 
         <Button
           colorScheme="pink"
@@ -106,7 +96,7 @@ export function ScribePanel(): JSX.Element {
         >
           Annuler la partie
         </Button>
-      </Flex>
+      </SimpleGrid>
 
       <SimpleGrid
         minChildWidth={['100%', '20%']}
