@@ -38,7 +38,7 @@ import {
   GrelottineBet,
 } from '../../../../lib/rule-runner/rules/basic-rules/grelottine-rule.ts';
 import { Player } from '../../../../lib/player.ts';
-import { PlayerCardDetails } from '../PlayerCard.tsx';
+import { PlayerCardDetails } from '../components/PlayerCard.tsx';
 import { DiceFormComponent } from '../../../components/dice/DiceForm.tsx';
 import {
   DiceForm,

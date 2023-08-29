@@ -2,7 +2,7 @@ import { RootState } from '../store.ts';
 import { createSelector } from '@reduxjs/toolkit';
 
 import { cdcGameHandler } from '../../utils/game-handler-configuration.ts';
-import { PlayerCardDetails } from '../../pages/scribe-panel/PlayerCard.tsx';
+import { PlayerCardDetails } from '../../pages/scribe-panel/components/PlayerCard.tsx';
 import {
   GameLineType,
   historyLineToMessage,

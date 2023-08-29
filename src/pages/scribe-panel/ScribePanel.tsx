@@ -1,5 +1,5 @@
 import { JSX, useEffect, useState } from 'react';
-import { PlayerCard } from './PlayerCard.tsx';
+import { PlayerCard } from './components/PlayerCard.tsx';
 import {
   Button,
   Card,
@@ -29,7 +29,7 @@ import {
   isDiceFormValid,
 } from '../../components/dice/dice-form.ts';
 import { DiceFormComponent } from '../../components/dice/DiceForm.tsx';
-import { ScribePanelModals } from './ScribePanelModals.tsx';
+import { ScribePanelModals } from './components/ScribePanelModals.tsx';
 import {
   HiOutlineBell,
   HiOutlineExternalLink,
