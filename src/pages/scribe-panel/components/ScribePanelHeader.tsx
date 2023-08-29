@@ -8,7 +8,7 @@ interface Props {
 
 export function ScribePanelHeader({ cancelGame }: Props) {
   return (
-    <SimpleGrid columns={[2, 4]} mb={[4, 6]} mt={1} mx={4}>
+    <SimpleGrid columns={[2, 4]} spacing={2} mb={[4, 6]} mt={1} mx={4}>
       <Heading fontSize="x-large">Partie en cours</Heading>
 
       <Link
