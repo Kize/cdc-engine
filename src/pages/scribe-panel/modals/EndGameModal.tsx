@@ -30,6 +30,7 @@ import {
 } from '../../../store/current-game/current-game-selectors.ts';
 import { useNavigate } from 'react-router-dom';
 import { Player } from '../../../../lib/player.ts';
+import { getRandomImage } from '../../../components/hidden-images/images.ts';
 
 export interface PlayerWithSumScores {
   player: Player;
@@ -45,23 +46,6 @@ export function EndGameModal(): JSX.Element {
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
-  const getRandomImage = () => {
-    const imageNames = [
-      'bed.gif',
-      'clap.gif',
-      'clap2.gif',
-      'count.webp',
-      'dance.gif',
-      'strong.webp',
-    ];
-    const randomIndex = Math.floor(Math.random() * (imageNames.length - 1) + 1);
-
-    return new URL(
-      `../../../../public/${imageNames[randomIndex]}`,
-      import.meta.url,
-    ).href;
-  };
 
   const onClose = () => {
     dispatch(resolversSlice.actions.setEndGame({ active: false }));
