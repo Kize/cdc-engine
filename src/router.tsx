@@ -60,7 +60,6 @@ function scribePanelLoader() {
 
   switch (gameStatus) {
     case GameStatus.CREATION:
-    case GameStatus.FINISHED:
       return redirect('/');
   }
 

@@ -9,11 +9,19 @@ import {
 } from '../../../lib/history/history-line.ts';
 import { RuleEffectEvent } from '../../../lib/rule-runner/rules/rule-effect.ts';
 import { PlayerWithSumScores } from '../../pages/scribe-panel/modals/EndGameModal.tsx';
+import { GameStatus } from '../../../lib/game/game-handler.ts';
 
 export const selectPlayers = (state: RootState) => state.currentGame.players;
 export const selectEvents = (state: RootState) => state.currentGame.events;
 export const selectRulesConfiguration = (state: RootState) =>
   state.currentGame.rulesConfiguration;
+
+export const selectGameStatus = createSelector(
+  selectPlayers,
+  selectEvents,
+  (players, events): GameStatus =>
+    cdcGameHandler.getGameStatus(events, players),
+);
 
 export const selectPlayerCardDetails = createSelector(
   selectPlayers,

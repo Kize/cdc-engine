@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { Resolver } from '../rule-resolver';
 import { DummyContextBuilder } from '../../../tests/dummy-game-context-builder';
 import {
@@ -127,25 +127,25 @@ describe('applyRule', () => {
 
 describe('isVerdierApplicable', () => {
   it('returns false when given 0-0-0', () => {
-    const result = isVerdierApplicable([0, 0, 0]);
+    const result = isVerdierApplicable([null, null, null]);
 
     expect(result).toBe(false);
   });
 
   it('returns false when given 0-0-5', () => {
-    const result = isVerdierApplicable([0, 0, 5]);
+    const result = isVerdierApplicable([null, null, 5]);
 
     expect(result).toBe(false);
   });
 
   it('returns true when given 4-0-2', () => {
-    const result = isVerdierApplicable([4, 0, 2]);
+    const result = isVerdierApplicable([4, null, 2]);
 
     expect(result).toBe(true);
   });
 
   it('returns false when given 2-2-0', () => {
-    const result = isVerdierApplicable([0, 2, 2]);
+    const result = isVerdierApplicable([null, 2, 2]);
 
     expect(result).toBe(false);
   });

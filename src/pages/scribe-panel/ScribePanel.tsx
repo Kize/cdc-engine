@@ -1,4 +1,4 @@
-import { JSX, useState } from 'react';
+import { JSX, useEffect, useState } from 'react';
 import { PlayerCard } from './PlayerCard.tsx';
 import {
   Button,
@@ -16,6 +16,7 @@ import {
 } from '@chakra-ui/react';
 import { useAppDispatch, useAppSelector } from '../../store/store.ts';
 import {
+  selectGameStatus,
   selectLastEventMessage,
   selectNumberOfTurns,
   selectPlayerCardDetails,
@@ -41,15 +42,23 @@ import { MdCancelPresentation, MdFormatListBulletedAdd } from 'react-icons/md';
 import { TbArrowBackUp } from 'react-icons/tb';
 import { resolversSlice } from '../../store/resolvers/resolvers.slice.ts';
 import { resetGameThunk } from '../../store/current-game/current-game-lifecycle-thunks.ts';
+import { GameStatus } from '../../../lib/game/game-handler.ts';
 
 export function ScribePanel(): JSX.Element {
   const players = useAppSelector(selectPlayerCardDetails);
   const numberOfTurns = useAppSelector(selectNumberOfTurns);
   const lastEventMessage = useAppSelector(selectLastEventMessage);
-
-  const [diceForm, setDiceForm] = useState(getNewDiceForm() as DiceForm);
+  const gameStatus = useAppSelector(selectGameStatus);
 
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (gameStatus === GameStatus.FINISHED) {
+      dispatch(resolversSlice.actions.setEndGame({ active: true }));
+    }
+  }, [gameStatus]);
+
+  const [diceForm, setDiceForm] = useState(getNewDiceForm() as DiceForm);
 
   const onChangeForm = (form: DiceForm): DiceForm => {
     let newForm: DiceForm;
@@ -159,7 +168,9 @@ export function ScribePanel(): JSX.Element {
                 colorScheme="green"
                 h={[16, 32]}
                 onClick={() =>
-                  dispatch(resolversSlice.actions.setEndGame({ active: true }))
+                  dispatch(
+                    resolversSlice.actions.setAddOperations({ active: true }),
+                  )
                 }
               >
                 Ajouter des Opérations

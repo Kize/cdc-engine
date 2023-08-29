@@ -4,8 +4,8 @@ import { RuleEffect, RuleEffectEvent, RuleEffects } from '../rule-effect';
 import { DiceRoll, DieValue } from '../dice-rule';
 import { Resolver } from '../rule-resolver';
 import { isVelute } from '../basic-rules/velute-rule';
-import { DiceForm } from 'src/components/dice/dice-form';
 import { UnknownGameContext } from '../../game-context.ts';
+import { DiceForm } from '../../../../src/components/dice/dice-form.ts';
 
 export interface VerdierResolution {
   bettingplayers: Array<string>;
@@ -71,6 +71,7 @@ export class VerdierRule implements Rule {
   }
 }
 
+//TODO: create type for DiceForm
 export function isVerdierApplicable(diceForm: DiceForm): boolean {
   const invalidValues = diceForm.filter((dieValue) => {
     return dieValue === 1 || dieValue === 3 || dieValue === 5;
