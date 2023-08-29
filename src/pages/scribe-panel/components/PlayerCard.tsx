@@ -56,7 +56,8 @@ export function PlayerCard({
           </Button>
         </Flex>
       </CardHeader>
-      <CardBody px={3}>
+
+      <CardBody px={3} py={[1, 3]}>
         <Tag colorScheme="red" hidden={!details.hasGrelottine}>
           <TagLeftIcon as={FaRegBell} />
           <TagLabel>Grelottine</TagLabel>
