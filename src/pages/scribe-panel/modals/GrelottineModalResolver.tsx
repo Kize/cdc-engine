@@ -279,9 +279,8 @@ function GrelottineCustomRadioGroup({
 }: CustomRadioProps): JSX.Element {
   const handleClickWithReset = (event: BaseSyntheticEvent) => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
-    const input = event.target.parentElement?.children.at(
-      0,
-    ) as unknown as HTMLInputElement;
+    const input = event.target.parentElement
+      ?.children[0] as unknown as HTMLInputElement;
 
     if (input.checked) {
       event.preventDefault();
