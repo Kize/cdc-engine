@@ -7,6 +7,7 @@ import {
   CardHeader,
   Center,
   Flex,
+  Heading,
   Icon,
   Link,
   SimpleGrid,
@@ -68,18 +69,25 @@ export function ScribePanel(): JSX.Element {
   return (
     <>
       <Flex mb={[2, 6]} mt={1} mx={2}>
+        <Center pl={2}>
+          <Heading fontSize="x-large">Partie en cours</Heading>
+        </Center>
         <Spacer />
 
         <Center>
           <Link
             href="https://docs.google.com/document/d/111XDCFHeqVqV-DvnJqJ31rp05tMZbmpxJWQDvPJdIHY/edit#heading=h.kr2581jfe5r"
             isExternal
-            variant="filled"
           >
             Accéder aux règles <Icon mx="2px" as={HiOutlineExternalLink} />
           </Link>
         </Center>
 
+        <Spacer />
+
+        <Center>
+          <Link href="/history">Afficher l'historique</Link>
+        </Center>
         <Spacer />
 
         <Button

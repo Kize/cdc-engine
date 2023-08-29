@@ -9,6 +9,7 @@ import {
 import { GameStatus } from '../lib/game/game-handler.ts';
 import { currentGameSlice } from './store/current-game/current-game.slice.ts';
 import { persistGameToLocalStorage } from './utils/persist-game-to-local-storage.ts';
+import { CurrentGameHistory } from './pages/current-game-history/CurrentGameHistory.tsx';
 
 export const router = createBrowserRouter([
   {
@@ -20,6 +21,11 @@ export const router = createBrowserRouter([
     path: '/scribe-panel',
     element: <ScribePanel />,
     loader: scribePanelLoader,
+  },
+  {
+    path: '/history',
+    element: <CurrentGameHistory />,
+    loader: historyLoader,
   },
 ]);
 
@@ -55,6 +61,23 @@ function scribePanelLoader() {
   switch (gameStatus) {
     case GameStatus.CREATION:
     case GameStatus.FINISHED:
+      return redirect('/');
+  }
+
+  return null;
+}
+
+function historyLoader() {
+  const { currentGame } = store.getState();
+  configureGameHandlerRules(currentGame.rulesConfiguration);
+
+  const gameStatus = cdcGameHandler.getGameStatus(
+    currentGame.events,
+    currentGame.players,
+  );
+
+  switch (gameStatus) {
+    case GameStatus.CREATION:
       return redirect('/');
   }
 
