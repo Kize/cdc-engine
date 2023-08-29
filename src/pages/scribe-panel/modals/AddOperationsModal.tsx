@@ -1,8 +1,26 @@
 import { JSX, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../store/store.ts';
+import { RuleEffectEvent } from '../../../../lib/rule-runner/rules/rule-effect.ts';
+import { Select } from 'chakra-react-select';
+import { selectPlayers } from '../../../store/current-game/current-game-selectors.ts';
+import { resolversSlice } from '../../../store/resolvers/resolvers.slice.ts';
+import {
+  CustomSelectOption,
+  customSelectStyles,
+} from '../../../utils/custom-select.utils.ts';
+import { Player } from '../../../../lib/player.ts';
+import { AddOperationLinesContext } from '../../../../lib/game/add-operations.ts';
+import { addOperationsThunk } from '../../../store/current-game/current-game-actions-thunks.ts';
+import {
+  GodModLineType,
+  HistoryLine,
+} from '../../../../lib/history/history-line.ts';
+import { ComplexInputNumber } from '../../../components/complex-input-number/ComplexInputNumber.tsx';
 import {
   Button,
   Card,
+  CardBody,
+  CardHeader,
   Center,
   Checkbox,
   FormControl,
@@ -15,31 +33,13 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  NumberDecrementStepper,
-  NumberIncrementStepper,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
   SimpleGrid,
-  Stack,
   useBoolean,
 } from '@chakra-ui/react';
-import { RuleEffectEvent } from '../../../../lib/rule-runner/rules/rule-effect.ts';
-import { Select } from 'chakra-react-select';
-import { selectPlayers } from '../../../store/current-game/current-game-selectors.ts';
-import { resolversSlice } from '../../../store/resolvers/resolvers.slice.ts';
-import { CustomSelectOption } from '../../../utils/custom-select.utils.ts';
-import { Player } from '../../../../lib/player.ts';
-import { AddOperationLinesContext } from '../../../../lib/game/add-operations.ts';
-import { addOperationsThunk } from '../../../store/current-game/current-game-actions-thunks.ts';
-import {
-  GodModLineType,
-  HistoryLine,
-} from '../../../../lib/history/history-line.ts';
 
 interface OperationLineForm {
   player: Player;
-  amount: number;
+  amount: number | string;
   options: Array<RuleEffectEvent>;
 }
 
@@ -85,11 +85,12 @@ export function AddOperationsModal(): JSX.Element {
       operations: lineForms.reduce<Array<HistoryLine>>(
         (operations, currentLine) => {
           const mainLineActionPayload: Array<HistoryLine> = [];
-          if (currentLine.amount) {
+          const parsedAmount = parseInt(currentLine.amount.toString());
+          if (!isNaN(parsedAmount) && parsedAmount !== 0) {
             mainLineActionPayload.push({
               designation: GodModLineType.GOD_MOD,
               player: currentLine.player,
-              amount: currentLine.amount,
+              amount: parsedAmount,
             });
           }
 
@@ -126,25 +127,25 @@ export function AddOperationsModal(): JSX.Element {
           </ModalHeader>
 
           <ModalBody>
-            <Stack>
-              <Center>
-                <Checkbox
-                  size="lg"
-                  isChecked={shouldHandleEndTurn}
-                  onChange={toggle}
-                >
-                  Passer le tour
-                </Checkbox>
-              </Center>
+            <Center mb={4}>
+              <Checkbox
+                size="lg"
+                colorScheme="red"
+                color="red"
+                isChecked={shouldHandleEndTurn}
+                onChange={toggle}
+              >
+                Passer le tour
+              </Checkbox>
+            </Center>
 
-              {lineForms.map((lineForm, index) => (
-                <LineForm
-                  key={index}
-                  lineForm={lineForm}
-                  setLineForm={updateLineForm(index)}
-                />
-              ))}
-            </Stack>
+            {lineForms.map((lineForm, index) => (
+              <LineForm
+                key={index}
+                lineForm={lineForm}
+                setLineForm={updateLineForm(index)}
+              />
+            ))}
           </ModalBody>
 
           <ModalFooter>
@@ -192,7 +193,7 @@ function LineForm({ lineForm, setLineForm }: LineFormProps): JSX.Element {
     },
   ];
 
-  const setAmount = (value: number): void => {
+  const setAmount = (value: number | string): void => {
     const newLine = { ...lineForm, amount: value };
 
     setLineForm(newLine);
@@ -215,40 +216,29 @@ function LineForm({ lineForm, setLineForm }: LineFormProps): JSX.Element {
   };
 
   return (
-    <Card p={3}>
-      <SimpleGrid columns={[1, 3]} spacingX={[2, 10]}>
-        <Center>
-          <Heading size="sm">{lineForm.player}</Heading>
-        </Center>
+    <Card mb={[3, 6]} size="sm" variant="outline">
+      <CardHeader>
+        <Heading size="md">{lineForm.player}</Heading>
+      </CardHeader>
 
-        <FormControl>
-          <FormLabel fontSize="xs">Options</FormLabel>
+      <CardBody>
+        <SimpleGrid columns={[1, 2]} spacingX={3} spacingY={4}>
+          <FormControl px={6}>
+            <FormLabel fontSize="xs">Options</FormLabel>
 
-          <Select
-            isMulti
-            name="options"
-            options={options}
-            value={optionsForm}
-            onChange={(items) => onChangeOptions([...items])}
-            placeholder="Ajout / retrait de grelottine, civet, etc..."
-          />
-        </FormControl>
+            <Select
+              isMulti
+              name="options"
+              options={options}
+              value={optionsForm}
+              onChange={(items) => onChangeOptions([...items])}
+              {...customSelectStyles}
+            />
+          </FormControl>
 
-        <FormControl>
-          <FormLabel fontSize="xs">Montant</FormLabel>
-
-          <NumberInput
-            value={lineForm.amount}
-            onChange={(_, value) => setAmount(value)}
-          >
-            <NumberInputField />
-            <NumberInputStepper>
-              <NumberIncrementStepper />
-              <NumberDecrementStepper />
-            </NumberInputStepper>
-          </NumberInput>
-        </FormControl>
-      </SimpleGrid>
+          <ComplexInputNumber value={lineForm.amount} setValue={setAmount} />
+        </SimpleGrid>
+      </CardBody>
     </Card>
   );
 }

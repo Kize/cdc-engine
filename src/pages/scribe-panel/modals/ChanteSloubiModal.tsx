@@ -2,6 +2,7 @@ import { JSX, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../store/store.ts';
 import {
   Button,
+  ButtonGroup,
   Center,
   Checkbox,
   FormControl,
@@ -171,17 +172,20 @@ export function ChanteSloubiModal(): JSX.Element {
           </ModalBody>
 
           <ModalFooter>
-            <Button
-              colorScheme="blue"
-              mr={3}
-              isDisabled={
-                !singingPlayer || !previousPlayer || inGamePlayers.length > 7
-              }
-              onClick={onValidate}
-            >
-              Valider
-            </Button>
-            <Button onClick={onClose}>Annuler</Button>
+            <ButtonGroup>
+              <Button onClick={onClose}>Annuler</Button>
+
+              <Button
+                colorScheme="blue"
+                mr={3}
+                isDisabled={
+                  !singingPlayer || !previousPlayer || inGamePlayers.length > 7
+                }
+                onClick={onValidate}
+              >
+                Valider
+              </Button>
+            </ButtonGroup>
           </ModalFooter>
         </ModalContent>
       </Modal>

@@ -245,6 +245,8 @@ export function GrelottineModalResolver(): JSX.Element {
 
           <ModalFooter hidden={!isEnoughPlayers}>
             <ButtonGroup>
+              <Button onClick={onClose}>Annuler</Button>
+
               <Button
                 colorScheme="blue"
                 isDisabled={!isFormValid}
@@ -252,8 +254,6 @@ export function GrelottineModalResolver(): JSX.Element {
               >
                 Valider
               </Button>
-
-              <Button onClick={onClose}>Annuler</Button>
             </ButtonGroup>
           </ModalFooter>
         </ModalContent>

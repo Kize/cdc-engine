@@ -99,10 +99,12 @@ export const addPlayerWithChanteSloubiThunk =
 export const addOperationsThunk =
   (context: AddOperationLinesContext): AppThunk =>
   (dispatch, getState) => {
-    const { events, players } = getState().currentGame;
+    if (context.operations.length > 0) {
+      const { events, players } = getState().currentGame;
+      const gameEvent = cdcGameHandler.addOperations(context, events, players);
 
-    const gameEvent = cdcGameHandler.addOperations(context, events, players);
+      dispatch(currentGameSlice.actions.addEvent(gameEvent));
+    }
 
-    dispatch(currentGameSlice.actions.addEvent(gameEvent));
     dispatch(resolversSlice.actions.setAddOperations({ active: false }));
   };

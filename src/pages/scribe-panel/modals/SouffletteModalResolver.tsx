@@ -2,6 +2,7 @@ import { JSX, useState } from 'react';
 import { useAppSelector } from '../../../store/store.ts';
 import {
   Button,
+  ButtonGroup,
   Flex,
   FormControl,
   FormLabel,
@@ -163,23 +164,21 @@ export function SouffletteModalResolver(): JSX.Element {
           </ModalBody>
 
           <ModalFooter>
-            <Button
-              colorScheme="blue"
-              mr={3}
-              isDisabled={!isValidateValid}
-              onClick={() => onValidate(false)}
-            >
-              Valider
-            </Button>
+            <ButtonGroup>
+              <Button onClick={onClose}>Annuler</Button>
 
-            <Button
-              colorScheme="orange"
-              mr={3}
-              onClick={() => onValidate(true)}
-            >
-              Aucun défi
-            </Button>
-            <Button onClick={onClose}>Annuler</Button>
+              <Button colorScheme="orange" onClick={() => onValidate(true)}>
+                Aucun défi
+              </Button>
+
+              <Button
+                colorScheme="blue"
+                isDisabled={!isValidateValid}
+                onClick={() => onValidate(false)}
+              >
+                Valider
+              </Button>
+            </ButtonGroup>
           </ModalFooter>
         </ModalContent>
       </Modal>

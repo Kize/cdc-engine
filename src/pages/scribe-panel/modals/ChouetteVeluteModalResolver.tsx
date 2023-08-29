@@ -2,6 +2,7 @@ import { JSX, useState } from 'react';
 import { useAppSelector } from '../../../store/store.ts';
 import {
   Button,
+  ButtonGroup,
   Checkbox,
   CheckboxGroup,
   FormControl,
@@ -70,15 +71,17 @@ export function ChouetteVeluteModalResolver(): JSX.Element {
           </ModalBody>
 
           <ModalFooter>
-            <Button
-              colorScheme="blue"
-              mr={3}
-              isDisabled={!selectedPlayers}
-              onClick={onValidate}
-            >
-              Valider
-            </Button>
-            <Button onClick={onClose}>Annuler</Button>
+            <ButtonGroup>
+              <Button onClick={onClose}>Annuler</Button>
+
+              <Button
+                colorScheme="blue"
+                isDisabled={selectedPlayers.length === 0}
+                onClick={onValidate}
+              >
+                Valider
+              </Button>
+            </ButtonGroup>
           </ModalFooter>
         </ModalContent>
       </Modal>

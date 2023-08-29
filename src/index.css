@@ -9,7 +9,3 @@ body {
 #root {
   width: 100vw;
 }
-
-button {
-  white-space: initial !important;
-}
