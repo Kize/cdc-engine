@@ -228,6 +228,7 @@ function LineForm({ lineForm, setLineForm }: LineFormProps): JSX.Element {
 
             <Select
               isMulti
+              isSearchable={false}
               name="options"
               options={options}
               value={optionsForm}

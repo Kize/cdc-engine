@@ -155,7 +155,7 @@ export function SiropModalResolver(): JSX.Element {
               </CardHeader>
 
               <CardBody pt={0}>
-                <SimpleGrid columns={[1, bids.length]}>
+                <SimpleGrid columns={[2, bids.length]} spacingY={4}>
                   {bids.map((bidForm) => (
                     <FormControl as="fieldset" key={bidForm.player}>
                       <FormLabel as="legend">{bidForm.player}</FormLabel>
