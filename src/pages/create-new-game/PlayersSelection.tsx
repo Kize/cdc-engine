@@ -14,7 +14,7 @@ import {
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
-import { Box, List } from '@chakra-ui/react';
+import { Box, Flex, List } from '@chakra-ui/react';
 import { CreatableSelect } from 'chakra-react-select';
 import { SortablePlayerOption } from './SortablePlayerOption.tsx';
 import { useLocalStorage } from '../../utils/use-local-storage.hook.ts';
@@ -129,15 +129,6 @@ export function PlayersSelection(props: {
         Sélectionner de 2 à 8 joueurs:
       </Box>
 
-      <CreatableSelect
-        placeholder="Ajouter un joueur"
-        value={selectedOption}
-        options={playerOptions}
-        isDisabled={selectedPlayers.length >= props.maxPlayers}
-        onChange={selectPlayer}
-        onCreateOption={createPlayer}
-      />
-
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}
@@ -148,16 +139,36 @@ export function PlayersSelection(props: {
           strategy={verticalListSortingStrategy}
         >
           <List mt={2}>
-            {selectedPlayers.map((player) => (
-              <SortablePlayerOption
-                key={player}
-                player={player}
-                onRemove={removeSelectedPlayer}
-              />
+            {selectedPlayers.map((player, index) => (
+              <Flex key={player} align="baseline">
+                <Box
+                  as="span"
+                  fontSize="lg"
+                  px={4}
+                  color={`blue.${index + 3}00`}
+                >
+                  {index + 1}
+                </Box>
+
+                <SortablePlayerOption
+                  player={player}
+                  index={index}
+                  onRemove={removeSelectedPlayer}
+                />
+              </Flex>
             ))}
           </List>
         </SortableContext>
       </DndContext>
+
+      <CreatableSelect
+        placeholder="Ajouter un joueur"
+        value={selectedOption}
+        options={playerOptions}
+        isDisabled={selectedPlayers.length >= props.maxPlayers}
+        onChange={selectPlayer}
+        onCreateOption={createPlayer}
+      />
     </>
   );
 }

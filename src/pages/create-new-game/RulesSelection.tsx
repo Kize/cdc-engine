@@ -1,11 +1,13 @@
 import { JSX } from 'react';
 import './CreateNewGame.css';
 import {
+  Box,
   Checkbox,
   CheckboxGroup,
   Heading,
   HStack,
   Icon,
+  SimpleGrid,
   Stack,
   Text,
 } from '@chakra-ui/react';
@@ -42,49 +44,84 @@ export function RulesSelection({
     setRules(updatedRules);
   };
 
+  const ruleSectionHeadingProps = {
+    size: 'md',
+    mb: 2,
+  };
+
+  const ruleStackProps = {
+    spacing: 1,
+  };
+
+  const ruleCheckboxProps = {
+    size: 'lg',
+  };
+
   return (
-    <Stack>
+    <Box pl={[3, 10]}>
       <CheckboxGroup value={form} onChange={onChangeRules}>
-        <Heading as="h2" size="md">
-          <HStack>
-            <Text>Difficulté</Text>
-            <Icon as={TiStar} />
-          </HStack>
-        </Heading>
+        <SimpleGrid columns={[1, 1, 2]} spacingY={4}>
+          <Box>
+            <Heading as="h2" {...ruleSectionHeadingProps}>
+              <HStack>
+                <Text>Difficulté</Text>
+                <Icon as={TiStar} />
+              </HStack>
+            </Heading>
 
-        <Stack>
-          <Checkbox value="isSouffletteEnabled">La Soufflette</Checkbox>
-          <Checkbox value="isSiropEnabled">Le Sirop</Checkbox>
-          <Checkbox value="isAttrapeOiseauEnabled">L'Attrape-Oiseau</Checkbox>
-          <Checkbox value="isCivetEnabled">Le Civet</Checkbox>
-        </Stack>
+            <Stack {...ruleStackProps}>
+              <Checkbox {...ruleCheckboxProps} value="isSouffletteEnabled">
+                La Soufflette
+              </Checkbox>
+              <Checkbox {...ruleCheckboxProps} value="isSiropEnabled">
+                Le Sirop
+              </Checkbox>
+              <Checkbox {...ruleCheckboxProps} value="isAttrapeOiseauEnabled">
+                L'Attrape-Oiseau
+              </Checkbox>
+              <Checkbox {...ruleCheckboxProps} value="isCivetEnabled">
+                Le Civet
+              </Checkbox>
+            </Stack>
+          </Box>
 
-        <Heading as="h2" size="md">
-          <HStack>
-            <Text>Difficulté</Text>
-            <Icon as={TiStar} />
-            <Icon as={TiStar} />
-          </HStack>
-        </Heading>
+          <Box>
+            <Heading as="h2" {...ruleSectionHeadingProps}>
+              <HStack>
+                <Text>Difficulté</Text>
+                <Icon as={TiStar} />
+                <Icon as={TiStar} />
+              </HStack>
+            </Heading>
 
-        <Stack>
-          <Checkbox value="isArtichetteEnabled">L'Artichette</Checkbox>
-        </Stack>
+            <Stack {...ruleStackProps}>
+              <Checkbox {...ruleCheckboxProps} value="isArtichetteEnabled">
+                L'Artichette
+              </Checkbox>
+            </Stack>
+          </Box>
 
-        <Heading as="h2" size="md">
-          <HStack>
-            <Text>Difficulté</Text>
-            <Icon as={TiStar} />
-            <Icon as={TiStar} />
-            <Icon as={TiStar} />
-          </HStack>
-        </Heading>
+          <Box>
+            <Heading as="h2" {...ruleSectionHeadingProps}>
+              <HStack>
+                <Text>Difficulté</Text>
+                <Icon as={TiStar} />
+                <Icon as={TiStar} />
+                <Icon as={TiStar} />
+              </HStack>
+            </Heading>
 
-        <Stack>
-          <Checkbox value="isVerdierEnabled">Le Verdier</Checkbox>
-          <Checkbox value="isBleuRougeEnabled">Le Bleu-Rouge</Checkbox>
-        </Stack>
+            <Stack {...ruleStackProps}>
+              <Checkbox {...ruleCheckboxProps} value="isVerdierEnabled">
+                Le Verdier
+              </Checkbox>
+              <Checkbox {...ruleCheckboxProps} value="isBleuRougeEnabled">
+                Le Bleu-Rouge
+              </Checkbox>
+            </Stack>
+          </Box>
+        </SimpleGrid>
       </CheckboxGroup>
-    </Stack>
+    </Box>
   );
 }

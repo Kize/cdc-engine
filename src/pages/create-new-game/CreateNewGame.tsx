@@ -22,17 +22,19 @@ export function CreateNewGame(): JSX.Element {
       </Heading>
 
       <SimpleGrid columns={[1, 2]}>
-        <Center p={3}>
-          <RulesSelection rules={rulesForm} setRules={setRulesForm} />
-        </Center>
-
         <Box p={3}>
           <PlayersSelection setPlayers={setPlayersForm} maxPlayers={8} />
         </Box>
+
+        <Box p={3}>
+          <RulesSelection rules={rulesForm} setRules={setRulesForm} />
+        </Box>
       </SimpleGrid>
 
-      <Center>
+      <Center my={5}>
         <Button
+          size="lg"
+          colorScheme="blue"
           isDisabled={playersForm.length < 2 || playersForm.length > 8}
           onClick={() => dispatch(startGameThunk(playersForm, rulesForm))}
         >
