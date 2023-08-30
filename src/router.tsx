@@ -42,9 +42,9 @@ function createNewGameLoader() {
       return redirect('/scribe-panel');
     case GameStatus.FINISHED:
       persistGameToLocalStorage(currentGame);
-      store.dispatch(currentGameSlice.actions.resetGame());
   }
 
+  store.dispatch(currentGameSlice.actions.resetGame());
   return null;
 }
 
