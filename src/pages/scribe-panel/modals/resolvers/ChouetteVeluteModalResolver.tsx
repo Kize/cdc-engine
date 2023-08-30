@@ -1,5 +1,5 @@
 import { JSX, useState } from 'react';
-import { useAppSelector } from '../../../store/store.ts';
+import { useAppSelector } from '../../../../store/store.ts';
 import {
   Button,
   ButtonGroup,
@@ -16,9 +16,9 @@ import {
   ModalOverlay,
   Stack,
 } from '@chakra-ui/react';
-import { selectPlayers } from '../../../store/current-game/current-game-selectors.ts';
-import { Player } from '../../../../lib/player.ts';
-import { chouetteVeluteResolver } from '../../../store/resolvers/rules/chouette-velute-rule.resolver.ts';
+import { selectPlayers } from '../../../../store/current-game/current-game-selectors.ts';
+import { Player } from '../../../../../lib/player.ts';
+import { chouetteVeluteResolver } from '../../../../store/resolvers/rules/chouette-velute-rule.resolver.ts';
 
 export function ChouetteVeluteModalResolver(): JSX.Element {
   const { active, player } = useAppSelector(

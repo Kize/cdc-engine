@@ -1,5 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Player } from '../../../lib/player.ts';
+import { PlayableBid } from '../../../lib/rule-runner/rules/level-1/sirotage-rule.types.ts';
+import { DieValue } from '../../../lib/rule-runner/rules/dice-rule.ts';
 
 export interface ResolversState {
   addOperations: { active: boolean };
@@ -13,6 +15,12 @@ export interface ResolversState {
   chouetteVelute: { active: boolean; player: Player };
   soufflette: { active: boolean; player: Player };
   artichette: { active: boolean; player: Player };
+  sirop: {
+    active: boolean;
+    player: string;
+    playableBids: Array<PlayableBid>;
+    chouetteValue: DieValue;
+  };
 }
 
 function initialState(): ResolversState {
@@ -38,6 +46,12 @@ function initialState(): ResolversState {
     artichette: {
       active: false,
       player: '',
+    },
+    sirop: {
+      active: false,
+      player: '',
+      chouetteValue: 1,
+      playableBids: [],
     },
   };
 }
@@ -77,19 +91,22 @@ export const resolversSlice = createSlice({
       state,
       { payload }: PayloadAction<ResolversState['chouetteVelute']>,
     ) => {
-      state.chouetteVelute = payload;
+      state.chouetteVelute = { ...payload };
     },
     setSoufflette: (
       state,
       { payload }: PayloadAction<ResolversState['soufflette']>,
     ) => {
-      state.soufflette = payload;
+      state.soufflette = { ...payload };
     },
     setArtichette: (
       state,
       { payload }: PayloadAction<ResolversState['artichette']>,
     ) => {
-      state.artichette = payload;
+      state.artichette = { ...payload };
+    },
+    setSirop: (state, { payload }: PayloadAction<ResolversState['sirop']>) => {
+      state.sirop = { ...payload };
     },
   },
 });

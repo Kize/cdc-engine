@@ -1,5 +1,5 @@
 import { JSX, useState } from 'react';
-import { useAppSelector } from '../../../store/store.ts';
+import { useAppSelector } from '../../../../store/store.ts';
 import {
   Button,
   ButtonGroup,
@@ -20,20 +20,20 @@ import {
   SliderTrack,
 } from '@chakra-ui/react';
 import { Select } from 'chakra-react-select';
-import { DiceFormComponent } from '../../../components/dice/DiceForm.tsx';
+import { DiceFormComponent } from '../../../../components/dice/DiceForm.tsx';
 import {
   CustomSelectOption,
   customSelectStyles,
-} from '../../../utils/custom-select.utils.ts';
+} from '../../../../utils/custom-select.utils.ts';
 import {
   DiceForm,
   getNewDiceForm,
   isDiceFormValid,
-} from '../../../components/dice/dice-form.ts';
-import { selectPlayers } from '../../../store/current-game/current-game-selectors.ts';
-import { souffletteRuleResolver } from '../../../store/resolvers/rules/soufflette-rule.resolver.ts';
-import { isDiceRollASoufflette } from '../../../../lib/rule-runner/rules/level-1/soufflette-rule.ts';
-import { DiceRoll } from '../../../../lib/rule-runner/rules/dice-rule.ts';
+} from '../../../../components/dice/dice-form.ts';
+import { selectPlayers } from '../../../../store/current-game/current-game-selectors.ts';
+import { souffletteRuleResolver } from '../../../../store/resolvers/rules/soufflette-rule.resolver.ts';
+import { isDiceRollASoufflette } from '../../../../../lib/rule-runner/rules/level-1/soufflette-rule.ts';
+import { DiceRoll } from '../../../../../lib/rule-runner/rules/dice-rule.ts';
 
 const labelStyles = {
   mt: '3',

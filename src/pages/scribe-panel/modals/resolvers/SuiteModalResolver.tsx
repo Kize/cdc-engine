@@ -1,5 +1,5 @@
 import { JSX, useState } from 'react';
-import { useAppSelector } from '../../../store/store.ts';
+import { useAppSelector } from '../../../../store/store.ts';
 import {
   Button,
   ButtonGroup,
@@ -23,9 +23,9 @@ import {
   SimpleGrid,
   Stack,
 } from '@chakra-ui/react';
-import { suiteRuleResolver } from '../../../store/resolvers/rules/suite-rule.resolver.ts';
-import { selectPlayers } from '../../../store/current-game/current-game-selectors.ts';
-import { Player } from '../../../../lib/player.ts';
+import { suiteRuleResolver } from '../../../../store/resolvers/rules/suite-rule.resolver.ts';
+import { selectPlayers } from '../../../../store/current-game/current-game-selectors.ts';
+import { Player } from '../../../../../lib/player.ts';
 
 export function SuiteModalResolver(): JSX.Element {
   const { active, player } = useAppSelector((state) => state.resolvers.suite);

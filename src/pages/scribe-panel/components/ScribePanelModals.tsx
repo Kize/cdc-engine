@@ -1,12 +1,13 @@
 import { JSX } from 'react';
-import { SuiteModalResolver } from '../modals/SuiteModalResolver.tsx';
-import { ChouetteVeluteModalResolver } from '../modals/ChouetteVeluteModalResolver.tsx';
-import { GrelottineModalResolver } from '../modals/GrelottineModalResolver.tsx';
+import { SuiteModalResolver } from '../modals/resolvers/SuiteModalResolver.tsx';
+import { ChouetteVeluteModalResolver } from '../modals/resolvers/ChouetteVeluteModalResolver.tsx';
+import { GrelottineModalResolver } from '../modals/resolvers/GrelottineModalResolver.tsx';
 import { ChanteSloubiModal } from '../modals/ChanteSloubiModal.tsx';
 import { AddOperationsModal } from '../modals/AddOperationsModal.tsx';
-import { ArtichetteModalResolver } from '../modals/ArtichetteModalResolver.tsx';
-import { SouffletteModalResolver } from '../modals/SouffletteModalResolver.tsx';
+import { ArtichetteModalResolver } from '../modals/resolvers/ArtichetteModalResolver.tsx';
+import { SouffletteModalResolver } from '../modals/resolvers/SouffletteModalResolver.tsx';
 import { EndGameModal } from '../modals/EndGameModal.tsx';
+import { SiropModalResolver } from '../modals/resolvers/SiropModalResolver.tsx';
 
 export function ScribePanelModals(): JSX.Element {
   return (
@@ -20,6 +21,7 @@ export function ScribePanelModals(): JSX.Element {
 
       <ArtichetteModalResolver />
       <SouffletteModalResolver />
+      <SiropModalResolver />
 
       <EndGameModal />
     </>

@@ -1,10 +1,12 @@
+import { Player } from '../../../player.ts';
+
 export interface PlayableBid {
   type: BidType;
   isPlayable: boolean;
 }
 
 export interface SiropBid {
-  player: string;
+  player: Player;
   playerBid: BidType;
   isBidValidated: boolean;
 }

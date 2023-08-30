@@ -1,5 +1,5 @@
 import { JSX } from 'react';
-import { useAppSelector } from '../../../store/store.ts';
+import { useAppSelector } from '../../../../store/store.ts';
 import {
   Button,
   Container,
@@ -12,7 +12,7 @@ import {
   ModalOverlay,
   SimpleGrid,
 } from '@chakra-ui/react';
-import { artichetteRuleResolver } from '../../../store/resolvers/rules/artichette-rule.resolver.ts';
+import { artichetteRuleResolver } from '../../../../store/resolvers/rules/artichette-rule.resolver.ts';
 
 export function ArtichetteModalResolver(): JSX.Element {
   const { active, player } = useAppSelector(

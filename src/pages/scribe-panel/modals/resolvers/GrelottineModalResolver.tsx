@@ -1,5 +1,5 @@
 import { BaseSyntheticEvent, JSX, useEffect, useState } from 'react';
-import { useAppSelector } from '../../../store/store.ts';
+import { useAppSelector } from '../../../../store/store.ts';
 import {
   Box,
   Button,
@@ -31,20 +31,20 @@ import {
   Text,
   UnorderedList,
 } from '@chakra-ui/react';
-import { selectPlayerCardDetails } from '../../../store/current-game/current-game-selectors.ts';
-import { grelottineResolver } from '../../../store/resolvers/rules/grelottine-rule.resolver.ts';
+import { selectPlayerCardDetails } from '../../../../store/current-game/current-game-selectors.ts';
+import { grelottineResolver } from '../../../../store/resolvers/rules/grelottine-rule.resolver.ts';
 import {
   getMaxGrelottinePossibleAmount,
   GrelottineBet,
-} from '../../../../lib/rule-runner/rules/basic-rules/grelottine-rule.ts';
-import { Player } from '../../../../lib/player.ts';
-import { PlayerCardDetails } from '../components/PlayerCard.tsx';
-import { DiceFormComponent } from '../../../components/dice/DiceForm.tsx';
+} from '../../../../../lib/rule-runner/rules/basic-rules/grelottine-rule.ts';
+import { Player } from '../../../../../lib/player.ts';
+import { PlayerCardDetails } from '../../components/PlayerCard.tsx';
+import { DiceFormComponent } from '../../../../components/dice/DiceForm.tsx';
 import {
   DiceForm,
   getNewDiceForm,
   isDiceFormValid,
-} from '../../../components/dice/dice-form.ts';
+} from '../../../../components/dice/dice-form.ts';
 import { BsArrowUpCircle } from 'react-icons/bs';
 
 export function GrelottineModalResolver(): JSX.Element {
