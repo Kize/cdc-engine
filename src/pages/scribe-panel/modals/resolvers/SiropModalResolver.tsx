@@ -31,9 +31,16 @@ import { OptionalDieValue } from '../../../../components/dice/dice-form.ts';
 import {
   BidType,
   dieValueToBidType,
+  PlayableBid,
   SiropBid,
 } from '../../../../../lib/rule-runner/rules/level-1/sirotage-rule.types.ts';
 import { createSelector } from '@reduxjs/toolkit';
+import {
+  CustomSelectOption,
+  customSelectStyles,
+} from '../../../../utils/custom-select.utils.ts';
+import { Select } from 'chakra-react-select';
+import { attrapeOiseauRuleResolver } from '../../../../store/resolvers/rules/attrape-oiseau-rule.resolver.ts';
 
 const selectSiropPlayers = createSelector(
   selectPlayers,
@@ -52,11 +59,24 @@ export function SiropModalResolver(): JSX.Element {
     (state) => state.resolvers.sirop,
   );
 
+  const isAttrapeOiseauEnabled = useAppSelector(
+    (state) => state.currentGame.rulesConfiguration.isAttrapeOiseauEnabled,
+  );
+
   const siropPlayers = useAppSelector(selectSiropPlayers);
   useEffect(() => {
     setBids(siropPlayers.map(getNewBidForm));
   }, [siropPlayers]);
 
+  const attrapeOiseauOptions = useAppSelector(selectPlayers)
+    .filter((p) => p !== player)
+    .map<CustomSelectOption>((player) => ({
+      label: player,
+      value: player,
+    }));
+
+  const [selectedAttrapeOiseau, setSelectedAttrapeOiseau] =
+    useState<CustomSelectOption | null>(null);
   const [bids, setBids] = useState<Array<SiropBid>>([]);
   const [dieValue, setDieValue] = useState<OptionalDieValue>(null);
   const [validatedPlayers, setValidatedPlayers] = useState<Array<Player>>([]);
@@ -64,19 +84,44 @@ export function SiropModalResolver(): JSX.Element {
   const isFormValid =
     dieValue !== null && bids.every((bid) => (bid.playerBid as string) !== '');
 
+  const enabledBids = playableBids.map<PlayableBid>((bid) => {
+    let disabled;
+    switch (bid.type) {
+      case BidType.COUCHE_SIROP:
+        disabled = !!selectedAttrapeOiseau;
+        break;
+      case BidType.FILE_SIROP:
+        disabled = !selectedAttrapeOiseau;
+        break;
+      default:
+        disabled = !bid.isPlayable;
+    }
+
+    return {
+      type: bid.type,
+      isPlayable: !disabled,
+    };
+  });
+
   const selectDie = (value: OptionalDieValue): OptionalDieValue => {
     setDieValue(value);
     return value;
   };
 
   const resetForm = () => {
+    setSelectedAttrapeOiseau(null);
     setDieValue(null);
     setValidatedPlayers([]);
     setBids([]);
   };
 
   const onClose = () => {
-    siropRuleResolver.reject();
+    if (isAttrapeOiseauEnabled) {
+      attrapeOiseauRuleResolver.reject();
+    } else {
+      siropRuleResolver.reject();
+    }
+
     resetForm();
   };
 
@@ -84,15 +129,28 @@ export function SiropModalResolver(): JSX.Element {
     if (!isSirote) {
       siropRuleResolver.resolve({ isSirote: false });
     } else if (isFormValid) {
-      siropRuleResolver.resolve({
-        isSirote: true,
-        lastDieValue: dieValue,
-        bids: bids.map(({ player, playerBid }) => ({
-          player,
-          playerBid,
-          isBidValidated: validatedPlayers.includes(player),
-        })),
-      });
+      if (selectedAttrapeOiseau === null) {
+        siropRuleResolver.resolve({
+          isSirote: true,
+          lastDieValue: dieValue,
+          bids: bids.map(({ player, playerBid }) => ({
+            player,
+            playerBid,
+            isBidValidated: validatedPlayers.includes(player),
+          })),
+        });
+      } else {
+        attrapeOiseauRuleResolver.resolve({
+          isSirote: true,
+          playerWhoMakeAttrapeOiseau: selectedAttrapeOiseau.value,
+          lastDieValue: dieValue,
+          bids: bids.map(({ player, playerBid }) => ({
+            player,
+            playerBid,
+            isBidValidated: validatedPlayers.includes(player),
+          })),
+        });
+      }
     }
 
     resetForm();
@@ -123,6 +181,11 @@ export function SiropModalResolver(): JSX.Element {
     return !(hasBetValidBeauSirop || hasBetRightValue);
   };
 
+  const cardsProps = {
+    size: 'sm',
+    mb: 2,
+  };
+
   return (
     <>
       <Modal
@@ -139,7 +202,28 @@ export function SiropModalResolver(): JSX.Element {
           </ModalHeader>
 
           <ModalBody>
-            <Card size="sm">
+            {isAttrapeOiseauEnabled && (
+              <Card {...cardsProps}>
+                <CardHeader pb={0} color="blue">
+                  Attrape-Oiseau
+                </CardHeader>
+
+                <CardBody pt={0}>
+                  <Container>
+                    <Select
+                      isClearable
+                      placeholder={attrapeOiseauOptions[0]?.label ?? ''}
+                      value={selectedAttrapeOiseau}
+                      options={attrapeOiseauOptions}
+                      onChange={setSelectedAttrapeOiseau}
+                      {...customSelectStyles}
+                    />
+                  </Container>
+                </CardBody>
+              </Card>
+            )}
+
+            <Card {...cardsProps}>
               <CardHeader pb={0} color="blue">
                 Annonces:
               </CardHeader>
@@ -157,7 +241,7 @@ export function SiropModalResolver(): JSX.Element {
                         value={bidForm.playerBid}
                       >
                         <Stack>
-                          {playableBids.map((bid) => (
+                          {enabledBids.map((bid) => (
                             <Radio
                               value={bid.type}
                               key={bid.type}
@@ -175,7 +259,7 @@ export function SiropModalResolver(): JSX.Element {
               </CardBody>
             </Card>
 
-            <Card size="sm">
+            <Card {...cardsProps}>
               <CardHeader pb={0} color="blue">
                 Résultat du dé siroté:
               </CardHeader>
@@ -187,7 +271,7 @@ export function SiropModalResolver(): JSX.Element {
               </CardBody>
             </Card>
 
-            <Card size="sm">
+            <Card {...cardsProps}>
               <CardHeader pb={0} color="blue">
                 Validation des annonces:
               </CardHeader>
