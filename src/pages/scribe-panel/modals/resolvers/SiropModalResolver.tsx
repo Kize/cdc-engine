@@ -126,31 +126,23 @@ export function SiropModalResolver(): JSX.Element {
   };
 
   const onValidate = (isSirote: boolean) => {
+    const resolver = isAttrapeOiseauEnabled
+      ? attrapeOiseauRuleResolver
+      : siropRuleResolver;
+
     if (!isSirote) {
-      siropRuleResolver.resolve({ isSirote: false });
+      resolver.resolve({ isSirote: false });
     } else if (isFormValid) {
-      if (selectedAttrapeOiseau === null) {
-        siropRuleResolver.resolve({
-          isSirote: true,
-          lastDieValue: dieValue,
-          bids: bids.map(({ player, playerBid }) => ({
-            player,
-            playerBid,
-            isBidValidated: validatedPlayers.includes(player),
-          })),
-        });
-      } else {
-        attrapeOiseauRuleResolver.resolve({
-          isSirote: true,
-          playerWhoMakeAttrapeOiseau: selectedAttrapeOiseau.value,
-          lastDieValue: dieValue,
-          bids: bids.map(({ player, playerBid }) => ({
-            player,
-            playerBid,
-            isBidValidated: validatedPlayers.includes(player),
-          })),
-        });
-      }
+      resolver.resolve({
+        isSirote: true,
+        playerWhoMakeAttrapeOiseau: selectedAttrapeOiseau?.value,
+        lastDieValue: dieValue,
+        bids: bids.map(({ player, playerBid }) => ({
+          player,
+          playerBid,
+          isBidValidated: validatedPlayers.includes(player),
+        })),
+      });
     }
 
     resetForm();
