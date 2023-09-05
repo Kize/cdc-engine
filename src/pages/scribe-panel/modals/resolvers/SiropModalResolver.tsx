@@ -26,7 +26,7 @@ import {
 import { siropRuleResolver } from '../../../../store/resolvers/rules/sirop-rule.resolver.ts';
 import { selectPlayers } from '../../../../store/current-game/current-game-selectors.ts';
 import { DieInput } from '../../../../components/dice/DieInput.tsx';
-import { Player } from '../../../../../lib/player.ts';
+import { Player, sortPlayersStartingBy } from '../../../../../lib/player.ts';
 import { OptionalDieValue } from '../../../../components/dice/dice-form.ts';
 import {
   BidType,
@@ -38,17 +38,7 @@ import { createSelector } from '@reduxjs/toolkit';
 const selectSiropPlayers = createSelector(
   selectPlayers,
   (state: RootState) => state.resolvers.sirop.player,
-  (players: Array<Player>, sirotant: Player): Array<Player> => {
-    if (!sirotant) {
-      return [];
-    }
-
-    const sirotantIndex = players.findIndex((p) => p === sirotant);
-
-    const firstPart = players.slice(0, sirotantIndex);
-    const secondPart = players.slice(sirotantIndex);
-    return [...secondPart, ...firstPart];
-  },
+  sortPlayersStartingBy,
 );
 
 const getNewBidForm = (player: Player) => ({

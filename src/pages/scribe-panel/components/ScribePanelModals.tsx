@@ -8,6 +8,7 @@ import { ArtichetteModalResolver } from '../modals/resolvers/ArtichetteModalReso
 import { SouffletteModalResolver } from '../modals/resolvers/SouffletteModalResolver.tsx';
 import { EndGameModal } from '../modals/EndGameModal.tsx';
 import { SiropModalResolver } from '../modals/resolvers/SiropModalResolver.tsx';
+import { BleuRougeModalResolver } from '../modals/resolvers/BleuRougeModalResolver.tsx';
 
 export function ScribePanelModals(): JSX.Element {
   return (
@@ -22,6 +23,7 @@ export function ScribePanelModals(): JSX.Element {
       <ArtichetteModalResolver />
       <SouffletteModalResolver />
       <SiropModalResolver />
+      <BleuRougeModalResolver />
 
       <EndGameModal />
     </>

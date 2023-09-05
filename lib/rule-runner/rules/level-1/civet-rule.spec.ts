@@ -10,7 +10,11 @@ import {
 import { RuleEffect, RuleEffectEvent } from '../rule-effect';
 import { VeluteRule } from '../basic-rules/velute-rule';
 import { RuleRunner } from '../../rule-runner';
-import { BleuRougeResolution, BleuRougeRule } from '../level-3/bleu-rouge-rule';
+import {
+  BleuRougeResolution,
+  BleuRougeResolutionPayload,
+  BleuRougeRule,
+} from '../level-3/bleu-rouge-rule';
 import {
   AttrapeOiseauResolution,
   AttrapeOiseauRule,
@@ -154,7 +158,10 @@ describe('applyRule', () => {
       } as CivetResolution),
     };
 
-    const bleuRougeResolver: Resolver<BleuRougeResolution> = {
+    const bleuRougeResolver: Resolver<
+      BleuRougeResolution,
+      BleuRougeResolutionPayload
+    > = {
       getResolution: vi.fn().mockResolvedValue({
         diceRoll: [2, 3, 5],
         bids: [{ player: 'Alban', bet: 10 }],

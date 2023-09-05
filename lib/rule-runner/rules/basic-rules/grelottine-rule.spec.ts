@@ -9,7 +9,11 @@ import { RuleEffect, RuleEffectEvent } from '../rule-effect';
 import { Resolver } from '../rule-resolver';
 import { RuleRunner } from '../../rule-runner';
 import { ChouetteRule } from './chouette-rule';
-import { BleuRougeResolution, BleuRougeRule } from '../level-3/bleu-rouge-rule';
+import {
+  BleuRougeResolution,
+  BleuRougeResolutionPayload,
+  BleuRougeRule,
+} from '../level-3/bleu-rouge-rule';
 import { VeluteRule } from './velute-rule';
 import {
   CivetBet,
@@ -182,7 +186,10 @@ describe('applyRule', () => {
       } as GrelottineResolution),
     };
 
-    const bleuRougeResolver: Resolver<BleuRougeResolution> = {
+    const bleuRougeResolver: Resolver<
+      BleuRougeResolution,
+      BleuRougeResolutionPayload
+    > = {
       getResolution: vi.fn().mockResolvedValue({
         diceRoll: [2, 3, 5],
         bids: [{ player: 'Alban', bet: 10 }],

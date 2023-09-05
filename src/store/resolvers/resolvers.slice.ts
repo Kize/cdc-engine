@@ -21,6 +21,7 @@ export interface ResolversState {
     playableBids: Array<PlayableBid>;
     chouetteValue: DieValue;
   };
+  bleuRouge: { active: boolean; player: Player };
 }
 
 function initialState(): ResolversState {
@@ -52,6 +53,10 @@ function initialState(): ResolversState {
       player: '',
       chouetteValue: 1,
       playableBids: [],
+    },
+    bleuRouge: {
+      active: false,
+      player: '',
     },
   };
 }
@@ -107,6 +112,12 @@ export const resolversSlice = createSlice({
     },
     setSirop: (state, { payload }: PayloadAction<ResolversState['sirop']>) => {
       state.sirop = { ...payload };
+    },
+    setBleuRouge: (
+      state,
+      { payload }: PayloadAction<ResolversState['bleuRouge']>,
+    ) => {
+      state.bleuRouge = { ...payload };
     },
   },
 });

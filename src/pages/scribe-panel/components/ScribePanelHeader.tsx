@@ -1,6 +1,7 @@
-import { Button, Heading, Icon, Link, SimpleGrid } from '@chakra-ui/react';
+import { Box, Button, Heading, Icon, Link, SimpleGrid } from '@chakra-ui/react';
 import { HiOutlineExternalLink } from 'react-icons/hi';
 import { MdCancelPresentation } from 'react-icons/md';
+import { Link as RouterLink } from 'react-router-dom';
 
 interface Props {
   cancelGame: () => void;
@@ -19,9 +20,9 @@ export function ScribePanelHeader({ cancelGame }: Props) {
         Accéder aux règles <Icon mx="2px" as={HiOutlineExternalLink} />
       </Link>
 
-      <Link pt={2} href="/history">
-        Afficher l'historique
-      </Link>
+      <Box pt={2}>
+        <RouterLink to="/history">Afficher l'historique</RouterLink>
+      </Box>
 
       <Button
         colorScheme="pink"

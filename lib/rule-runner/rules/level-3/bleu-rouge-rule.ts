@@ -5,16 +5,26 @@ import { ChouetteRule } from '../basic-rules/chouette-rule';
 import { NeantRule } from '../basic-rules/neant-rule';
 import { Rules } from '../rule';
 import { DiceRollGameContext } from '../../game-context.ts';
+import { Player } from '../../../player.ts';
 
 export interface BleuRougeResolution {
   diceRoll: DiceRoll;
   bids: Array<BleuRougeBid>;
 }
 
+export interface BleuRougeResolutionPayload {
+  player: Player;
+}
+
 export class BleuRougeRule extends ChouetteRule {
   name = Rules.BLEU_ROUGE;
 
-  constructor(private readonly resolver: Resolver<BleuRougeResolution>) {
+  constructor(
+    private readonly resolver: Resolver<
+      BleuRougeResolution,
+      BleuRougeResolutionPayload
+    >,
+  ) {
     super();
   }
 
@@ -32,7 +42,9 @@ export class BleuRougeRule extends ChouetteRule {
       event: RuleEffectEvent.BLEU_ROUGE,
     };
 
-    const { bids, diceRoll } = await this.resolver.getResolution();
+    const { bids, diceRoll } = await this.resolver.getResolution({
+      player: context.player,
+    });
 
     const addJarretRuleEffects: RuleEffects = [];
     const secondRollContext: DiceRollGameContext = { ...context, diceRoll };

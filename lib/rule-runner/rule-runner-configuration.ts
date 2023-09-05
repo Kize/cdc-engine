@@ -21,7 +21,10 @@ import {
   CivetResolution,
   CivetResolutionPayload,
 } from './rules/level-1/civet-rule.ts';
-import { BleuRougeResolution } from './rules/level-3/bleu-rouge-rule.ts';
+import {
+  BleuRougeResolution,
+  BleuRougeResolutionPayload,
+} from './rules/level-3/bleu-rouge-rule.ts';
 import {
   ArtichetteResolution,
   ArtichetteResolutionPayload,
@@ -60,7 +63,10 @@ export interface Resolvers {
     SouffletteResolutionPayload
   >;
   civetRuleResolver?: RuleResolver<CivetResolution, CivetResolutionPayload>;
-  bleuRougeRuleResolver?: RuleResolver<BleuRougeResolution>;
+  bleuRougeRuleResolver?: RuleResolver<
+    BleuRougeResolution,
+    BleuRougeResolutionPayload
+  >;
   artichetteRuleResolver?: RuleResolver<
     ArtichetteResolution,
     ArtichetteResolutionPayload

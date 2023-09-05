@@ -6,6 +6,7 @@ import { chouetteVeluteResolver } from '../store/resolvers/rules/chouette-velute
 import { souffletteRuleResolver } from '../store/resolvers/rules/soufflette-rule.resolver.ts';
 import { artichetteRuleResolver } from '../store/resolvers/rules/artichette-rule.resolver.ts';
 import { siropRuleResolver } from '../store/resolvers/rules/sirop-rule.resolver.ts';
+import { bleuRougeRuleResolver } from '../store/resolvers/rules/bleu-rouge-rule.resolver.ts';
 
 export const cdcGameHandler = new GameHandler();
 
@@ -19,5 +20,6 @@ export function configureGameHandlerRules(
     souffletteRuleResolver: souffletteRuleResolver,
     artichetteRuleResolver: artichetteRuleResolver,
     siropRuleResolver: siropRuleResolver,
+    bleuRougeRuleResolver: bleuRougeRuleResolver,
   });
 }

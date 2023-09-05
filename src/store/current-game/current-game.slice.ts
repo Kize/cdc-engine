@@ -63,7 +63,7 @@ export function getNewCurrentGameState(): CurrentGameState {
       isCivetEnabled: false,
       isArtichetteEnabled: true,
       isVerdierEnabled: false,
-      isBleuRougeEnabled: false,
+      isBleuRougeEnabled: true,
     },
   };
 }

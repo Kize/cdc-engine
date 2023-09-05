@@ -4,7 +4,6 @@ import {
   Center,
   Flex,
   Heading,
-  Link,
   Spacer,
   Stack,
   Table,
@@ -26,6 +25,7 @@ import { Player } from '../../../lib/player.ts';
 import { cdcGameHandler } from '../../utils/game-handler-configuration.ts';
 import { TbArrowBackUp } from 'react-icons/tb';
 import { cancelLastEventThunk } from '../../store/current-game/current-game-actions-thunks.ts';
+import { Link } from 'react-router-dom';
 
 export function CurrentGameHistory(): JSX.Element {
   const players = useAppSelector(selectPlayers);
@@ -45,7 +45,7 @@ export function CurrentGameHistory(): JSX.Element {
         <Spacer />
 
         <Center>
-          <Link href="/scribe-panel">Retour à la partie</Link>
+          <Link to="/scribe-panel">Retour à la partie</Link>
         </Center>
         <Spacer />
       </Flex>
