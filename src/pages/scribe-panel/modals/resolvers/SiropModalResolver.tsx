@@ -227,17 +227,17 @@ export function SiropModalResolver(): JSX.Element {
                       <FormLabel as="legend">{bidForm.player}</FormLabel>
 
                       <RadioGroup
+                        value={bidForm.playerBid}
                         onChange={(bet: BidType) =>
                           selectedABet(bet, bidForm.player)
                         }
-                        value={bidForm.playerBid}
                       >
                         <Stack>
                           {enabledBids.map((bid) => (
                             <Radio
                               value={bid.type}
                               key={bid.type}
-                              disabled={!bid.isPlayable}
+                              isDisabled={!bid.isPlayable}
                               size="md"
                             >
                               {bid.type}
