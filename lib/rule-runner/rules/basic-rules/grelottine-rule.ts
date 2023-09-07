@@ -126,7 +126,7 @@ const grelottineBetToRuleEffectsToCheck: Record<
 
 export function getMaxGrelottinePossibleAmount(
   lowestScore: number,
-  challenge: GrelottineBet,
+  challenge: GrelottineBet | null,
 ): number {
   let percentage: number;
   switch (challenge) {

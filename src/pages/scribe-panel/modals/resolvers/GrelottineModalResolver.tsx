@@ -4,6 +4,7 @@ import {
   Box,
   Button,
   ButtonGroup,
+  Center,
   Container,
   Flex,
   FormControl,
@@ -46,6 +47,7 @@ import {
   isDiceFormValid,
 } from '../../../../components/dice/dice-form.ts';
 import { BsArrowUpCircle } from 'react-icons/bs';
+import { GiRabbit } from 'react-icons/gi';
 
 export function GrelottineModalResolver(): JSX.Element {
   const { active } = useAppSelector((state) => state.resolvers.grelottine);
@@ -55,13 +57,16 @@ export function GrelottineModalResolver(): JSX.Element {
 
   const isEnoughPlayers = grelottinePlayers.length >= 2;
 
-  const isSiropEnabled = useAppSelector(
+  const isSiropRuleEnabled = useAppSelector(
     (state) => state.currentGame.rulesConfiguration.isSiropEnabled,
+  );
+  const isCivetRuleEnabled = useAppSelector(
+    (state) => state.currentGame.rulesConfiguration.isCivetEnabled,
   );
 
   const [grelottinPlayer, setGrelottinPlayer] = useState('' as Player);
   const [challengedPlayer, setChallengedPlayer] = useState('' as Player);
-  const [grelottinBet, setGrelottinBet] = useState('' as GrelottineBet);
+  const [grelottinBet, setGrelottinBet] = useState<null | GrelottineBet>(null);
   const [gambledAmount, setGambledAmount] = useState(0);
   const [diceForm, setDiceForm] = useState(getNewDiceForm() as DiceForm);
   const isFormValid =
@@ -71,18 +76,23 @@ export function GrelottineModalResolver(): JSX.Element {
     gambledAmount &&
     isDiceFormValid(diceForm);
 
+  const isCivetPossible =
+    isCivetRuleEnabled &&
+    challengedPlayer &&
+    grelottinePlayers.some((p) => p.player === challengedPlayer && p.hasCivet);
+
   const grelottineChallengeBets = Object.values(GrelottineBet).filter((bet) => {
     if (bet !== GrelottineBet.SIROP_GRELOT) {
       return true;
     }
 
-    return isSiropEnabled;
+    return isSiropRuleEnabled;
   });
 
   const resetForm = () => {
     setGrelottinPlayer('');
     setChallengedPlayer('');
-    setGrelottinBet('' as GrelottineBet);
+    setGrelottinBet(null);
     setGambledAmount(0);
     setDiceForm(getNewDiceForm());
   };
@@ -109,10 +119,36 @@ export function GrelottineModalResolver(): JSX.Element {
     resetForm();
   };
 
+  const playCivet = () => {
+    if (
+      isCivetRuleEnabled &&
+      grelottinPlayer &&
+      challengedPlayer &&
+      grelottinBet &&
+      gambledAmount
+    ) {
+      grelottineResolver.resolve({
+        grelottinPlayer,
+        challengedPlayer,
+        grelottinBet,
+        gambledAmount,
+      });
+    }
+  };
+
+  const onChangeBetAmount = (_: string, value: number) => {
+    const maxValue = getMaximumBetAmount();
+    setGambledAmount(Math.min(value, maxValue));
+  };
+
   const setAmountToMax = () => {
+    setGambledAmount(getMaximumBetAmount());
+  };
+
+  const getMaximumBetAmount = (): number => {
     if (!grelottinPlayer || !challengedPlayer) {
       setGambledAmount(0);
-      return;
+      return 0;
     }
     const grelottinScore = grelottinePlayers.find(
       (p) => p.player === grelottinPlayer,
@@ -123,7 +159,7 @@ export function GrelottineModalResolver(): JSX.Element {
     )!.score;
     const lowestScore = Math.min(grelottinScore, challengedPlayerScore);
 
-    setGambledAmount(getMaxGrelottinePossibleAmount(lowestScore, grelottinBet));
+    return getMaxGrelottinePossibleAmount(lowestScore, grelottinBet);
   };
 
   useEffect(setAmountToMax, [grelottinPlayer, challengedPlayer, grelottinBet]);
@@ -175,7 +211,7 @@ export function GrelottineModalResolver(): JSX.Element {
                 <FormLabel as="legend">Choix du Défi</FormLabel>
 
                 <RadioGroup
-                  value={grelottinBet}
+                  value={grelottinBet as GrelottineBet}
                   onChange={(value) => setGrelottinBet(value as GrelottineBet)}
                 >
                   <Stack>
@@ -197,7 +233,7 @@ export function GrelottineModalResolver(): JSX.Element {
                     maxW={24}
                     min={0}
                     value={gambledAmount}
-                    onChange={(_, value) => setGambledAmount(value)}
+                    onChange={onChangeBetAmount}
                   >
                     <NumberInputField />
                     <NumberInputStepper>
@@ -226,6 +262,20 @@ export function GrelottineModalResolver(): JSX.Element {
                   return diceForm;
                 }}
               />
+
+              <Center mt={6}>
+                <Button
+                  aria-label="jouer le civet"
+                  leftIcon={<GiRabbit />}
+                  colorScheme="orange"
+                  mx={6}
+                  isDisabled={gambledAmount < 1 || grelottinBet === null}
+                  hidden={!isCivetPossible}
+                  onClick={() => playCivet()}
+                >
+                  Civet
+                </Button>
+              </Center>
             </Container>
           </ModalBody>
 
