@@ -1,6 +1,6 @@
 import { JSX, useEffect, useState } from 'react';
 import { PlayerCard } from './components/PlayerCard.tsx';
-import { Card, CardBody, CardHeader, Show, SimpleGrid } from '@chakra-ui/react';
+import { Show, SimpleGrid } from '@chakra-ui/react';
 import { useAppDispatch, useAppSelector } from '../../store/store.ts';
 import {
   selectGameStatus,
@@ -13,13 +13,13 @@ import {
   getNewDiceForm,
   isDiceFormValid,
 } from '../../components/dice/dice-form.ts';
-import { DiceFormComponent } from '../../components/dice/DiceForm.tsx';
 import { ScribePanelModals } from './components/ScribePanelModals.tsx';
 import { resolversSlice } from '../../store/resolvers/resolvers.slice.ts';
 import { resetGameThunk } from '../../store/current-game/current-game-lifecycle-thunks.ts';
 import { GameStatus } from '../../../lib/game/game-handler.ts';
 import { ScribePanelHeader } from './components/ScribePanelHeader.tsx';
 import { MainActionsPanel } from './components/MainActionsPanel.tsx';
+import { PlayTurnPanel } from './components/PlayTurnPanel.tsx';
 
 export function ScribePanel(): JSX.Element {
   const players = useAppSelector(selectPlayerCardDetails);
@@ -76,16 +76,11 @@ export function ScribePanel(): JSX.Element {
           <MainActionsPanel />
         </Show>
 
-        <Card pb={[2, 4]} variant="filled" colorScheme="gray">
-          <CardHeader fontSize={'1.2em'}>Tour: {numberOfTurns}</CardHeader>
-
-          <CardBody py={0}>
-            <DiceFormComponent
-              diceForm={diceForm}
-              onChangeForm={onChangeForm}
-            />
-          </CardBody>
-        </Card>
+        <PlayTurnPanel
+          numberOfTurns={numberOfTurns}
+          diceForm={diceForm}
+          onChangeDiceForm={onChangeForm}
+        />
 
         <Show below="md">
           <MainActionsPanel />

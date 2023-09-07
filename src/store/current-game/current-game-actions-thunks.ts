@@ -41,6 +41,35 @@ export const playATurnThunk =
     }
   };
 
+export const playCivetTurnThunk =
+  (player: Player): AsyncAppThunk =>
+  async (dispatch, getState) => {
+    const { currentGame } = getState();
+    const currentPlayer = cdcGameHandler.getCurrentPlayer(
+      currentGame.events,
+      currentGame.players,
+    );
+
+    if (currentPlayer !== player) {
+      console.warn('Something is wrong here, playing civet is impossible');
+      return;
+    }
+
+    try {
+      const gameEvent = await cdcGameHandler.playATurn({
+        event: GameContextEvent.CIVET_BET,
+        runner: cdcGameHandler.ruleRunner,
+        player: currentPlayer,
+      });
+
+      dispatch(currentGameSlice.actions.addEvent(gameEvent));
+    } catch (error) {
+      if (error !== undefined) {
+        throw error;
+      }
+    }
+  };
+
 export const startGrelottineChallengeThunk =
   (): AsyncAppThunk => async (dispatch) => {
     try {

@@ -16,12 +16,14 @@ import { useAppDispatch } from '../../../store/store.ts';
 import { applyBevueThunk } from '../../../store/current-game/current-game-actions-thunks.ts';
 import { Player } from '../../../../lib/player.ts';
 import { FaRegBell } from 'react-icons/fa';
+import { GiRabbit } from 'react-icons/gi';
 
 export interface PlayerCardDetails {
   player: Player;
   score: number;
   isCurrentPlayer: boolean;
   hasGrelottine: boolean;
+  hasCivet: boolean;
 }
 
 export function PlayerCard({
@@ -61,7 +63,12 @@ export function PlayerCard({
         <Tag colorScheme="red" hidden={!details.hasGrelottine}>
           <TagLeftIcon as={FaRegBell} />
           <TagLabel>Grelottine</TagLabel>
-        </Tag>{' '}
+        </Tag>
+
+        <Tag colorScheme="gray" hidden={!details.hasCivet}>
+          <TagLeftIcon as={GiRabbit} />
+          <TagLabel>Civet</TagLabel>
+        </Tag>
       </CardBody>
     </Card>
   );

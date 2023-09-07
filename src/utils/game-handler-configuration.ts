@@ -8,6 +8,7 @@ import { artichetteRuleResolver } from '../store/resolvers/rules/artichette-rule
 import { siropRuleResolver } from '../store/resolvers/rules/sirop-rule.resolver.ts';
 import { bleuRougeRuleResolver } from '../store/resolvers/rules/bleu-rouge-rule.resolver.ts';
 import { attrapeOiseauRuleResolver } from '../store/resolvers/rules/attrape-oiseau-rule.resolver.ts';
+import { civetRuleResolver } from '../store/resolvers/rules/civet-rule.resolver.ts';
 
 export const cdcGameHandler = new GameHandler();
 
@@ -22,6 +23,7 @@ export function configureGameHandlerRules(
     artichetteRuleResolver: artichetteRuleResolver,
     siropRuleResolver: siropRuleResolver,
     attrapeOiseauRuleResolver: attrapeOiseauRuleResolver,
+    civetRuleResolver: civetRuleResolver,
     bleuRougeRuleResolver: bleuRougeRuleResolver,
   });
 }

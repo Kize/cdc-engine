@@ -69,6 +69,22 @@ export class HistoryHelper {
     }, false);
   }
 
+  hasCivet(events: Array<GameEvent>, player: Player): boolean {
+    const playerHistory = this.getPlayerHistory(player, events);
+
+    return playerHistory.reduce((has: boolean, historyLine: HistoryLine) => {
+      if (historyLine.designation === RuleEffectEvent.ADD_CIVET) {
+        return true;
+      }
+
+      if (historyLine.designation === RuleEffectEvent.REMOVE_CIVET) {
+        return false;
+      }
+
+      return has;
+    }, false);
+  }
+
   getNumberOfTurnsPlayed(events: Array<GameEvent>, player: Player): number {
     return events.reduce((numberOfTurnsPlayed: number, event) => {
       const numberOfTurnsPlayedInEvent = event.historyLines.reduce(

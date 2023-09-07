@@ -26,14 +26,22 @@ export const selectGameStatus = createSelector(
 export const selectPlayerCardDetails = createSelector(
   selectPlayers,
   selectEvents,
-  (players, events) =>
+  selectRulesConfiguration,
+  (players, events, rules) =>
     players.map<PlayerCardDetails>((player) => ({
       player,
       score: cdcGameHandler.history.getPlayerScore(events, player),
       isCurrentPlayer:
         cdcGameHandler.getCurrentPlayer(events, players) === player,
       hasGrelottine: cdcGameHandler.history.hasGrelottine(events, player),
+      hasCivet:
+        rules.isCivetEnabled && cdcGameHandler.history.hasCivet(events, player),
     })),
+);
+
+export const selectCurrentPlayerDetails = createSelector(
+  selectPlayerCardDetails,
+  (players) => players.find((p) => p.isCurrentPlayer),
 );
 
 export const selectPlayersWithSumScores = createSelector(
