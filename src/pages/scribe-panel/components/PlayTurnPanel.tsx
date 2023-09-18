@@ -1,6 +1,6 @@
 import { DiceForm } from '../../../components/dice/dice-form.ts';
 import { Box, Button, Card, CardBody, CardHeader } from '@chakra-ui/react';
-import { DiceFormComponent } from '../../../components/dice/DiceForm.tsx';
+import { DiceFormComponent2 } from '../../../components/dice/DiceForm2.tsx';
 import { JSX } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../store/store.ts';
 import { selectCurrentPlayerDetails } from '../../../store/current-game/current-game-selectors.ts';
@@ -32,7 +32,7 @@ export function PlayTurnPanel(props: {
       </CardHeader>
 
       <CardBody py={0}>
-        <DiceFormComponent
+        <DiceFormComponent2
           diceForm={props.diceForm}
           onChangeForm={props.onChangeDiceForm}
         />
