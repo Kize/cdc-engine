@@ -36,7 +36,7 @@ export function DieInput({ dieValue, selectDie }: DieInputProps): JSX.Element {
   });
 
   return (
-    <SimpleGrid columns={6} spacingX={2} mx={2} {...getRootProps()}>
+    <SimpleGrid mx={0} columns={6} spacingX={2} {...getRootProps()}>
       {options.map((value) => {
         const radio = getRadioProps({ value: value.toString() });
         return <DieFace key={value.toString()} dieValue={value} {...radio} />;

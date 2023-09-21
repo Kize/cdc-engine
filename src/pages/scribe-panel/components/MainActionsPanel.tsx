@@ -64,6 +64,7 @@ export function MainActionsPanel() {
           </Button>
 
           <Button
+            display="none"
             leftIcon={<MdFormatListBulletedAdd />}
             colorScheme="green"
             h={[16, 32]}

@@ -1,6 +1,11 @@
 import { JSX, useEffect, useState } from 'react';
 import { PlayerCard } from './components/PlayerCard.tsx';
-import { Show, SimpleGrid } from '@chakra-ui/react';
+import {
+  Show,
+  SimpleGrid,
+  Flex,
+  Spacer
+} from '@chakra-ui/react';
 import { useAppDispatch, useAppSelector } from '../../store/store.ts';
 import {
   selectGameStatus,
@@ -52,22 +57,30 @@ export function ScribePanel(): JSX.Element {
   };
 
   return (
-    <>
+    <Flex direction="column"
+      width="100%"
+      height="100vh"
+    >
       <ScribePanelHeader cancelGame={() => dispatch(resetGameThunk())} />
 
       <SimpleGrid
-        minChildWidth={['100%', '20%']}
-        spacingX={[4, 10]}
-        spacingY={[1, 2]}
-        mx={[1, 2]}
+        minChildWidth = {['40%', '20%' ]}
+        spacingX      = {[1     , 2    ]}
+        spacingY      = {[1     , 2     ]}
+        marginX       = {[1     , 2     ]}
       >
         {players.map((details) => (
-          <PlayerCard key={details.player} details={details}></PlayerCard>
+          <PlayerCard 
+            key={details.player} 
+            details={details}
+          ></PlayerCard>
         ))}
       </SimpleGrid>
 
+      <Spacer />
+
       <SimpleGrid
-        columns={[1, 2]}
+        columns ={[1, 2]}
         spacingX={10}
         spacingY={4}
         p={[2, null, null, 10]}
@@ -88,6 +101,6 @@ export function ScribePanel(): JSX.Element {
       </SimpleGrid>
 
       <ScribePanelModals />
-    </>
+    </Flex>
   );
 }

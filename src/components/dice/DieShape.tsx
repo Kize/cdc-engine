@@ -1,8 +1,7 @@
 import { JSX, useCallback } from 'react';
 import {
   Box,
-  Icon,
-  UseRadioProps,
+  Icon
 } from '@chakra-ui/react';
 import {
   BsDice1,
@@ -12,14 +11,26 @@ import {
   BsDice5,
   BsDice6,
 } from 'react-icons/bs';
+import { CiSquareQuestion } from 'react-icons/ci';
 import { DieValue } from '../../../lib/rule-runner/rules/dice-rule.js';
+import { OptionalDieValue } from './dice-form.js';
 import { IconType } from 'react-icons/lib/cjs/iconBase';
 import './DieFace.css';
 
-export function DieShape(
-  dieValue2: DieValue
-): JSX.Element {
-  const getDieIcon = (value: DieValue): IconType => {
+interface FuckYou {
+  dieValue: OptionalDieValue
+}
+
+export function DieShape({
+  dieValue
+}: FuckYou): JSX.Element {
+
+  if (dieValue === null) {
+    return <Box></Box>
+  }
+
+  //const getDieIcon = (value: DieValue): IconType => {
+  const getDieIcon = (value: OptionalDieValue): IconType => {
     switch (value) {
       case 1:
         return BsDice1;
@@ -33,20 +44,19 @@ export function DieShape(
         return BsDice5;
       case 6:
         return BsDice6;
+      default:
+        return CiSquareQuestion
     }
   };
 
   return (
-    <Box as="label">
-      <Box
-        color="blue.400"
-        className="die-transition"
-        _checked={{
-          color: 'blue.600',
-        }}
-      >
-        <Icon as={getDieIcon(dieValue2)} boxSize="100%" />
-      </Box>
-    </Box>
-  );
+    <Icon
+      //m={0}
+      //p={0}
+      boxSize="100%"
+      as={getDieIcon(dieValue)}
+      color="blue.400"
+    />
+  )
+
 }

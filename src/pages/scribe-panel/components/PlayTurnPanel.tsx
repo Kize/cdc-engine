@@ -17,7 +17,7 @@ export function PlayTurnPanel(props: {
 
   return (
     <Card pb={[2, 4]} variant="filled" colorScheme="gray">
-      <CardHeader fontSize={'1.2em'}>
+      <CardHeader fontSize={'1.2em'} px={2} py={1}>
         <Box as="span">Tour: {props.numberOfTurns}</Box>
         <Button
           aria-label="jouer le civet"
@@ -31,7 +31,7 @@ export function PlayTurnPanel(props: {
         </Button>
       </CardHeader>
 
-      <CardBody py={0}>
+      <CardBody px={2} py={0}>
         <DiceFormComponent2
           diceForm={props.diceForm}
           onChangeForm={props.onChangeDiceForm}
