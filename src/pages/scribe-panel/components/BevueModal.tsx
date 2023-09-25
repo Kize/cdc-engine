@@ -1,4 +1,3 @@
-import { JSX } from 'react';
 import {
   Flex,
   Heading,
@@ -7,13 +6,9 @@ import {
   Box,
   Button,
   Show,
-  Icon,
   Link,
-  LinkBox,
-  LinkOverlay,
   SimpleGrid,
-  VStack,
-  ShowProps
+  VStack
 } from '@chakra-ui/react';
 import {
   IconButton,
@@ -46,134 +41,16 @@ import { resolversSlice } from '../../../store/resolvers/resolvers.slice.ts';
 import {
   selectPlayerCardDetails,
 } from '../../../store/current-game/current-game-selectors.ts';
-import { useBreakpointValue } from '@chakra-ui/react'
 
 interface Props {
   cancelGame: () => void;
 }
 
 export function ScribePanelHeader({ cancelGame }: Props) {
-
-  const { isOpen: isOpenBevueModal, onOpen: onOpenBevueModal, onClose: onCloseBevueModal } = useDisclosure()
-
-  const bpDetect = useBreakpointValue(
-    {
-      base: 'base',
-      md: 'md',
-    },
-    { // Defaults
-      fallback: 'base',
-    },
-  )
-
-  //*
-  //interface ShowProps {
-  //  breakpoint: above
-  //}
-  function HeaderButtonsList(
-    //breakpoint: ShowProps = undefined
-    //breakpoint: ShowProps = {undefined}
-    //breakpoint: ShowProps.above = {undefined}
-    //{ above: breakpoint = {undefined} } : ShowProps
-    //{ breakpoint = {undefined} } : ShowProps
-    //{ breakpoint: above = {undefined} } : ShowProps
-    { breakpoint = "base"/*undefined*/ }
-  ) {
-    return (
-      /*/
-      const HeaderButtonsList = (breakpoint = "base") => (
-      /**/
-      <>{bpDetect}
-        <Button as={LinkBox}
-          pr={[2, 4]}
-          justifyContent="flex-start"
-          colorScheme="gray"
-          leftIcon={<RiFilePaper2Line />}
-        >
-          <Show above={breakpoint}>
-            <LinkOverlay
-              href="https://docs.google.com/document/d/111XDCFHeqVqV-DvnJqJ31rp05tMZbmpxJWQDvPJdIHY/edit#heading=h.kr2581jfe5r"
-              isExternal
-            >
-              Accéder aux règles
-            </LinkOverlay>
-            <Spacer />
-            <Icon ml={2} as={HiOutlineExternalLink} />
-          </Show>
-        </Button>
-
-        <HeaderResponsiveButton
-          as={LinkBox}
-          leftIcon={<RiFilePaper2Line />}
-          rightIcon={breakpoint === bpDetect ? <HiOutlineExternalLink /> : undefined}
-        >
-          <Show above={breakpoint}>
-            <LinkOverlay
-              href="https://docs.google.com/document/d/111XDCFHeqVqV-DvnJqJ31rp05tMZbmpxJWQDvPJdIHY/edit#heading=h.kr2581jfe5r"
-              isExternal
-            >
-              Accéder aux règles
-            </LinkOverlay>
-            <Spacer />
-          </Show>
-        </HeaderResponsiveButton>
-
-        <RouterLink to="/history">
-          <Button
-            pr={[2, 4]}
-            justifyContent="flex-start"
-            colorScheme="gray"
-            leftIcon={<MdOutlineHistory />}
-          >
-            <Show above={breakpoint}>
-              Afficher l'historique
-            </Show>
-          </Button>
-        </RouterLink>
-
-        <HeaderResponsiveButton
-          colorScheme='pink'
-          leftIcon={<GiWhistle />}
-          breakpoint={breakpoint}
-          onClick={onOpenBevueModal}
-        >
-          <Show above={breakpoint}>
-            "Bévue…"
-          </Show>
-        </HeaderResponsiveButton>
-      </>
-    )
-  }
-
-  function HeaderResponsiveButton({
-    colorScheme = "gray",
-    breakpoint = "base",
-    ...props
-  }) {
-    //const isDesktop = breakpoint === "base"
-    //const ComponentButton = isDesktop ? Button : IconButton
-    //return (
-    //  <ComponentButton
-
-    return (
-      <Button
-        iconSpacing={[0, 2]}
-        colorScheme={colorScheme}
-        //aria-label={text}
-        justifyContent="flex-start"
-        {...props}
-      //>
-      //  <Show above={breakpoint}>
-      //    {text}
-      //  </Show>
-      //</Button>
-      />
-    )
-  }
-
+  //const { isOpenBevueModal, onOpenBevueModal, onCloseBevueModal } = useDisclosure()
   return (
     <>
-      <Flex
+      <Flex /*columns={[2, 4]} spacing={2} mb={[4, 6]} mt={1} mx={4}*/
         mx={[2, 4]}
         my={2}
         alignItems="center"
@@ -183,7 +60,48 @@ export function ScribePanelHeader({ cancelGame }: Props) {
         <Spacer />
 
         <HStack spacing={[1, 2]}>
-          <HeaderButtonsList breakpoint="md" />
+
+          <Link
+            href="https://docs.google.com/document/d/111XDCFHeqVqV-DvnJqJ31rp05tMZbmpxJWQDvPJdIHY/edit#heading=h.kr2581jfe5r"
+            isExternal
+          >
+            <Button
+              pr={[2, 4]}
+              colorScheme="gray"
+              leftIcon={<RiFilePaper2Line />}
+            >
+              <Show above="md">
+                Accéder aux règles&nbsp;<HiOutlineExternalLink />
+              </Show>
+            </Button>
+          </Link>
+
+          <Box>
+            <RouterLink to="/history">
+              <Button
+                pr={[2, 4]}
+                colorScheme="gray"
+                leftIcon={<MdOutlineHistory />}
+              >
+                <Show above="md">
+                  Afficher l'historique
+                </Show>
+              </Button>
+            </RouterLink>
+          </Box>
+
+          <Button
+            pr={[2, 4]}
+            leftIcon={<GiWhistle />}
+            colorScheme='pink'
+            onClick={isOpenBevueModal}
+          >
+            <Show above="md">
+              "Bévue…"
+            </Show>
+          </Button>
+
+
           <BurgerMenu />
         </HStack>
 
@@ -195,6 +113,8 @@ export function ScribePanelHeader({ cancelGame }: Props) {
 
   function BurgerMenu() {
     const { isOpen, onOpen, onClose } = useDisclosure()
+    //const { isOpenBevueModal, onOpenBevueModal, onCloseBevueModal } = useDisclosure()
+    //const btnRef = React.useRef()
     const dispatch = useAppDispatch();
 
     return (
@@ -202,6 +122,7 @@ export function ScribePanelHeader({ cancelGame }: Props) {
         <IconButton
           aria-label='burger menu'
           icon={<RxHamburgerMenu />}
+          //ref={btnRef}
           colorScheme="gray"
           onClick={onOpen}
         />
@@ -209,6 +130,7 @@ export function ScribePanelHeader({ cancelGame }: Props) {
           isOpen={isOpen}
           placement='right'
           onClose={onClose}
+        //finalFocusRef={btnRef}
         >
           <DrawerOverlay />
           <DrawerContent>
@@ -219,7 +141,6 @@ export function ScribePanelHeader({ cancelGame }: Props) {
               <VStack
                 align='stretch'
               >
-                <HeaderButtonsList breakpoint={bpDetect} />
 
                 <Button
                   pr={[2, 4]}
@@ -258,11 +179,17 @@ export function ScribePanelHeader({ cancelGame }: Props) {
     )
   }
 
+  const { isOpenBevueModal, onOpenBevueModal, onCloseBevueModal } = useDisclosure()
+
   function BevueModal() {
-    const players = useAppSelector(selectPlayerCardDetails)
+    const players = useAppSelector(selectPlayerCardDetails);
+    //const { isOpen, onOpen, onClose } = useDisclosure()
+    //onOpen_: () => onOpen
 
     return (
       <Modal
+        //onClose={onClose}
+        //isOpen={isOpen}
         onClose={onCloseBevueModal}
         isOpen={isOpenBevueModal}
         size="xl"
@@ -277,6 +204,7 @@ export function ScribePanelHeader({ cancelGame }: Props) {
               minChildWidth={['40%', '20%']}
               spacingX={[1, 2]}
               spacingY={[1, 2]}
+            //marginX={[2, 4]}
             >
               {players.map((details, index) => (
                 <Button key={index}>
@@ -286,7 +214,7 @@ export function ScribePanelHeader({ cancelGame }: Props) {
             </SimpleGrid>
           </ModalBody>
           <ModalFooter>
-            <Button onClick={onCloseBevueModal}>Close</Button>
+            <Button /*onClick={onClose}*/ onClick={onCloseBevueModal}>Close</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

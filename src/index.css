@@ -1,3 +1,11 @@
+
+@font-face {
+  font-family: 'Folkard';
+  font-style: normal;
+  font-display: swap;
+  src: url('../public/folkard_.ttf') format('ttf');
+}
+
 html, body {
   margin: 0;
   display: flex;
@@ -9,4 +17,10 @@ html, body {
 #root {
   width: 100vw;
   min-height: 100vh;
+}
+
+.Cvl_de_Chovette_Header {
+  position: relative;
+  top: 10px;
+  font-family: "Folkard", sans-serif !important;
 }
