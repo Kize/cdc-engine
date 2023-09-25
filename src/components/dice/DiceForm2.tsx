@@ -57,11 +57,12 @@ export function DiceFormComponent2({
   return (
     <Box>
       <Box display="none">diceForm {diceForm}</Box>
-      <SimpleGrid mx={0} my={1}columns={5} spacingX={2} >
+      <SimpleGrid mx={0} my={2} columns={5} spacingX={2} >
         <IconButton
           boxSize="100%"
           aria-label="Ajouter des Opérations"
           icon={<Icon as={AiOutlinePlusCircle} boxSize="100%" />}
+          bgColor="transparent"
           onClick={() =>
             dispatch(
               resolversSlice.actions.setAddOperations({ active: true }),
@@ -84,6 +85,7 @@ export function DiceFormComponent2({
           boxSize="100%"
           aria-label="Supprimer le dernier dé selectionné"
           icon={<Icon as={RiDeleteBack2Line} boxSize="100%" />}
+          bgColor="transparent"
           onClick={() => deleteDie(1)}
         />
       </SimpleGrid>

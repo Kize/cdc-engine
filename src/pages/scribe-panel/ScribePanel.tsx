@@ -64,10 +64,10 @@ export function ScribePanel(): JSX.Element {
       <ScribePanelHeader cancelGame={() => dispatch(resetGameThunk())} />
 
       <SimpleGrid
-        minChildWidth = {['40%', '20%' ]}
-        spacingX      = {[1     , 2    ]}
-        spacingY      = {[1     , 2     ]}
-        marginX       = {[1     , 2     ]}
+        minChildWidth = {[ '40%', '20%' ]}
+        spacingX      = {[ 1    , 2     ]}
+        spacingY      = {[ 1    , 2     ]}
+        marginX       = {[ 2    , 4     ]}
       >
         {players.map((details) => (
           <PlayerCard 
