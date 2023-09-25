@@ -16,7 +16,7 @@ export function PlayTurnPanel(props: {
   const dispatch = useAppDispatch();
 
   return (
-    <Card pb={[2, 4]} variant="filled" colorScheme="gray">
+    <Card pb={[2, 4]} variant="filled" colorScheme="gray" bgGradient="linear(#FFCC6A, #FFE4B8 25%, #9E8426)">
       <CardHeader fontSize={'1.2em'} px={2} py={1}>
         <Box as="span">Tour: {props.numberOfTurns}</Box>
         <Button
