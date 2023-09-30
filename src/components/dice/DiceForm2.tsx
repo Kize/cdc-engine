@@ -30,7 +30,6 @@ export function DiceFormComponent2({
   const dieValue: OptionalDieValue = null
 
   const selectDie = (dieValue: OptionalDieValue): OptionalDieValue => {
-
     let hasStore = false
 
     const newForm: DiceForm = diceForm.map((value) => {
@@ -46,12 +45,15 @@ export function DiceFormComponent2({
     return null
   }
 
-  function deleteDie(index: number) {
-    console.log("prout")
-    console.log(diceForm)
-    diceForm[index] = null
-    onChangeForm(diceForm)
-    console.log(diceForm)
+  function deleteDie() {
+    const newForm: DiceForm = diceForm.map((value, index) => {
+      if (diceForm[index + 1] === null) {
+        return null
+      } else {
+        return value
+      }
+    })
+    onChangeForm(newForm)
   }
 
   return (
@@ -86,7 +88,7 @@ export function DiceFormComponent2({
           aria-label="Supprimer le dernier dé selectionné"
           icon={<Icon as={RiDeleteBack2Line} boxSize="100%" />}
           bgColor="transparent"
-          onClick={() => deleteDie(1)}
+          onClick={() => deleteDie()}
         />
       </SimpleGrid>
       <DieInput

@@ -1,19 +1,14 @@
-import { JSX } from 'react';
 import {
   Flex,
   Heading,
   Spacer,
   HStack,
-  Box,
   Button,
   Show,
-  Icon,
-  Link,
   LinkBox,
   LinkOverlay,
   SimpleGrid,
-  VStack,
-  ShowProps
+  VStack
 } from '@chakra-ui/react';
 import {
   IconButton,
@@ -66,42 +61,11 @@ export function ScribePanelHeader({ cancelGame }: Props) {
     },
   )
 
-  //*
-  //interface ShowProps {
-  //  breakpoint: above
-  //}
   function HeaderButtonsList(
-    //breakpoint: ShowProps = undefined
-    //breakpoint: ShowProps = {undefined}
-    //breakpoint: ShowProps.above = {undefined}
-    //{ above: breakpoint = {undefined} } : ShowProps
-    //{ breakpoint = {undefined} } : ShowProps
-    //{ breakpoint: above = {undefined} } : ShowProps
     { breakpoint = "base"/*undefined*/ }
   ) {
     return (
-      /*/
-      const HeaderButtonsList = (breakpoint = "base") => (
-      /**/
-      <>{bpDetect}
-        <Button as={LinkBox}
-          pr={[2, 4]}
-          justifyContent="flex-start"
-          colorScheme="gray"
-          leftIcon={<RiFilePaper2Line />}
-        >
-          <Show above={breakpoint}>
-            <LinkOverlay
-              href="https://docs.google.com/document/d/111XDCFHeqVqV-DvnJqJ31rp05tMZbmpxJWQDvPJdIHY/edit#heading=h.kr2581jfe5r"
-              isExternal
-            >
-              Accéder aux règles
-            </LinkOverlay>
-            <Spacer />
-            <Icon ml={2} as={HiOutlineExternalLink} />
-          </Show>
-        </Button>
-
+      <>
         <HeaderResponsiveButton
           as={LinkBox}
           leftIcon={<RiFilePaper2Line />}
@@ -118,18 +82,17 @@ export function ScribePanelHeader({ cancelGame }: Props) {
           </Show>
         </HeaderResponsiveButton>
 
-        <RouterLink to="/history">
-          <Button
-            pr={[2, 4]}
-            justifyContent="flex-start"
-            colorScheme="gray"
-            leftIcon={<MdOutlineHistory />}
-          >
-            <Show above={breakpoint}>
-              Afficher l'historique
-            </Show>
-          </Button>
-        </RouterLink>
+        <HeaderResponsiveButton
+          as={RouterLink}
+          to="/history"
+          colorScheme="gray"
+          justifyContent="flex-start"
+          leftIcon={<MdOutlineHistory />}
+        >
+          <Show above={breakpoint}>
+            Afficher l'historique
+          </Show>
+        </HeaderResponsiveButton>
 
         <HeaderResponsiveButton
           colorScheme='pink'
@@ -138,7 +101,7 @@ export function ScribePanelHeader({ cancelGame }: Props) {
           onClick={onOpenBevueModal}
         >
           <Show above={breakpoint}>
-            "Bévue…"
+            Bévue…
           </Show>
         </HeaderResponsiveButton>
       </>
@@ -150,48 +113,16 @@ export function ScribePanelHeader({ cancelGame }: Props) {
     breakpoint = "base",
     ...props
   }) {
-    //const isDesktop = breakpoint === "base"
-    //const ComponentButton = isDesktop ? Button : IconButton
-    //return (
-    //  <ComponentButton
-
     return (
       <Button
-        iconSpacing={[0, 2]}
-        colorScheme={colorScheme}
         //aria-label={text}
+        colorScheme={colorScheme}
         justifyContent="flex-start"
+        iconSpacing={{ "base": 0, "md": 2 }}
         {...props}
-      //>
-      //  <Show above={breakpoint}>
-      //    {text}
-      //  </Show>
-      //</Button>
       />
     )
   }
-
-  return (
-    <>
-      <Flex
-        mx={[2, 4]}
-        my={2}
-        alignItems="center"
-      >
-        <Heading fontSize="3xl" className='Cvl_de_Chovette_Header'>Cvl de Chovette</Heading>
-
-        <Spacer />
-
-        <HStack spacing={[1, 2]}>
-          <HeaderButtonsList breakpoint="md" />
-          <BurgerMenu />
-        </HStack>
-
-      </Flex>
-
-      <BevueModal />
-    </>
-  );
 
   function BurgerMenu() {
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -217,22 +148,13 @@ export function ScribePanelHeader({ cancelGame }: Props) {
 
             <DrawerBody>
               <VStack
-                align='stretch'
+                align="stretch"
               >
                 <HeaderButtonsList breakpoint={bpDetect} />
 
                 <Button
-                  pr={[2, 4]}
-                  leftIcon={<GiWhistle />}
-                  colorScheme='pink'
-                  onClick={onOpenBevueModal}
-                >
-                  Bévue…
-                </Button>
-
-                <Button
-                  leftIcon={<HiOutlineSpeakerphone />}
                   colorScheme="blue"
+                  leftIcon={<HiOutlineSpeakerphone />}
                   onClick={() =>
                     dispatch(resolversSlice.actions.setChanteSloubi({ active: true }))
                   }
@@ -242,9 +164,8 @@ export function ScribePanelHeader({ cancelGame }: Props) {
               </VStack>
             </DrawerBody>
 
-            <DrawerFooter>
+            <DrawerFooter alignItems="stretch">
               <Button
-                pr={[2, 4]}
                 colorScheme="pink"
                 leftIcon={<MdCancelPresentation />}
                 onClick={cancelGame}
@@ -292,5 +213,27 @@ export function ScribePanelHeader({ cancelGame }: Props) {
       </Modal>
     )
   }
+
+  return (
+    <>
+      <Flex
+        mx={[2, 4]}
+        my={2}
+        alignItems="center"
+      >
+        <Heading fontSize="3xl" className='Cvl_de_Chovette_Header'>Cvl de Chovette</Heading>
+
+        <Spacer />
+
+        <HStack spacing={[1, 2]}>
+          <HeaderButtonsList breakpoint="md" />
+          <BurgerMenu />
+        </HStack>
+
+      </Flex>
+
+      <BevueModal />
+    </>
+  );
 
 }

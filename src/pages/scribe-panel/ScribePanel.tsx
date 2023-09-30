@@ -4,7 +4,9 @@ import {
   Show,
   SimpleGrid,
   Flex,
-  Spacer
+  Spacer,
+  Hide,
+  Text
 } from '@chakra-ui/react';
 import { useAppDispatch, useAppSelector } from '../../store/store.ts';
 import {
@@ -64,14 +66,15 @@ export function ScribePanel(): JSX.Element {
       <ScribePanelHeader cancelGame={() => dispatch(resetGameThunk())} />
 
       <SimpleGrid
-        minChildWidth = {[ '40%', '20%' ]}
-        spacingX      = {[ 1    , 2     ]}
-        spacingY      = {[ 1    , 2     ]}
-        marginX       = {[ 2    , 4     ]}
+        //minChildWidth={['40%', '20%']}
+        columns={{ "base": 2, "md": 4 }}
+        spacingX={{ "base": 1, "md": 2 }}
+        spacingY={{ "base": 1, "md": 2 }}
+        marginX={{ "base": 2, "md": 4 }}
       >
         {players.map((details) => (
-          <PlayerCard 
-            key={details.player} 
+          <PlayerCard
+            key={details.player}
             details={details}
           ></PlayerCard>
         ))}
@@ -80,10 +83,11 @@ export function ScribePanel(): JSX.Element {
       <Spacer />
 
       <SimpleGrid
-        columns ={[1, 2]}
-        spacingX={10}
-        spacingY={4}
-        p={[2, null, null, 10]}
+        columns={{ "base": 1, "md": 2 }}
+        mx={{ "base": 2, "md": 4 }}
+        mt={2}
+        spacing={2}
+      //p={[2, null, null, 10]}
       >
         <Show above="md">
           <MainActionsPanel />
@@ -95,9 +99,9 @@ export function ScribePanel(): JSX.Element {
           onChangeDiceForm={onChangeForm}
         />
 
-        <Show below="md">
+        <Hide above="md">
           <MainActionsPanel />
-        </Show>
+        </Hide>
       </SimpleGrid>
 
       <ScribePanelModals />

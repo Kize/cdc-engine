@@ -1,41 +1,23 @@
 import { JSX } from 'react';
 import {
-  Popover,
-  PopoverTrigger,
-  Portal,
-  PopoverContent,
-  PopoverArrow,
-  PopoverHeader,
-  PopoverCloseButton,
-  PopoverBody,
-  PopoverFooter,
-
   Card,
   Flex,
   Text,
-  Heading,
   Box,
-  Button,
   CardBody,
   CardHeader,
   Spacer,
   Tag,
   TagLabel,
   TagLeftIcon,
-  CardFooter,
-  VStack,
+  CardFooter
 } from '@chakra-ui/react';
 import {
   Menu,
   MenuButton,
   MenuList,
-  MenuItem,
-  MenuItemOption,
-  MenuGroup,
-  MenuOptionGroup,
-  MenuDivider,
+  MenuItem
 } from '@chakra-ui/react';
-import { AiOutlineExclamationCircle } from 'react-icons/ai';
 import { useAppDispatch } from '../../../store/store.ts';
 import { applyBevueThunk } from '../../../store/current-game/current-game-actions-thunks.ts';
 import { Player } from '../../../../lib/player.ts';
@@ -56,7 +38,7 @@ export function PlayerCard({
 }: {
   details: PlayerCardDetails;
 }): JSX.Element {
-  const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch()
 
   const card_detail = (
     <Flex direction="row" alignItems="baseline">
@@ -87,13 +69,13 @@ export function PlayerCard({
             {card_detail}
           </CardHeader>
 
-          <CardBody px={3} /*py={[1, 3]}*/ py={0}>
+          <CardBody px={0} py={0}>
             <Text
               width="100%"
-              fontSize="2xl"
+              fontSize={["xl", "2xl", "2xl"]}
               fontWeight="light"
               align="center"
-            //textShadow='0px 0px 3px #FFFFFF'
+            lineHeight={1}
             >
               {details.player}
             </Text>
