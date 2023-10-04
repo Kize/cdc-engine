@@ -29,20 +29,20 @@ export function ComplexInputNumber({ setValue, value }: Props): JSX.Element {
     <SimpleGrid columns={[1, 3]} spacingY={2}>
       <Center pt={[0, 6]}>
         <ButtonGroup>
-          <Button {...btnProps} onClick={() => updateValue(-25)}>
-            - 25
+          <Button {...btnProps} onClick={() => updateValue(20)}>
+            + 20
           </Button>
-          <Button {...btnProps} onClick={() => updateValue(-5)}>
-            - 5
+          <Button {...btnProps} onClick={() => updateValue(5)}>
+            + 5
           </Button>
-          <Button {...btnProps} onClick={() => updateValue(-1)}>
-            - 1
+          <Button {...btnProps} onClick={() => updateValue(1)}>
+            + 1
           </Button>
         </ButtonGroup>
       </Center>
 
       <Center>
-        <FormControl px={8} maxW={['10em', 'initial']}>
+        <FormControl maxW="6em">
           <FormLabel fontSize="xs">Montant</FormLabel>
 
           <Input
@@ -56,15 +56,14 @@ export function ComplexInputNumber({ setValue, value }: Props): JSX.Element {
 
       <Center pt={[0, 6]}>
         <ButtonGroup>
-          <Button {...btnProps} onClick={() => updateValue(1)}>
-            + 1
+          <Button {...btnProps} onClick={() => updateValue(-1)}>
+            - 1
           </Button>
-
-          <Button {...btnProps} onClick={() => updateValue(5)}>
-            + 5
+          <Button {...btnProps} onClick={() => updateValue(-5)}>
+            - 5
           </Button>
-          <Button {...btnProps} onClick={() => updateValue(25)}>
-            + 25
+          <Button {...btnProps} onClick={() => updateValue(-20)}>
+            - 20
           </Button>
         </ButtonGroup>
       </Center>

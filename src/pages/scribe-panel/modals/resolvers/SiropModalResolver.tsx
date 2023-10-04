@@ -2,7 +2,6 @@ import { JSX, useEffect, useState } from 'react';
 import { RootState, useAppSelector } from '../../../../store/store.ts';
 import {
   Button,
-  ButtonGroup,
   Card,
   CardBody,
   CardHeader,
@@ -282,6 +281,11 @@ export function SiropModalResolver(): JSX.Element {
                         key={bidForm.player}
                         isDisabled={isSiropGagnantInputDisabled(bidForm)}
                         size="sm"
+                        fontWeight={
+                          isSiropGagnantInputDisabled(bidForm)
+                            ? 'normal'
+                            : 'extrabold'
+                        }
                       >
                         {bidForm.player} a crié "Sirop-Gagnant!"
                       </Checkbox>
@@ -293,7 +297,11 @@ export function SiropModalResolver(): JSX.Element {
           </ModalBody>
 
           <ModalFooter>
-            <ButtonGroup>
+            <Stack
+              direction={['column-reverse', 'row']}
+              m={['auto', 'initial']}
+              spacing={[8, 10]}
+            >
               <Button onClick={onClose}>Annuler</Button>
 
               <Button colorScheme="orange" onClick={() => onValidate(false)}>
@@ -307,7 +315,7 @@ export function SiropModalResolver(): JSX.Element {
               >
                 Valider
               </Button>
-            </ButtonGroup>
+            </Stack>
           </ModalFooter>
         </ModalContent>
       </Modal>

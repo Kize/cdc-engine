@@ -34,6 +34,7 @@ import {
   ModalHeader,
   ModalOverlay,
   SimpleGrid,
+  Stack,
   useBoolean,
 } from '@chakra-ui/react';
 
@@ -142,6 +143,7 @@ export function AddOperationsModal(): JSX.Element {
             {lineForms.map((lineForm, index) => (
               <LineForm
                 key={index}
+                index={index}
                 lineForm={lineForm}
                 setLineForm={updateLineForm(index)}
               />
@@ -162,10 +164,15 @@ export function AddOperationsModal(): JSX.Element {
 
 interface LineFormProps {
   lineForm: OperationLineForm;
+  index: number;
   setLineForm: (line: OperationLineForm) => void;
 }
 
-function LineForm({ lineForm, setLineForm }: LineFormProps): JSX.Element {
+function LineForm({
+  lineForm,
+  setLineForm,
+  index,
+}: LineFormProps): JSX.Element {
   const options: Array<CustomSelectOption> = [
     {
       label: RuleEffectEvent.ADD_GRELOTTINE,
@@ -216,17 +223,23 @@ function LineForm({ lineForm, setLineForm }: LineFormProps): JSX.Element {
   };
 
   return (
-    <Card mb={[3, 6]} size="sm" variant="outline">
-      <CardHeader>
+    <Card
+      mb={[3, 6]}
+      size="sm"
+      variant="elevated"
+      bgColor={`${index % 2 === 0 ? 'green' : 'lime'}.50`}
+    >
+      <CardHeader pb={0} pt={1}>
         <Heading size="md">{lineForm.player}</Heading>
       </CardHeader>
 
-      <CardBody>
-        <SimpleGrid columns={[1, 2]} spacingX={3} spacingY={4}>
-          <FormControl px={6}>
+      <CardBody p={0} pb={[3, 1]}>
+        <Stack direction={['column', 'row']}>
+          <FormControl px={1} maxW={['80%', '35%']} mx="auto" my={[2, 0]}>
             <FormLabel fontSize="xs">Options</FormLabel>
 
             <Select
+              size="sm"
               isMulti
               isSearchable={false}
               name="options"
@@ -238,7 +251,7 @@ function LineForm({ lineForm, setLineForm }: LineFormProps): JSX.Element {
           </FormControl>
 
           <ComplexInputNumber value={lineForm.amount} setValue={setAmount} />
-        </SimpleGrid>
+        </Stack>
       </CardBody>
     </Card>
   );
