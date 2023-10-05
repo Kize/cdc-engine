@@ -1,13 +1,9 @@
-import { Box, Button, Heading, Icon, Link, SimpleGrid } from '@chakra-ui/react';
+import { Box, Heading, Icon, Link, SimpleGrid } from '@chakra-ui/react';
 import { HiOutlineExternalLink } from 'react-icons/hi';
-import { MdCancelPresentation } from 'react-icons/md';
 import { Link as RouterLink } from 'react-router-dom';
+import { CancelGameButton } from './CancelGameButton.tsx';
 
-interface Props {
-  cancelGame: () => void;
-}
-
-export function ScribePanelHeader({ cancelGame }: Props) {
+export function ScribePanelHeader() {
   return (
     <SimpleGrid columns={[2, 4]} spacing={2} mb={[4, 6]} mt={1} mx={4}>
       <Heading fontSize="x-large">Partie en cours</Heading>
@@ -24,13 +20,7 @@ export function ScribePanelHeader({ cancelGame }: Props) {
         <RouterLink to="/history">Afficher l'historique</RouterLink>
       </Box>
 
-      <Button
-        colorScheme="pink"
-        leftIcon={<MdCancelPresentation />}
-        onClick={cancelGame}
-      >
-        Annuler la partie
-      </Button>
+      <CancelGameButton />
     </SimpleGrid>
   );
 }

@@ -33,7 +33,6 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  SimpleGrid,
   Stack,
   useBoolean,
 } from '@chakra-ui/react';

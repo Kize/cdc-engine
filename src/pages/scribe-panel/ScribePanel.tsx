@@ -53,7 +53,7 @@ export function ScribePanel(): JSX.Element {
 
   return (
     <>
-      <ScribePanelHeader cancelGame={() => dispatch(resetGameThunk())} />
+      <ScribePanelHeader />
 
       <SimpleGrid
         minChildWidth={['100%', '20%']}
