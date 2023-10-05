@@ -3,8 +3,8 @@ import { DummyContextBuilder } from '../../../tests/dummy-game-context-builder';
 import { BleuRougeResolution, BleuRougeRule } from './bleu-rouge-rule';
 import { RuleEffect, RuleEffectEvent } from '../rule-effect';
 import { RuleRunner } from '../../rule-runner';
-import { CulDeChouetteRule } from '../basic-rules/cul-de-chouette-rule';
 import { NeantRule } from '../basic-rules/neant-rule';
+import { VeluteRule } from '../basic-rules/velute-rule.ts';
 
 describe('isApplicableToGameContext', () => {
   it('returns true if dice make a 4, 3, 3 combination', () => {
@@ -78,15 +78,15 @@ describe('applyRule', () => {
   it('registers a bleu-rouge bet won by the current player with the last dice combination rule effects', async () => {
     const resolver = {
       getResolution: vi.fn().mockResolvedValue({
-        diceRoll: [2, 2, 2],
-        bids: [{ player: 'Alban', bet: 6 }],
+        diceRoll: [1, 5, 6],
+        bids: [{ player: 'Alban', bet: 12 }],
       } as BleuRougeResolution),
     };
 
     const aRuleEffect: RuleEffect = {
-      event: RuleEffectEvent.CUL_DE_CHOUETTE,
+      event: RuleEffectEvent.VELUTE,
       player: 'Alban',
-      value: 60,
+      value: 72,
     };
 
     const rule = new BleuRougeRule(resolver);
@@ -94,7 +94,7 @@ describe('applyRule', () => {
     runnerMock.handleGameEvent = vi.fn().mockResolvedValue([aRuleEffect]);
     runnerMock.getFirstApplicableRule = vi
       .fn()
-      .mockResolvedValue(new CulDeChouetteRule());
+      .mockResolvedValue(new VeluteRule());
 
     const context = DummyContextBuilder.aDiceRollContext()
       .withplayer('Alban')

@@ -15,13 +15,8 @@ import { useAppDispatch } from '../../../store/store.ts';
 
 export function CancelGameButton(): JSX.Element {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const cancelRef = useRef();
+  const cancelRef = useRef(null);
   const dispatch = useAppDispatch();
-
-  const cancelGame = () => {
-    dispatch(resetGameThunk());
-    onclose();
-  };
 
   return (
     <>
@@ -54,7 +49,13 @@ export function CancelGameButton(): JSX.Element {
                 Revenir en jeu
               </Button>
 
-              <Button colorScheme="red" onClick={cancelGame} ml={3}>
+              <Button
+                colorScheme="red"
+                onClick={() => {
+                  dispatch(resetGameThunk());
+                }}
+                ml={3}
+              >
                 Quitter la partie
               </Button>
             </AlertDialogFooter>

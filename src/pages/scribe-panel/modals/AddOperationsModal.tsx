@@ -238,6 +238,8 @@ function LineForm({
             <FormLabel fontSize="xs">Options</FormLabel>
 
             <Select
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore
               size="sm"
               isMulti
               isSearchable={false}
