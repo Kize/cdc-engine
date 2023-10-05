@@ -18,6 +18,7 @@ import {
 import { ComplexInputNumber } from '../../../components/complex-input-number/ComplexInputNumber.tsx';
 import {
   Button,
+  ButtonGroup,
   Card,
   CardBody,
   CardHeader,
@@ -150,10 +151,13 @@ export function AddOperationsModal(): JSX.Element {
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={onValidate}>
-              Valider
-            </Button>
-            <Button onClick={onClose}>Annuler</Button>
+            <ButtonGroup spacing={8}>
+              <Button onClick={onClose}>Annuler</Button>
+
+              <Button colorScheme="blue" mr={3} onClick={onValidate}>
+                Valider
+              </Button>
+            </ButtonGroup>
           </ModalFooter>
         </ModalContent>
       </Modal>
