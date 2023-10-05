@@ -1,5 +1,5 @@
 import { JSX, useEffect, useState } from 'react';
-import { RootState, useAppSelector } from '../../../../store/store.ts';
+import { useAppSelector } from '../../../../store/store.ts';
 import {
   Button,
   Card,
@@ -33,19 +33,12 @@ import {
   PlayableBid,
   SiropBid,
 } from '../../../../../lib/rule-runner/rules/level-1/sirotage-rule.types.ts';
-import { createSelector } from '@reduxjs/toolkit';
 import {
   CustomSelectOption,
   customSelectStyles,
 } from '../../../../utils/custom-select.utils.ts';
 import { Select } from 'chakra-react-select';
 import { attrapeOiseauRuleResolver } from '../../../../store/resolvers/rules/attrape-oiseau-rule.resolver.ts';
-
-const selectSiropPlayers = createSelector(
-  selectPlayers,
-  (state: RootState) => state.resolvers.sirop.player,
-  sortPlayersStartingBy,
-);
 
 const getNewBidForm = (player: Player) => ({
   player,
@@ -62,12 +55,8 @@ export function SiropModalResolver(): JSX.Element {
     (state) => state.currentGame.rulesConfiguration.isAttrapeOiseauEnabled,
   );
 
-  const siropPlayers = useAppSelector(selectSiropPlayers);
-  useEffect(() => {
-    setBids(siropPlayers.map(getNewBidForm));
-  }, [siropPlayers]);
-
-  const attrapeOiseauOptions = useAppSelector(selectPlayers)
+  const players = useAppSelector(selectPlayers);
+  const attrapeOiseauOptions = players
     .filter((p) => p !== player)
     .map<CustomSelectOption>((player) => ({
       label: player,
@@ -76,9 +65,19 @@ export function SiropModalResolver(): JSX.Element {
 
   const [selectedAttrapeOiseau, setSelectedAttrapeOiseau] =
     useState<CustomSelectOption | null>(null);
-  const [bids, setBids] = useState<Array<SiropBid>>([]);
+  const [bids, setBids] = useState<Array<SiropBid>>(
+    sortPlayersStartingBy(players, player).map(getNewBidForm),
+  );
   const [dieValue, setDieValue] = useState<OptionalDieValue>(null);
   const [validatedPlayers, setValidatedPlayers] = useState<Array<Player>>([]);
+
+  useEffect(() => {
+    const orderedPlayersForBets = selectedAttrapeOiseau
+      ? sortPlayersStartingBy(players, selectedAttrapeOiseau.value)
+      : sortPlayersStartingBy(players, player);
+
+    setBids(orderedPlayersForBets.map(getNewBidForm));
+  }, [player, selectedAttrapeOiseau]);
 
   const isFormValid =
     dieValue !== null && bids.every((bid) => (bid.playerBid as string) !== '');
