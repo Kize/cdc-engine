@@ -15,7 +15,6 @@ import {
 } from '../../components/dice/dice-form.ts';
 import { ScribePanelModals } from './components/ScribePanelModals.tsx';
 import { resolversSlice } from '../../store/resolvers/resolvers.slice.ts';
-import { resetGameThunk } from '../../store/current-game/current-game-lifecycle-thunks.ts';
 import { GameStatus } from '../../../lib/game/game-handler.ts';
 import { ScribePanelHeader } from './components/ScribePanelHeader.tsx';
 import { MainActionsPanel } from './components/MainActionsPanel.tsx';

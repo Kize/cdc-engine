@@ -44,6 +44,8 @@ export function historyLineToMessage(line: HistoryLine): string {
     case RuleEffectEvent.CUL_DE_CHOUETTE:
     case RuleEffectEvent.BLEU_ROUGE:
       return `${line.player} a fait un ${line.designation} pour ${line.amount}`;
+    case RuleEffectEvent.CUL_DE_CHOUETTE_STOLEN:
+      return `${line.player} a volé ${line.amount} points en contrant un Cul de Chouette`;
     case RuleEffectEvent.VELUTE:
     case RuleEffectEvent.SUITE_VELUTE:
     case RuleEffectEvent.CHOUETTE:

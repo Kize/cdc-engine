@@ -9,6 +9,7 @@ import { siropRuleResolver } from '../store/resolvers/rules/sirop-rule.resolver.
 import { bleuRougeRuleResolver } from '../store/resolvers/rules/bleu-rouge-rule.resolver.ts';
 import { attrapeOiseauRuleResolver } from '../store/resolvers/rules/attrape-oiseau-rule.resolver.ts';
 import { civetRuleResolver } from '../store/resolvers/rules/civet-rule.resolver.ts';
+import { culDeChouetteRuleResolver } from '../store/resolvers/rules/cul-de-chouette-rule.resolver.ts';
 
 export const cdcGameHandler = new GameHandler();
 
@@ -16,7 +17,7 @@ export function configureGameHandlerRules(
   rulesConfiguration: RulesConfiguration,
 ): void {
   cdcGameHandler.setRules(rulesConfiguration, {
-    culDeChouetteRuleResolver: undefined!,
+    culDeChouetteRuleResolver: culDeChouetteRuleResolver,
     grelottineRuleResolver: grelottineResolver,
     suiteRuleResolver: suiteRuleResolver,
     chouetteVeluteRuleResolver: chouetteVeluteResolver,

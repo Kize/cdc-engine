@@ -11,6 +11,7 @@ export interface ResolversState {
   grelottine: {
     active: boolean;
   };
+  culDeChouette: { active: boolean; player: Player };
   suite: { active: boolean; player: Player };
   chouetteVelute: { active: boolean; player: Player };
   soufflette: { active: boolean; player: Player };
@@ -32,6 +33,10 @@ function initialState(): ResolversState {
     endGame: { active: false },
     grelottine: {
       active: false,
+    },
+    culDeChouette: {
+      active: false,
+      player: '',
     },
     suite: {
       active: false,
@@ -93,6 +98,12 @@ export const resolversSlice = createSlice({
       { payload }: PayloadAction<ResolversState['grelottine']>,
     ) => {
       state.grelottine = payload;
+    },
+    setCulDeChouette: (
+      state,
+      { payload }: PayloadAction<ResolversState['culDeChouette']>,
+    ) => {
+      state.culDeChouette = { ...payload };
     },
     setSuite: (state, { payload }: PayloadAction<ResolversState['suite']>) => {
       state.suite = { ...payload };
