@@ -16,6 +16,7 @@ export enum RuleEffectEvent {
   SUITE = 'Suite',
   SUITE_VELUTE = 'Suite Velute (1,2,3)',
   CUL_DE_CHOUETTE = 'Cul de chouette',
+  CUL_DE_CHOUETTE_STOLEN = 'Cul de chouette volé',
   CHOUETTE_VELUTE_WON = 'Chouette velute gagnée',
   CHOUETTE_VELUTE_LOST = 'Chouette velute perdue',
   CHOUETTE_VELUTE_STOLEN = 'Chouette velute volée',

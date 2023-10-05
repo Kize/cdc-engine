@@ -1,4 +1,4 @@
-import { RuleResolver } from './rules/rule-resolver.ts';
+import { Resolver, RuleResolver } from './rules/rule-resolver.ts';
 import {
   SuiteResolution,
   SuiteResolutionPayload,
@@ -34,6 +34,10 @@ import {
   VerdierResolutionPayload,
 } from './rules/level-3/verdier-rule.ts';
 import { Rules } from './rules/rule.ts';
+import {
+  CulDeChouetteResolution,
+  CulDeChouetteResolutionPayload,
+} from './rules/basic-rules/cul-de-chouette-rule.ts';
 
 export interface RulesConfiguration {
   isSouffletteEnabled: boolean;
@@ -46,6 +50,10 @@ export interface RulesConfiguration {
 }
 
 export interface Resolvers {
+  culDeChouetteRuleResolver: Resolver<
+    CulDeChouetteResolution,
+    CulDeChouetteResolutionPayload
+  >;
   suiteRuleResolver: RuleResolver<SuiteResolution, SuiteResolutionPayload>;
   chouetteVeluteRuleResolver: RuleResolver<
     ChouetteVeluteResolution,

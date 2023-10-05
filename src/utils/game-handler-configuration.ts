@@ -16,6 +16,7 @@ export function configureGameHandlerRules(
   rulesConfiguration: RulesConfiguration,
 ): void {
   cdcGameHandler.setRules(rulesConfiguration, {
+    culDeChouetteRuleResolver: undefined!,
     grelottineRuleResolver: grelottineResolver,
     suiteRuleResolver: suiteRuleResolver,
     chouetteVeluteRuleResolver: chouetteVeluteResolver,

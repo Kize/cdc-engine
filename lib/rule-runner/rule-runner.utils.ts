@@ -78,7 +78,7 @@ export function instanciateRules(
       case Rules.SUITE:
         return new SuiteRule(resolvers.suiteRuleResolver);
       case Rules.CUL_DE_CHOUETTE:
-        return new CulDeChouetteRule();
+        return new CulDeChouetteRule(resolvers.culDeChouetteRuleResolver);
       case Rules.SOUFFLETTE:
         if (!resolvers.souffletteRuleResolver) {
           throw new ResolverNotProvidedError(ruleName);
