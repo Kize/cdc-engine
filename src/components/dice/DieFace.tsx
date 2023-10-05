@@ -67,12 +67,12 @@ export function DieFace(props: DieFaceProps): JSX.Element {
 
       <Box
         {...checkbox}
-        color="blue.400"
+        color="blue.300"
         className={
           state.isChecked ? 'die-transition die-checked' : 'die-transition'
         }
         _checked={{
-          color: 'blue.600',
+          color: 'blue.700',
         }}
       >
         <Icon as={getDieIcon(props.dieValue)} boxSize="100%" />

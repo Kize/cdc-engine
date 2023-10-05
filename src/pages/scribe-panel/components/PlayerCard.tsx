@@ -43,7 +43,7 @@ export function PlayerCard({
           <Box as="span">{details.player}</Box>
           <Spacer />
 
-          <Box as="u">{details.score} points</Box>
+          <Box as="b">{details.score}pts</Box>
           <Spacer />
 
           <Button
