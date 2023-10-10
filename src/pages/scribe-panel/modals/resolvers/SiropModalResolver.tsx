@@ -230,13 +230,13 @@ export function SiropModalResolver(): JSX.Element {
                           selectedABet(bet, bidForm.player)
                         }
                       >
-                        <Stack>
+                        <Stack spacing={0}>
                           {enabledBids.map((bid) => (
                             <Radio
                               value={bid.type}
                               key={bid.type}
                               isDisabled={!bid.isPlayable}
-                              size="md"
+                              variant="filled"
                             >
                               {bid.type}
                             </Radio>

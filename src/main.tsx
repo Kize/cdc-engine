@@ -7,13 +7,14 @@ import { Provider } from 'react-redux';
 import { store } from './store/store.ts';
 import { router } from './router.tsx';
 import { HiddenImages } from './components/hidden-images/HiddenImages.tsx';
+import { theme } from './theming/theme.ts';
 
 const container = document.getElementById('root');
 
 createRoot(container!).render(
   <React.StrictMode>
     <Provider store={store}>
-      <ChakraProvider>
+      <ChakraProvider theme={theme}>
         <RouterProvider router={router} />
         <HiddenImages />
       </ChakraProvider>
