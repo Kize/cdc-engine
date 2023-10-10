@@ -5,7 +5,7 @@ import { DiceForm, OptionalDieValue } from './dice-form.ts';
 
 interface DiceFormProps {
   diceForm: DiceForm;
-  onChangeForm: (form: DiceForm) => DiceForm;
+  onChangeForm: (form: DiceForm) => void;
 }
 
 export function DiceFormComponent({
@@ -14,12 +14,10 @@ export function DiceFormComponent({
 }: DiceFormProps): JSX.Element {
   const selectDie =
     (index: number) =>
-    (dieValue: OptionalDieValue): OptionalDieValue => {
+    (dieValue: OptionalDieValue): void => {
       const newForm = [...diceForm] as DiceForm;
       newForm[index] = dieValue;
-
-      const updatedForm = onChangeForm(newForm);
-      return updatedForm[index];
+      onChangeForm(newForm);
     };
 
   return (

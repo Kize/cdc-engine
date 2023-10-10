@@ -36,21 +36,16 @@ export function ScribePanel(): JSX.Element {
 
   const [diceForm, setDiceForm] = useState(getNewDiceForm() as DiceForm);
 
-  const onChangeForm = (form: DiceForm): DiceForm => {
-    let newForm: DiceForm;
-
+  const onChangeForm = (form: DiceForm): void => {
+    setDiceForm(form);
     if (isDiceFormValid(form)) {
-      dispatch(
-        playATurnThunk({ event: GameContextEvent.DICE_ROLL, diceRoll: form }),
-      );
-
-      newForm = getNewDiceForm();
-    } else {
-      newForm = form;
+      setTimeout(async () => {
+        await dispatch(
+          playATurnThunk({ event: GameContextEvent.DICE_ROLL, diceRoll: form }),
+        );
+        setDiceForm(getNewDiceForm());
+      }, 200);
     }
-
-    setDiceForm(newForm);
-    return newForm;
   };
 
   return (
