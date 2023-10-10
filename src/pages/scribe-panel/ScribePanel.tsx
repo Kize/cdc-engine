@@ -19,6 +19,7 @@ import { GameStatus } from '../../../lib/game/game-handler.ts';
 import { ScribePanelHeader } from './components/ScribePanelHeader.tsx';
 import { MainActionsPanel } from './components/MainActionsPanel.tsx';
 import { PlayTurnPanel } from './components/PlayTurnPanel.tsx';
+import { GameContextEvent } from '../../../lib/rule-runner/game-context-event.ts';
 
 export function ScribePanel(): JSX.Element {
   const players = useAppSelector(selectPlayerCardDetails);
@@ -39,7 +40,9 @@ export function ScribePanel(): JSX.Element {
     let newForm: DiceForm;
 
     if (isDiceFormValid(form)) {
-      dispatch(playATurnThunk(form));
+      dispatch(
+        playATurnThunk({ event: GameContextEvent.DICE_ROLL, diceRoll: form }),
+      );
 
       newForm = getNewDiceForm();
     } else {

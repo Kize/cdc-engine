@@ -1,6 +1,7 @@
 import { JSX, useState } from 'react';
 import { useAppSelector } from '../../../../store/store.ts';
 import {
+  Box,
   Button,
   ButtonGroup,
   Card,
@@ -36,9 +37,15 @@ import {
   CustomSelectOption,
   customSelectStyles,
 } from '../../../../utils/custom-select.utils.ts';
+import { DieValue } from '../../../../../lib/rule-runner/rules/dice-rule.ts';
+import { isVerdierApplicable } from '../../../../../lib/rule-runner/rules/level-3/verdier-rule.ts';
 
 export function CivetModalResolver(): JSX.Element {
   const { active, player } = useAppSelector((state) => state.resolvers.civet);
+
+  const isVerdierRuleEnabled = useAppSelector(
+    (state) => state.currentGame.rulesConfiguration.isVerdierEnabled,
+  );
 
   const [selectedBet, setSelectedBet] = useState<CustomSelectOption | null>(
     null,
@@ -51,6 +58,8 @@ export function CivetModalResolver(): JSX.Element {
     value,
   }));
 
+  const isVerdierActivable =
+    isVerdierApplicable(diceForm) && selectedBet !== null;
   const isFormValid = selectedBet !== null && isDiceFormValid(diceForm);
 
   const resetForm = () => {
@@ -73,6 +82,20 @@ export function CivetModalResolver(): JSX.Element {
         betAmount: amount,
       });
       resetForm();
+    }
+  };
+
+  const playCivet = () => {
+    if (isVerdierActivable) {
+      civetRuleResolver.resolve({
+        isVerdier: true,
+        betAmount: amount,
+        playerBet: selectedBet.value as CivetBet,
+        diceValues: diceForm.filter((value) => value !== null) as [
+          DieValue,
+          DieValue,
+        ],
+      });
     }
   };
 
@@ -134,7 +157,21 @@ export function CivetModalResolver(): JSX.Element {
 
             <Card>
               <CardHeader fontSize="sm" py={2}>
-                Combinaison réalisée:
+                <Box as="span">Combinaison réalisée:</Box>
+
+                <Button
+                  aria-label="Jouer un verdier"
+                  colorScheme="green"
+                  variant="outline"
+                  size="sm"
+                  mx={3}
+                  borderRadius="full"
+                  hidden={!isVerdierRuleEnabled}
+                  isDisabled={!isVerdierActivable}
+                  onClick={playCivet}
+                >
+                  Verdier
+                </Button>
               </CardHeader>
 
               <CardBody py={0}>

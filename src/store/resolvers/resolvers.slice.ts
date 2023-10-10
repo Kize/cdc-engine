@@ -24,6 +24,11 @@ export interface ResolversState {
   };
   civet: { active: boolean; player: Player };
   bleuRouge: { active: boolean; player: Player };
+  verdier: {
+    active: boolean;
+    player: Player;
+    diceValues: [DieValue, DieValue];
+  };
 }
 
 function initialState(): ResolversState {
@@ -67,6 +72,11 @@ function initialState(): ResolversState {
     bleuRouge: {
       active: false,
       player: '',
+    },
+    verdier: {
+      active: false,
+      player: '',
+      diceValues: [1, 1],
     },
   };
 }
@@ -137,6 +147,12 @@ export const resolversSlice = createSlice({
       { payload }: PayloadAction<ResolversState['bleuRouge']>,
     ) => {
       state.bleuRouge = { ...payload };
+    },
+    setVerdier: (
+      state,
+      { payload }: PayloadAction<ResolversState['verdier']>,
+    ) => {
+      state.verdier = { ...payload };
     },
   },
 });

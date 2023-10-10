@@ -8,7 +8,7 @@ import { UnknownGameContext } from '../../game-context.ts';
 import { DiceForm } from '../../../../src/components/dice/dice-form.ts';
 
 export interface VerdierResolution {
-  bettingplayers: Array<string>;
+  bettingPlayers: Array<string>;
   lastDieValue: DieValue;
 }
 
@@ -34,7 +34,7 @@ export class VerdierRule implements Rule {
   async applyRule(context: GameContextWrapper): Promise<RuleEffects> {
     const { runner, player, diceValues } = context.asVerdier();
 
-    const { bettingplayers, lastDieValue } = await this.resolver.getResolution({
+    const { bettingPlayers, lastDieValue } = await this.resolver.getResolution({
       player,
       diceValues,
     });
@@ -52,7 +52,7 @@ export class VerdierRule implements Rule {
 
     return [
       ...diceRollRuleEffects,
-      ...bettingplayers.map<RuleEffect>((bettingPlayer) => {
+      ...bettingPlayers.map<RuleEffect>((bettingPlayer) => {
         if (isVerdierWon) {
           return {
             event: RuleEffectEvent.VERDIER_WON,

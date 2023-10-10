@@ -242,7 +242,7 @@ describe('applyRule', () => {
       VerdierResolutionPayload
     > = {
       getResolution: vi.fn().mockResolvedValue({
-        bettingplayers: ['Alban'],
+        bettingPlayers: ['Alban'],
         lastDieValue: 6,
       } as VerdierResolution),
     };

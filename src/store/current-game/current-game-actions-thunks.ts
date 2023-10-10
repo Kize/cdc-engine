@@ -2,11 +2,15 @@ import { AppThunk, AsyncAppThunk } from '../store.ts';
 import { Player } from '../../../lib/player.ts';
 import { currentGameSlice } from './current-game.slice.ts';
 import { cdcGameHandler } from '../../utils/game-handler-configuration.ts';
-import { DiceRoll } from '../../../lib/rule-runner/rules/dice-rule.ts';
 import { GameContextEvent } from '../../../lib/rule-runner/game-context-event.ts';
 import { resolversSlice } from '../resolvers/resolvers.slice.ts';
 import { ChanteSloubiGameContext } from '../../../lib/game/game-handler.ts';
 import { AddOperationLinesContext } from '../../../lib/game/add-operations.ts';
+import {
+  CivetGameContext,
+  DiceRollGameContext,
+  VerdierGameContext,
+} from '../../../lib/rule-runner/game-context.ts';
 
 export const applyBevueThunk =
   (player: Player): AsyncAppThunk =>
@@ -16,8 +20,13 @@ export const applyBevueThunk =
     dispatch(currentGameSlice.actions.addEvent(gameEvent));
   };
 
+type PlayTurnExternalContext =
+  | Omit<DiceRollGameContext, 'player' | 'runner'>
+  | Omit<CivetGameContext, 'player' | 'runner'>
+  | Omit<VerdierGameContext, 'player' | 'runner'>;
+
 export const playATurnThunk =
-  (diceRoll: DiceRoll): AsyncAppThunk =>
+  (context: PlayTurnExternalContext): AsyncAppThunk =>
   async (dispatch, getState) => {
     const { currentGame } = getState();
     const currentPlayer = cdcGameHandler.getCurrentPlayer(
@@ -27,37 +36,7 @@ export const playATurnThunk =
 
     try {
       const gameEvent = await cdcGameHandler.playATurn({
-        event: GameContextEvent.DICE_ROLL,
-        diceRoll,
-        runner: cdcGameHandler.ruleRunner,
-        player: currentPlayer,
-      });
-
-      dispatch(currentGameSlice.actions.addEvent(gameEvent));
-    } catch (error) {
-      if (error !== undefined) {
-        throw error;
-      }
-    }
-  };
-
-export const playCivetTurnThunk =
-  (player: Player): AsyncAppThunk =>
-  async (dispatch, getState) => {
-    const { currentGame } = getState();
-    const currentPlayer = cdcGameHandler.getCurrentPlayer(
-      currentGame.events,
-      currentGame.players,
-    );
-
-    if (currentPlayer !== player) {
-      console.warn('Something is wrong here, playing civet is impossible');
-      return;
-    }
-
-    try {
-      const gameEvent = await cdcGameHandler.playATurn({
-        event: GameContextEvent.CIVET_BET,
+        ...context,
         runner: cdcGameHandler.ruleRunner,
         player: currentPlayer,
       });

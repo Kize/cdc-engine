@@ -42,7 +42,7 @@ describe('applyRule', () => {
   it('applies the dice roll rule effects to the player', async () => {
     const resolver: Resolver<VerdierResolution, VerdierResolutionPayload> = {
       getResolution: vi.fn().mockResolvedValue({
-        bettingplayers: [],
+        bettingPlayers: [],
         lastDieValue: 4,
       } as VerdierResolution),
     };
@@ -67,7 +67,7 @@ describe('applyRule', () => {
   it('handles bets for a won verdier', async () => {
     const resolver: Resolver<VerdierResolution, VerdierResolutionPayload> = {
       getResolution: vi.fn().mockResolvedValue({
-        bettingplayers: ['Alban', 'Delphin'],
+        bettingPlayers: ['Alban', 'Delphin'],
         lastDieValue: 6,
       } as VerdierResolution),
     };
@@ -97,7 +97,7 @@ describe('applyRule', () => {
   it('handles bets for a lost verdier', async () => {
     const resolver: Resolver<VerdierResolution, VerdierResolutionPayload> = {
       getResolution: vi.fn().mockResolvedValue({
-        bettingplayers: ['Alban', 'Delphin'],
+        bettingPlayers: ['Alban', 'Delphin'],
         lastDieValue: 5,
       } as VerdierResolution),
     };

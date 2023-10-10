@@ -1,6 +1,7 @@
 import { JSX, useState } from 'react';
 import { useAppSelector } from '../../../../store/store.ts';
 import {
+  Box,
   Button,
   ButtonGroup,
   Checkbox,
@@ -14,31 +15,46 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  SimpleGrid,
   Stack,
 } from '@chakra-ui/react';
 import { selectPlayers } from '../../../../store/current-game/current-game-selectors.ts';
 import { Player } from '../../../../../lib/player.ts';
-import { chouetteVeluteResolver } from '../../../../store/resolvers/rules/chouette-velute-rule.resolver.ts';
+import { verdierRuleResolver } from '../../../../store/resolvers/rules/verdier-rule.resolver.ts';
+import { DieInput } from '../../../../components/dice/DieInput.tsx';
+import { DieFace } from '../../../../components/dice/DieFace.tsx';
+import { OptionalDieValue } from '../../../../components/dice/dice-form.ts';
 
-export function ChouetteVeluteModalResolver(): JSX.Element {
-  const { active, player } = useAppSelector(
-    (state) => state.resolvers.chouetteVelute,
+export function VerdierModalResolver(): JSX.Element {
+  const { active, player, diceValues } = useAppSelector(
+    (state) => state.resolvers.verdier,
   );
   const players = useAppSelector(selectPlayers);
 
   const [selectedPlayers, setSelectedPlayers] = useState<Array<Player>>([]);
 
+  const [lastDieValue, setLastDieValue] = useState<OptionalDieValue>(null);
+
   const onClose = () => {
     setSelectedPlayers([]);
-    chouetteVeluteResolver.reject();
+    verdierRuleResolver.reject();
   };
 
   const onValidate = () => {
-    chouetteVeluteResolver.resolve({
-      players: selectedPlayers,
-    });
+    if (lastDieValue !== null) {
+      verdierRuleResolver.resolve({
+        bettingPlayers: selectedPlayers,
+        lastDieValue,
+      });
 
-    setSelectedPlayers([]);
+      setSelectedPlayers([]);
+    }
+  };
+
+  const selectLastDie = (dieValue: OptionalDieValue) => {
+    setLastDieValue(dieValue);
+
+    return dieValue;
   };
 
   return (
@@ -47,12 +63,14 @@ export function ChouetteVeluteModalResolver(): JSX.Element {
         <ModalOverlay />
         <ModalContent>
           <ModalCloseButton />
-          <ModalHeader>{player} a réalisé une Chouette Velute !</ModalHeader>
+          <ModalHeader>
+            <Box as="span">Annonce de Civet en cours. À {player} de jouer.</Box>
+          </ModalHeader>
 
           <ModalBody>
             <FormControl as="fieldset">
               <FormLabel as="legend">
-                Joueur ayant disputés la Chouette Velute
+                Joueurs ayant crié "Verlignette"
               </FormLabel>
 
               <CheckboxGroup
@@ -68,6 +86,17 @@ export function ChouetteVeluteModalResolver(): JSX.Element {
                 </Stack>
               </CheckboxGroup>
             </FormControl>
+
+            <SimpleGrid columns={2} maxW="40%" spacingX={8} mx="auto">
+              <DieFace dieValue={diceValues[0]} disabled={true} />
+              <DieFace dieValue={diceValues[1]} disabled={true} />
+            </SimpleGrid>
+
+            <FormControl as="fieldset">
+              <FormLabel as="legend">Dernier dé</FormLabel>
+
+              <DieInput dieValue={lastDieValue} selectDie={selectLastDie} />
+            </FormControl>
           </ModalBody>
 
           <ModalFooter>
@@ -76,8 +105,8 @@ export function ChouetteVeluteModalResolver(): JSX.Element {
 
               <Button
                 colorScheme="blue"
-                isDisabled={selectedPlayers.length === 0}
                 onClick={onValidate}
+                isDisabled={lastDieValue === null}
               >
                 Valider
               </Button>

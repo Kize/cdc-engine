@@ -20,6 +20,7 @@ import './DieFace.css';
 
 interface DieFaceProps extends UseRadioProps {
   dieValue: DieValue;
+  disabled?: boolean;
 }
 
 export function DieFace(props: DieFaceProps): JSX.Element {
@@ -55,6 +56,7 @@ export function DieFace(props: DieFaceProps): JSX.Element {
     <Box as="label">
       <input
         {...input}
+        disabled={props.disabled}
         onClick={handleSelect}
         onKeyDown={(e) => {
           if (e.key !== ' ') return;
@@ -67,12 +69,16 @@ export function DieFace(props: DieFaceProps): JSX.Element {
 
       <Box
         {...checkbox}
+        disabled={props.disabled}
         color="blue.300"
         className={
           state.isChecked ? 'die-transition die-checked' : 'die-transition'
         }
         _checked={{
           color: 'blue.700',
+        }}
+        _disabled={{
+          color: 'gray',
         }}
       >
         <Icon as={getDieIcon(props.dieValue)} boxSize="100%" />

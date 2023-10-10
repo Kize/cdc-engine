@@ -62,7 +62,7 @@ export function getNewCurrentGameState(): CurrentGameState {
       isAttrapeOiseauEnabled: true,
       isCivetEnabled: true,
       isArtichetteEnabled: true,
-      isVerdierEnabled: false,
+      isVerdierEnabled: true,
       isBleuRougeEnabled: true,
     },
   };
