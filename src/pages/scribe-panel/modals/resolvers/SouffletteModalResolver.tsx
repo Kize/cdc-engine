@@ -155,10 +155,7 @@ export function SouffletteModalResolver(): JSX.Element {
 
               <DiceFormComponent
                 diceForm={diceForm}
-                onChangeForm={(diceForm) => {
-                  setDiceForm(diceForm);
-                  return diceForm;
-                }}
+                onChangeForm={(diceForm) => setDiceForm(diceForm)}
               />
             </FormControl>
           </ModalBody>

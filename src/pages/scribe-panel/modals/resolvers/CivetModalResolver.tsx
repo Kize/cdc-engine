@@ -177,10 +177,7 @@ export function CivetModalResolver(): JSX.Element {
               <CardBody py={0}>
                 <DiceFormComponent
                   diceForm={diceForm}
-                  onChangeForm={(diceForm) => {
-                    setDiceForm(diceForm);
-                    return diceForm;
-                  }}
+                  onChangeForm={(diceForm) => setDiceForm(diceForm)}
                 />
               </CardBody>
             </Card>
