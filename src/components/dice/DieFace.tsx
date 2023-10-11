@@ -17,7 +17,7 @@ import {
 import { DieValue } from '../../../lib/rule-runner/rules/dice-rule.ts';
 import { IconType } from 'react-icons/lib/cjs/iconBase';
 import './DieFace.css';
-import * as classnames from 'classnames';
+import classNames from 'classnames';
 
 interface DieFaceProps extends UseRadioProps {
   dieValue: DieValue;
@@ -71,7 +71,7 @@ export function DieFace(props: DieFaceProps): JSX.Element {
       <Box
         {...checkbox}
         color="blue.300"
-        className={classnames('die-transition', {
+        className={classNames('die-transition', {
           'die-checked': state.isChecked,
           disabled: props.disabled,
         })}
