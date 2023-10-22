@@ -257,10 +257,7 @@ export function GrelottineModalResolver(): JSX.Element {
             <Container mt={6}>
               <DiceFormComponent
                 diceForm={diceForm}
-                onChangeForm={(diceForm) => {
-                  setDiceForm(diceForm);
-                  return diceForm;
-                }}
+                onChangeForm={(diceForm) => setDiceForm(diceForm)}
               />
 
               <Center mt={6}>

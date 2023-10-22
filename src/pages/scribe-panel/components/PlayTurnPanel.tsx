@@ -13,7 +13,7 @@ import { DieValue } from '../../../../lib/rule-runner/rules/dice-rule.ts';
 export function PlayTurnPanel(props: {
   numberOfTurns: number;
   diceForm: DiceForm;
-  onChangeDiceForm: (form: DiceForm) => DiceForm;
+  onChangeDiceForm: (form: DiceForm) => void;
 }): JSX.Element {
   const currentPlayer = useAppSelector(selectCurrentPlayerDetails);
   const dispatch = useAppDispatch();

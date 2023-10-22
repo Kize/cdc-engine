@@ -17,6 +17,7 @@ import {
 import { DieValue } from '../../../lib/rule-runner/rules/dice-rule.ts';
 import { IconType } from 'react-icons/lib/cjs/iconBase';
 import './DieFace.css';
+import classNames from 'classnames';
 
 interface DieFaceProps extends UseRadioProps {
   dieValue: DieValue;
@@ -38,17 +39,17 @@ export function DieFace(props: DieFaceProps): JSX.Element {
   const getDieIcon = (value: DieValue): IconType => {
     switch (value) {
       case 1:
-        return BsDice1;
+        return BsDice1 as IconType;
       case 2:
-        return BsDice2;
+        return BsDice2 as IconType;
       case 3:
-        return BsDice3;
+        return BsDice3 as IconType;
       case 4:
-        return BsDice4;
+        return BsDice4 as IconType;
       case 5:
-        return BsDice5;
+        return BsDice5 as IconType;
       case 6:
-        return BsDice6;
+        return BsDice6 as IconType;
     }
   };
 
@@ -69,16 +70,13 @@ export function DieFace(props: DieFaceProps): JSX.Element {
 
       <Box
         {...checkbox}
-        disabled={props.disabled}
         color="blue.300"
-        className={
-          state.isChecked ? 'die-transition die-checked' : 'die-transition'
-        }
+        className={classNames('die-transition', {
+          'die-checked': state.isChecked,
+          disabled: props.disabled,
+        })}
         _checked={{
           color: 'blue.700',
-        }}
-        _disabled={{
-          color: 'gray',
         }}
       >
         <Icon as={getDieIcon(props.dieValue)} boxSize="100%" />

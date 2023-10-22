@@ -78,12 +78,6 @@ export function BleuRougeModalResolver(): JSX.Element {
     });
   };
 
-  const onSelectDiceForm = (diceForm: DiceForm): DiceForm => {
-    setDiceForm(diceForm);
-
-    return diceForm;
-  };
-
   const onClose = () => {
     bleuRougeRuleResolver.reject();
     resetForm();
@@ -157,7 +151,7 @@ export function BleuRougeModalResolver(): JSX.Element {
 
                 <DiceFormComponent
                   diceForm={diceForm}
-                  onChangeForm={onSelectDiceForm}
+                  onChangeForm={(diceForm) => setDiceForm(diceForm)}
                 ></DiceFormComponent>
               </FormControl>
             </Container>
