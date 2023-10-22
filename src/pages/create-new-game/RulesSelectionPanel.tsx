@@ -15,13 +15,12 @@ import { TiStar } from 'react-icons/ti';
 
 import { RulesConfiguration } from '../../../lib/rule-runner/rule-runner-configuration.ts';
 
-export function RulesSelection({
-  rules,
-  setRules,
-}: {
+type Props = {
   rules: RulesConfiguration;
   setRules: (rules: RulesConfiguration) => void;
-}): JSX.Element {
+};
+
+export function RulesSelectionPanel({ rules, setRules }: Props): JSX.Element {
   const form = Object.entries(rules)
     .filter(([_, value]) => value)
     .map(([key]) => key);
@@ -35,6 +34,7 @@ export function RulesSelection({
       isArtichetteEnabled: false,
       isVerdierEnabled: false,
       isBleuRougeEnabled: false,
+      isDoubleBevueEnabled: false,
     };
 
     form.forEach((ruleKey) => {
@@ -117,6 +117,20 @@ export function RulesSelection({
               </Checkbox>
               <Checkbox {...ruleCheckboxProps} value="isBleuRougeEnabled">
                 Le Bleu-Rouge
+              </Checkbox>
+            </Stack>
+          </Box>
+
+          <Box>
+            <Heading as="h2" {...ruleSectionHeadingProps}>
+              <HStack>
+                <Text>Options</Text>
+              </HStack>
+            </Heading>
+
+            <Stack {...ruleStackProps}>
+              <Checkbox {...ruleCheckboxProps} value="isDoubleBevueEnabled">
+                Bévue doublée
               </Checkbox>
             </Stack>
           </Box>

@@ -106,10 +106,10 @@ export class GameHandler {
   }
 
   setRules(rulesConfiguration: RulesConfiguration, resolvers: Resolvers): void {
-    const test = !rulesConfiguration || !resolvers;
-    const rules = test
-      ? []
-      : instanciateRules(getAllRulesEnabled(rulesConfiguration), resolvers);
+    const rules = instanciateRules(
+      getAllRulesEnabled(rulesConfiguration),
+      resolvers,
+    );
 
     this.ruleRunner = new RuleRunner(rules);
   }

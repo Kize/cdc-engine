@@ -37,7 +37,7 @@ export function historyLineToMessage(line: HistoryLine): string {
     case RuleEffectEvent.NEANT:
       return `${line.player} a fait un Néant. Il obtient une Grelottine.`;
     case RuleEffectEvent.BEVUE:
-      return `${line.player} a pris une Bévue`;
+      return `${line.player} a pris une Bévue de ${line.amount} points`;
     case GameLineType.SLOUBI:
       return `${line.player} a fait un Sloubi pour ${line.amount}`;
 

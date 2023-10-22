@@ -47,6 +47,7 @@ export interface RulesConfiguration {
   isArtichetteEnabled: boolean;
   isVerdierEnabled: boolean;
   isBleuRougeEnabled: boolean;
+  isDoubleBevueEnabled: boolean;
 }
 
 export interface Resolvers {
@@ -97,7 +98,6 @@ export const BASIC_RULES: Array<Rules> = [
 ];
 
 export const ALL_RULES_ORDERED: Array<Rules> = [
-  Rules.BEVUE,
   Rules.GRELOTTINE,
   Rules.CIVET,
   Rules.VERDIER,
@@ -111,5 +111,7 @@ export const ALL_RULES_ORDERED: Array<Rules> = [
   Rules.SIROP,
   Rules.CHOUETTE,
   Rules.SOUFFLETTE,
+  Rules.DOUBLE_BEVUE,
+  Rules.BEVUE,
   Rules.NEANT,
 ];

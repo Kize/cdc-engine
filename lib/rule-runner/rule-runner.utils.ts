@@ -20,6 +20,7 @@ import { CivetRule } from './rules/level-1/civet-rule.ts';
 import { ArtichetteRule } from './rules/level-2/artichette-rule.ts';
 import { VerdierRule } from './rules/level-3/verdier-rule.ts';
 import { BleuRougeRule } from './rules/level-3/bleu-rouge-rule.ts';
+import { DoubleBevueRule } from './rules/basic-rules/double-bevue-rule.ts';
 
 export function getAllRulesEnabled(
   rulesConfiguration: RulesConfiguration,
@@ -54,6 +55,10 @@ export function getAllRulesEnabled(
     enabledRules.add(Rules.BLEU_ROUGE);
   }
 
+  if (rulesConfiguration.isDoubleBevueEnabled) {
+    enabledRules.add(Rules.DOUBLE_BEVUE);
+  }
+
   return ALL_RULES_ORDERED.filter((rule) => enabledRules.has(rule));
 }
 
@@ -65,6 +70,8 @@ export function instanciateRules(
     switch (ruleName) {
       case Rules.BEVUE:
         return new BevueRule();
+      case Rules.DOUBLE_BEVUE:
+        return new DoubleBevueRule();
       case Rules.GRELOTTINE:
         return new GrelottineRule(resolvers.grelottineRuleResolver);
       case Rules.NEANT:

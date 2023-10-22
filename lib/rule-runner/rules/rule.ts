@@ -12,6 +12,7 @@ export interface Rule {
 
 export enum Rules {
   BEVUE = 'Bévue',
+  DOUBLE_BEVUE = 'Double Bévue',
   NEANT = 'Néant',
   CHOUETTE = 'Chouette',
   SUITE = 'Suite',

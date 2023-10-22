@@ -4,7 +4,7 @@ import { Box, Button, Center, Heading, SimpleGrid } from '@chakra-ui/react';
 import { PlayersSelection } from './PlayersSelection.tsx';
 import { useAppDispatch, useAppSelector } from '../../store/store.ts';
 import { selectRulesConfiguration } from '../../store/current-game/current-game-selectors.ts';
-import { RulesSelection } from './RulesSelection.tsx';
+import { RulesSelectionPanel } from './RulesSelectionPanel.tsx';
 import { startGameThunk } from '../../store/current-game/current-game-lifecycle-thunks.ts';
 
 export function CreateNewGame(): JSX.Element {
@@ -27,7 +27,7 @@ export function CreateNewGame(): JSX.Element {
         </Box>
 
         <Box p={3}>
-          <RulesSelection rules={rulesForm} setRules={setRulesForm} />
+          <RulesSelectionPanel rules={rulesForm} setRules={setRulesForm} />
         </Box>
       </SimpleGrid>
 
