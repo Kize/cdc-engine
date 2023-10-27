@@ -2,6 +2,7 @@ import { Box, Heading, Icon, Link, SimpleGrid } from '@chakra-ui/react';
 import { HiOutlineExternalLink } from 'react-icons/hi';
 import { Link as RouterLink } from 'react-router-dom';
 import { CancelGameButton } from './CancelGameButton.tsx';
+import { IconType } from 'react-icons/lib/cjs/iconBase';
 
 export function ScribePanelHeader() {
   return (
@@ -13,7 +14,8 @@ export function ScribePanelHeader() {
         href="https://docs.google.com/document/d/111XDCFHeqVqV-DvnJqJ31rp05tMZbmpxJWQDvPJdIHY/edit#heading=h.kr2581jfe5r"
         isExternal
       >
-        Accéder aux règles <Icon mx="2px" as={HiOutlineExternalLink} />
+        Accéder aux règles{' '}
+        <Icon mx="2px" as={HiOutlineExternalLink as IconType} />
       </Link>
 
       <Box pt={2}>

@@ -77,7 +77,7 @@ export function SiropModalResolver(): JSX.Element {
       : sortPlayersStartingBy(players, player);
 
     setBids(orderedPlayersForBets.map(getNewBidForm));
-  }, [player, selectedAttrapeOiseau]);
+  }, [selectedAttrapeOiseau, players, player]);
 
   const isFormValid =
     dieValue !== null && bids.every((bid) => (bid.playerBid as string) !== '');

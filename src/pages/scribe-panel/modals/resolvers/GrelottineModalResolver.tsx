@@ -162,7 +162,7 @@ export function GrelottineModalResolver(): JSX.Element {
     return getMaxGrelottinePossibleAmount(lowestScore, grelottinBet);
   };
 
-  useEffect(setAmountToMax, [grelottinPlayer, challengedPlayer, grelottinBet]);
+  useEffect(setAmountToMax);
 
   return (
     <>

@@ -11,9 +11,11 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react';
-import { TiStar } from 'react-icons/ti';
-
+import { TiStar as untypedTiStar } from 'react-icons/ti';
 import { RulesConfiguration } from '../../../lib/rule-runner/rule-runner-configuration.ts';
+import { IconType } from 'react-icons/lib/cjs/iconBase';
+
+const TiStar = untypedTiStar as IconType;
 
 type Props = {
   rules: RulesConfiguration;
@@ -22,7 +24,7 @@ type Props = {
 
 export function RulesSelectionPanel({ rules, setRules }: Props): JSX.Element {
   const form = Object.entries(rules)
-    .filter(([_, value]) => value)
+    .filter(([, value]) => value)
     .map(([key]) => key);
 
   const onChangeRules = (form: Array<keyof RulesConfiguration>): void => {

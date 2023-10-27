@@ -38,8 +38,8 @@ export function PlayTurnPanel(props: {
           borderRadius="full"
           hidden={!isVerdierRuleEnabled}
           isDisabled={!isVerdierActivable}
-          onClick={() => {
-            dispatch(
+          onClick={async () => {
+            await dispatch(
               playATurnThunk({
                 event: GameContextEvent.VERDIER,
                 diceValues: props.diceForm.filter(

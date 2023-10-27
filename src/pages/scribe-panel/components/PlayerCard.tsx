@@ -17,6 +17,7 @@ import { applyBevueThunk } from '../../../store/current-game/current-game-action
 import { Player } from '../../../../lib/player.ts';
 import { FaRegBell } from 'react-icons/fa';
 import { GiRabbit } from 'react-icons/gi';
+import { IconType } from 'react-icons/lib/cjs/iconBase';
 
 export interface PlayerCardDetails {
   player: Player;
@@ -61,12 +62,12 @@ export function PlayerCard({
 
       <CardBody px={3} py={[1, 3]}>
         <Tag colorScheme="red" hidden={!details.hasGrelottine}>
-          <TagLeftIcon as={FaRegBell} />
+          <TagLeftIcon as={FaRegBell as IconType} />
           <TagLabel>Grelottine</TagLabel>
         </Tag>
 
         <Tag colorScheme="gray" hidden={!details.hasCivet}>
-          <TagLeftIcon as={GiRabbit} />
+          <TagLeftIcon as={GiRabbit as IconType} />
           <TagLabel>Civet</TagLabel>
         </Tag>
       </CardBody>

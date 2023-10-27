@@ -32,7 +32,7 @@ export function ScribePanel(): JSX.Element {
     if (gameStatus === GameStatus.FINISHED) {
       dispatch(resolversSlice.actions.setEndGame({ active: true }));
     }
-  }, [gameStatus]);
+  });
 
   const [diceForm, setDiceForm] = useState(getNewDiceForm() as DiceForm);
 

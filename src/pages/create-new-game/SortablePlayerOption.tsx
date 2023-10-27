@@ -4,6 +4,7 @@ import { MdDragIndicator } from 'react-icons/md';
 import { TiDeleteOutline } from 'react-icons/ti';
 import { CSS } from '@dnd-kit/utilities';
 import { useSortable } from '@dnd-kit/sortable';
+import { IconType } from 'react-icons/lib/cjs/iconBase';
 
 export function SortablePlayerOption({
   onRemove,
@@ -36,8 +37,7 @@ export function SortablePlayerOption({
       <Flex align="center">
         <Icon
           aria-label="remove"
-          as={MdDragIndicator}
-          variant="ghost"
+          as={MdDragIndicator as IconType}
           mx={2}
           {...listeners}
         />

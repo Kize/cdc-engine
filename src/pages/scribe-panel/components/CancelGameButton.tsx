@@ -51,8 +51,8 @@ export function CancelGameButton(): JSX.Element {
 
               <Button
                 colorScheme="red"
-                onClick={() => {
-                  dispatch(resetGameThunk());
+                onClick={async () => {
+                  await dispatch(resetGameThunk());
                 }}
                 ml={3}
               >
