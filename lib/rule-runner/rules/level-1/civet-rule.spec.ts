@@ -1,5 +1,5 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { Resolver } from '../rule-resolver';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { Resolver, RuleResolver } from '../rule-resolver';
 import { DummyContextBuilder } from '../../../tests/dummy-game-context-builder';
 import {
   CivetBet,
@@ -54,17 +54,26 @@ describe('isApplicableToGameContext', () => {
 });
 
 describe('applyRule', () => {
+  testCivetRule((resolution) => {
+    const resolver = <RuleResolver<CivetResolution, CivetResolutionPayload>>{};
+    resolver.getResolution = vi.fn().mockResolvedValue(resolution);
+    return new CivetRule(resolver);
+  });
+});
+
+export function testCivetRule(
+  getCivetRuleForResolution: (resolution: CivetResolution) => CivetRule,
+): void {
   it('removes the civet for the player', async () => {
-    const resolver: Resolver<CivetResolution, CivetResolutionPayload> = {
-      getResolution: vi.fn().mockResolvedValue({
-        isVerdier: false,
-        betAmount: 1,
-        playerBet: CivetBet.VELUTE,
-        diceRoll: [3, 3, 3],
-      } as CivetResolution),
+    const resolution: CivetResolution = {
+      isVerdier: false,
+      betAmount: 1,
+      playerBet: CivetBet.VELUTE,
+      diceRoll: [3, 3, 3],
     };
 
-    const rule = new CivetRule(resolver);
+    const rule = getCivetRuleForResolution(resolution);
+
     const ruleEffects = await rule.applyRule(
       DummyContextBuilder.aCivetContext().withplayer('Alban').build(),
     );
@@ -77,16 +86,15 @@ describe('applyRule', () => {
   });
 
   it('handles a lost civet bet', async () => {
-    const resolver: Resolver<CivetResolution, CivetResolutionPayload> = {
-      getResolution: vi.fn().mockResolvedValue({
-        isVerdier: false,
-        betAmount: 42,
-        playerBet: CivetBet.VELUTE,
-        diceRoll: [3, 3, 3],
-      } as CivetResolution),
+    const resolution: CivetResolution = {
+      isVerdier: false,
+      betAmount: 42,
+      playerBet: CivetBet.VELUTE,
+      diceRoll: [3, 3, 3],
     };
 
-    const rule = new CivetRule(resolver);
+    const rule = getCivetRuleForResolution(resolution);
+
     const ruleEffects = await rule.applyRule(
       DummyContextBuilder.aCivetContext().withplayer('Alban').build(),
     );
@@ -99,16 +107,15 @@ describe('applyRule', () => {
   });
 
   it('handles a won civet bet', async () => {
-    const resolver: Resolver<CivetResolution, CivetResolutionPayload> = {
-      getResolution: vi.fn().mockResolvedValue({
-        isVerdier: false,
-        betAmount: 102,
-        playerBet: CivetBet.VELUTE,
-        diceRoll: [2, 3, 5],
-      } as CivetResolution),
+    const resolution: CivetResolution = {
+      isVerdier: false,
+      betAmount: 102,
+      playerBet: CivetBet.VELUTE,
+      diceRoll: [2, 3, 5],
     };
 
-    const rule = new CivetRule(resolver);
+    const rule = getCivetRuleForResolution(resolution);
+
     const ruleEffects = await rule.applyRule(
       DummyContextBuilder.aCivetContext()
         .withplayer('Alban')
@@ -124,16 +131,15 @@ describe('applyRule', () => {
   });
 
   it('applies the dice roll rule effects to the player', async () => {
-    const resolver: Resolver<CivetResolution, CivetResolutionPayload> = {
-      getResolution: vi.fn().mockResolvedValue({
-        isVerdier: false,
-        betAmount: 102,
-        playerBet: CivetBet.VELUTE,
-        diceRoll: [2, 3, 5],
-      } as CivetResolution),
+    const resolution: CivetResolution = {
+      isVerdier: false,
+      betAmount: 102,
+      playerBet: CivetBet.VELUTE,
+      diceRoll: [2, 3, 5],
     };
 
-    const rule = new CivetRule(resolver);
+    const rule = getCivetRuleForResolution(resolution);
+
     const ruleEffects = await rule.applyRule(
       DummyContextBuilder.aCivetContext()
         .withplayer('Alban')
@@ -149,15 +155,6 @@ describe('applyRule', () => {
   });
 
   it('handles a lost civet bet when betting on a velute, and resulting into a bleu-rouge with a velute', async () => {
-    const civetResolver: Resolver<CivetResolution, CivetResolutionPayload> = {
-      getResolution: vi.fn().mockResolvedValue({
-        isVerdier: false,
-        betAmount: 102,
-        playerBet: CivetBet.VELUTE,
-        diceRoll: [3, 4, 3],
-      } as CivetResolution),
-    };
-
     const bleuRougeResolver: Resolver<
       BleuRougeResolution,
       BleuRougeResolutionPayload
@@ -168,7 +165,15 @@ describe('applyRule', () => {
       } as BleuRougeResolution),
     };
 
-    const rule = new CivetRule(civetResolver);
+    const resolution: CivetResolution = {
+      isVerdier: false,
+      betAmount: 102,
+      playerBet: CivetBet.VELUTE,
+      diceRoll: [3, 4, 3],
+    };
+
+    const rule = getCivetRuleForResolution(resolution);
+
     const ruleEffects = await rule.applyRule(
       DummyContextBuilder.aCivetContext()
         .withplayer('Alban')
@@ -269,4 +274,4 @@ describe('applyRule', () => {
       value: 25,
     });
   });
-});
+}

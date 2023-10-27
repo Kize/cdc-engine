@@ -10,7 +10,7 @@ import { RuleEffect, RuleEffectEvent } from '../rule-effect';
 import { DummyContextBuilder } from '../../../tests/dummy-game-context-builder';
 import { BidType, SiropBid } from './sirotage-rule.types';
 
-describe('has the sirotage behaviour if there is no attrape oiseau', () => {
+describe('It has the sirotage behaviour if there is no attrape oiseau', () => {
   testSirotageRule((resolution) => {
     const resolver = <
       RuleResolver<AttrapeOiseauResolution, SiropResolutionPayload>
@@ -23,103 +23,105 @@ describe('has the sirotage behaviour if there is no attrape oiseau', () => {
   });
 });
 
-it('applies the sirotage to the player who stole the sirop if attrape oiseau is lost', async () => {
-  const resolution: AttrapeOiseauResolution = {
-    isSirote: true,
-    bids: [],
-    lastDieValue: 4,
-    playerWhoMakeAttrapeOiseau: 'Delphin',
-  };
-  const resolver = {
-    getResolution: vi.fn().mockResolvedValue(resolution),
-  };
-  const rule = new AttrapeOiseauRule(resolver);
-
-  const ruleEffects = await rule.applyRule(
-    DummyContextBuilder.aDiceRollContext()
-      .withplayer('Alban')
-      .withDiceRoll([3, 3, 4])
-      .build(),
-  );
-
-  expect(ruleEffects).toContainEqual<RuleEffect>({
-    event: RuleEffectEvent.ATTRAPE_OISEAU_LOST,
-    player: 'Delphin',
-    value: -9,
-  });
-
-  expect(ruleEffects).toContainEqual<RuleEffect>({
-    event: RuleEffectEvent.CHOUETTE,
-    player: 'Alban',
-    value: 9,
-  });
-});
-
-it('applies the sirotage to the player who stole the sirop if attrape oiseau is won', async () => {
-  const resolution: AttrapeOiseauResolution = {
-    isSirote: true,
-    bids: [],
-    lastDieValue: 3,
-    playerWhoMakeAttrapeOiseau: 'Delphin',
-  };
-  const resolver = {
-    getResolution: vi.fn().mockResolvedValue(resolution),
-  };
-  const rule = new AttrapeOiseauRule(resolver);
-
-  const ruleEffects = await rule.applyRule(
-    DummyContextBuilder.aDiceRollContext()
-      .withplayer('Alban')
-      .withDiceRoll([3, 3, 4])
-      .build(),
-  );
-
-  expect(ruleEffects).toContainEqual<RuleEffect>({
-    event: RuleEffectEvent.ATTRAPE_OISEAU_WON,
-    player: 'Delphin',
-    value: 70,
-  });
-
-  expect(ruleEffects).toContainEqual<RuleEffect>({
-    event: RuleEffectEvent.CHOUETTE,
-    player: 'Alban',
-    value: 9,
-  });
-});
-
-it('handle the fil sirop bet', async () => {
-  const bids: Array<SiropBid> = [
-    {
-      player: 'Alban',
-      playerBid: BidType.FILE_SIROP,
-      isBidValidated: false,
-    },
-  ];
-
-  const resolver = {
-    getResolution: vi.fn().mockResolvedValue({
+describe('applyRule', () => {
+  it('applies the sirotage to the player who stole the sirop if attrape oiseau is lost', async () => {
+    const resolution: AttrapeOiseauResolution = {
       isSirote: true,
-      lastDieValue: 6,
-      bids,
-    }),
-  };
-  const attrapeOiseauRule = new AttrapeOiseauRule(resolver);
+      bids: [],
+      lastDieValue: 4,
+      playerWhoMakeAttrapeOiseau: 'Delphin',
+    };
+    const resolver = {
+      getResolution: vi.fn().mockResolvedValue(resolution),
+    };
+    const rule = new AttrapeOiseauRule(resolver);
 
-  const gameContext = DummyContextBuilder.aDiceRollContext()
-    .withplayer('Alban')
-    .withDiceRoll([2, 3, 2])
-    .build();
+    const ruleEffects = await rule.applyRule(
+      DummyContextBuilder.aDiceRollContext()
+        .withplayer('Alban')
+        .withDiceRoll([3, 3, 4])
+        .build(),
+    );
 
-  const ruleEffects = await attrapeOiseauRule.applyRule(gameContext);
+    expect(ruleEffects).toContainEqual<RuleEffect>({
+      event: RuleEffectEvent.ATTRAPE_OISEAU_LOST,
+      player: 'Delphin',
+      value: -9,
+    });
 
-  expect(ruleEffects).toContainEqual({
-    event: RuleEffectEvent.SIROP_BET_WON,
-    player: 'Alban',
-    value: 0,
+    expect(ruleEffects).toContainEqual<RuleEffect>({
+      event: RuleEffectEvent.CHOUETTE,
+      player: 'Alban',
+      value: 9,
+    });
+  });
+
+  it('applies the sirotage to the player who stole the sirop if attrape oiseau is won', async () => {
+    const resolution: AttrapeOiseauResolution = {
+      isSirote: true,
+      bids: [],
+      lastDieValue: 3,
+      playerWhoMakeAttrapeOiseau: 'Delphin',
+    };
+    const resolver = {
+      getResolution: vi.fn().mockResolvedValue(resolution),
+    };
+    const rule = new AttrapeOiseauRule(resolver);
+
+    const ruleEffects = await rule.applyRule(
+      DummyContextBuilder.aDiceRollContext()
+        .withplayer('Alban')
+        .withDiceRoll([3, 3, 4])
+        .build(),
+    );
+
+    expect(ruleEffects).toContainEqual<RuleEffect>({
+      event: RuleEffectEvent.ATTRAPE_OISEAU_WON,
+      player: 'Delphin',
+      value: 70,
+    });
+
+    expect(ruleEffects).toContainEqual<RuleEffect>({
+      event: RuleEffectEvent.CHOUETTE,
+      player: 'Alban',
+      value: 9,
+    });
+  });
+
+  it('handle the fil sirop bet', async () => {
+    const bids: Array<SiropBid> = [
+      {
+        player: 'Alban',
+        playerBid: BidType.FILE_SIROP,
+        isBidValidated: false,
+      },
+    ];
+
+    const resolver = {
+      getResolution: vi.fn().mockResolvedValue({
+        isSirote: true,
+        lastDieValue: 6,
+        bids,
+      }),
+    };
+    const attrapeOiseauRule = new AttrapeOiseauRule(resolver);
+
+    const gameContext = DummyContextBuilder.aDiceRollContext()
+      .withplayer('Alban')
+      .withDiceRoll([2, 3, 2])
+      .build();
+
+    const ruleEffects = await attrapeOiseauRule.applyRule(gameContext);
+
+    expect(ruleEffects).toContainEqual({
+      event: RuleEffectEvent.SIROP_BET_WON,
+      player: 'Alban',
+      value: 0,
+    });
   });
 });
 
-describe('resolver params', () => {
+describe('applyRule - ResolutionPayload', () => {
   it('gives the playable bids to the resolver', async () => {
     const resolver = {
       getResolution: vi.fn().mockResolvedValue({}),

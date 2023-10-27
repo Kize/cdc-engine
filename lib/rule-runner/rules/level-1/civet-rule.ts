@@ -4,6 +4,7 @@ import { GameContextEvent, GameContextWrapper } from '../../game-context-event';
 import { Resolver } from '../rule-resolver';
 import { DiceRoll, DieValue } from '../dice-rule';
 import { UnknownGameContext } from '../../game-context.ts';
+import { RuleRunner } from '../../rule-runner.ts';
 
 export type CivetResolution = DiceRollCivetResolution | VerdierCivetResolution;
 
@@ -60,6 +61,14 @@ export class CivetRule implements Rule {
       player,
     });
 
+    return this.computeCivetRuleEffects(player, civetResolution, runner);
+  }
+
+  protected async computeCivetRuleEffects(
+    player: string,
+    civetResolution: CivetResolution,
+    runner: RuleRunner,
+  ): Promise<RuleEffects> {
     let diceRollRuleEffects: RuleEffects;
 
     if (!civetResolution.isVerdier) {

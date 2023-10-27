@@ -160,31 +160,3 @@ export class SirotageRule extends ChouetteRule {
     return lostSirotageRuleEffects;
   }
 }
-
-export function isPlayerBidClaimable(
-  chouetteValue: DieValue,
-  playerBid: BidType,
-  siropDieValue: DieValue,
-): boolean {
-  switch (playerBid) {
-    case BidType.COUCHE_SIROP:
-    case BidType.FILE_SIROP:
-      return false;
-    case BidType.BEAU_SIROP:
-      return chouetteValue === siropDieValue;
-    case BidType.LINOTTE:
-      return siropDieValue === 1;
-    case BidType.ALOUETTE:
-      return siropDieValue === 2;
-    case BidType.FAUVETTE:
-      return siropDieValue === 3;
-    case BidType.MOUETTE:
-      return siropDieValue === 4;
-    case BidType.BERGERONNETTE:
-      return siropDieValue === 5;
-    case BidType.CHOUETTE:
-      return siropDieValue === 6;
-    default:
-      return false;
-  }
-}
