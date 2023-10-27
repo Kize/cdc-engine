@@ -85,11 +85,14 @@ export function historyLineToMessage(line: HistoryLine): string {
     case RuleEffectEvent.SIROP_BET_WON_BUT_NOT_CLAIMED:
       return `${line.player} n'a pas annoncé "Sirop Gagnant!"`;
 
+    case RuleEffectEvent.CIVET_WON:
+      return `${line.player} a réussi son civet pour ${line.amount} points`;
+    case RuleEffectEvent.CIVET_LOST:
+      return `${line.player} a raté son civet pour ${line.amount} points`;
+
     case RuleEffectEvent.REMOVE_GRELOTTINE:
     case RuleEffectEvent.ADD_CIVET:
     case RuleEffectEvent.REMOVE_CIVET:
-    case RuleEffectEvent.CIVET_WON:
-    case RuleEffectEvent.CIVET_LOST:
     case RuleEffectEvent.VERDIER_WON:
     case RuleEffectEvent.VERDIER_LOST:
     case RuleEffectEvent.ADD_JARRET:

@@ -17,6 +17,8 @@ export const startGameThunk =
     newGame.players = [...players];
     newGame.rulesConfiguration = { ...rulesConfiguration };
 
+    console.log(JSON.stringify(rulesConfiguration, null, 2));
+
     dispatch(currentGameSlice.actions.startGame(newGame));
 
     await router.navigate('/scribe-panel');

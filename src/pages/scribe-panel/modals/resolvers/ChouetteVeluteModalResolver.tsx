@@ -52,7 +52,7 @@ export function ChouetteVeluteModalResolver(): JSX.Element {
           <ModalBody>
             <FormControl as="fieldset">
               <FormLabel as="legend">
-                Joueur ayant disputés la Chouette Velute
+                Joueurs ayant disputés la Chouette Velute
               </FormLabel>
 
               <CheckboxGroup

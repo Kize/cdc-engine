@@ -33,6 +33,7 @@ export function RulesSelectionPanel({ rules, setRules }: Props): JSX.Element {
       isSiropEnabled: false,
       isAttrapeOiseauEnabled: false,
       isCivetEnabled: false,
+      isCivetDoubleEnabled: false,
       isArtichetteEnabled: false,
       isVerdierEnabled: false,
       isBleuRougeEnabled: false,
@@ -99,6 +100,10 @@ export function RulesSelectionPanel({ rules, setRules }: Props): JSX.Element {
             <Stack {...ruleStackProps}>
               <Checkbox {...ruleCheckboxProps} value="isArtichetteEnabled">
                 L'Artichette
+              </Checkbox>
+
+              <Checkbox {...ruleCheckboxProps} value="isCivetDoubleEnabled">
+                Le Civet Doublé
               </Checkbox>
             </Stack>
           </Box>

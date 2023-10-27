@@ -8,6 +8,8 @@ import {
   CardBody,
   CardHeader,
   Center,
+  Checkbox,
+  CheckboxGroup,
   FormControl,
   FormLabel,
   Modal,
@@ -23,6 +25,7 @@ import {
   NumberInputField,
   NumberInputStepper,
   SimpleGrid,
+  Stack,
 } from '@chakra-ui/react';
 import { DiceFormComponent } from '../../../../components/dice/DiceForm.tsx';
 import {
@@ -39,9 +42,30 @@ import {
 } from '../../../../utils/custom-select.utils.ts';
 import { DieValue } from '../../../../../lib/rule-runner/rules/dice-rule.ts';
 import { isVerdierApplicable } from '../../../../../lib/rule-runner/rules/level-3/verdier-rule.ts';
+import { civetDoubleRuleResolver } from '../../../../store/resolvers/rules/civet-double-rule.resolver.ts';
+import { Player } from '../../../../../lib/player.ts';
+import { selectPlayerCardDetails } from '../../../../store/current-game/current-game-selectors.ts';
 
 export function CivetModalResolver(): JSX.Element {
   const { active, player } = useAppSelector((state) => state.resolvers.civet);
+  const otherPlayersWithCivet = useAppSelector(selectPlayerCardDetails)
+    .filter(
+      (playerDetails) =>
+        player !== playerDetails.player && playerDetails.hasCivet,
+    )
+    .map((details) => details.player);
+
+  const isCivetDoubleEnabled = useAppSelector(
+    (state) => state.currentGame.rulesConfiguration.isCivetDoubleEnabled,
+  );
+
+  const resolver = isCivetDoubleEnabled
+    ? civetDoubleRuleResolver
+    : civetRuleResolver;
+
+  const [otherBettingPlayers, setOtherBettingPlayers] = useState<Array<Player>>(
+    [],
+  );
 
   const isVerdierRuleEnabled = useAppSelector(
     (state) => state.currentGame.rulesConfiguration.isVerdierEnabled,
@@ -66,6 +90,7 @@ export function CivetModalResolver(): JSX.Element {
     setDiceForm(getNewDiceForm());
     setAmount(102);
     setSelectedBet(null);
+    setOtherBettingPlayers([]);
   };
 
   const onClose = () => {
@@ -75,11 +100,12 @@ export function CivetModalResolver(): JSX.Element {
 
   const onValidate = () => {
     if (isFormValid) {
-      civetRuleResolver.resolve({
+      resolver.resolve({
         isVerdier: false,
         playerBet: selectedBet.value as CivetBet,
         diceRoll: diceForm,
         betAmount: amount,
+        otherBettingPlayers,
       });
       resetForm();
     }
@@ -87,7 +113,7 @@ export function CivetModalResolver(): JSX.Element {
 
   const playCivet = () => {
     if (isVerdierActivable) {
-      civetRuleResolver.resolve({
+      resolver.resolve({
         isVerdier: true,
         betAmount: amount,
         playerBet: selectedBet.value as CivetBet,
@@ -95,6 +121,7 @@ export function CivetModalResolver(): JSX.Element {
           DieValue,
           DieValue,
         ],
+        otherBettingPlayers,
       });
     }
   };
@@ -154,6 +181,31 @@ export function CivetModalResolver(): JSX.Element {
                 </SimpleGrid>
               </CardBody>
             </Card>
+
+            {isCivetDoubleEnabled && otherPlayersWithCivet.length > 0 && (
+              <Card mb={6}>
+                <CardHeader fontSize="sm" py={2}>
+                  Civet Doublé:
+                </CardHeader>
+
+                <CardBody pt={0}>
+                  <CheckboxGroup
+                    value={otherBettingPlayers}
+                    onChange={(values: Array<Player>) =>
+                      setOtherBettingPlayers(values)
+                    }
+                  >
+                    <Stack>
+                      {otherPlayersWithCivet.map((player) => (
+                        <Checkbox value={player} key={player} size="lg" mb={2}>
+                          {player}
+                        </Checkbox>
+                      ))}
+                    </Stack>
+                  </CheckboxGroup>
+                </CardBody>
+              </Card>
+            )}
 
             <Card>
               <CardHeader fontSize="sm" py={2}>

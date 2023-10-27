@@ -21,6 +21,7 @@ import { ArtichetteRule } from './rules/level-2/artichette-rule.ts';
 import { VerdierRule } from './rules/level-3/verdier-rule.ts';
 import { BleuRougeRule } from './rules/level-3/bleu-rouge-rule.ts';
 import { DoubleBevueRule } from './rules/basic-rules/double-bevue-rule.ts';
+import { CivetDoubledRule } from './rules/level-2/civet-doubled-rule.ts';
 
 export function getAllRulesEnabled(
   rulesConfiguration: RulesConfiguration,
@@ -57,6 +58,10 @@ export function getAllRulesEnabled(
 
   if (rulesConfiguration.isDoubleBevueEnabled) {
     enabledRules.add(Rules.DOUBLE_BEVUE);
+  }
+
+  if (rulesConfiguration.isCivetDoubleEnabled) {
+    enabledRules.add(Rules.CIVET_DOUBLED);
   }
 
   return ALL_RULES_ORDERED.filter((rule) => enabledRules.has(rule));
@@ -121,6 +126,11 @@ export function instanciateRules(
           throw new ResolverNotProvidedError(ruleName);
         }
         return new BleuRougeRule(resolvers.bleuRougeRuleResolver);
+      case Rules.CIVET_DOUBLED:
+        if (!resolvers.civetDoubleRuleResolver) {
+          throw new ResolverNotProvidedError(ruleName);
+        }
+        return new CivetDoubledRule(resolvers.civetDoubleRuleResolver);
     }
 
     throw new Error('unknown value for rule');
