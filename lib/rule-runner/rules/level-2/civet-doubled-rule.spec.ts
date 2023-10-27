@@ -10,7 +10,6 @@ import { DummyContextBuilder } from '../../../tests/dummy-game-context-builder.t
 import { RuleEffect, RuleEffectEvent } from '../rule-effect.ts';
 import { RuleRunner } from '../../rule-runner.ts';
 import { VeluteRule } from '../basic-rules/velute-rule.ts';
-import { NeantRule } from '../basic-rules/neant-rule.ts';
 
 describe('It has the civet behaviour', () => {
   describe('when there are no other betting players', () => {

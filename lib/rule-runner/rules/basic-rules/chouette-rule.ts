@@ -26,11 +26,11 @@ export class ChouetteRule extends DiceRule {
     };
   }
 
-  async applyDiceRule({
+  applyDiceRule({
     player,
     diceRoll,
   }: DiceRollGameContext): Promise<RuleEffects> {
-    return [this.getChouetteRuleEffect(player, diceRoll)];
+    return Promise.resolve([this.getChouetteRuleEffect(player, diceRoll)]);
   }
 
   protected getChouetteScore(diceRoll: DiceRoll): number {

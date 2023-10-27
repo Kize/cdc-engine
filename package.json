@@ -8,7 +8,7 @@
     "build": "tsc && vite build && cp dist/index.html dist/200.html",
     "deploy": "npm run build && surge ./dist/ alcc.surge.sh",
     "format": "prettier --write \"{src,lib}/**/*.{ts,tsx}\"",
-    "lint": "eslint src --ext ts,tsx --fix --cache",
+    "lint": "eslint src lib --ext ts,tsx --fix --cache",
     "test": "vitest run",
     "preview": " npm run build && vite preview"
   },
