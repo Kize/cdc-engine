@@ -23,7 +23,7 @@ import {
   DiceForm,
   isDiceFormValid,
 } from '../../../../components/dice/dice-form.ts';
-import { DiceFormComponent } from '../../../../components/dice/DiceForm.tsx';
+import { TripleDiceForm } from '../../../../components/dice/TripleDiceForm.tsx';
 import { Select } from 'chakra-react-select';
 import {
   CustomSelectOption,
@@ -149,10 +149,10 @@ export function BleuRougeModalResolver(): JSX.Element {
               <FormControl>
                 <FormLabel fontSize={'sm'}>Relance du Blue-Rouge:</FormLabel>
 
-                <DiceFormComponent
+                <TripleDiceForm
                   diceForm={diceForm}
                   onChangeForm={(diceForm) => setDiceForm(diceForm)}
-                ></DiceFormComponent>
+                ></TripleDiceForm>
               </FormControl>
             </Container>
           </ModalBody>

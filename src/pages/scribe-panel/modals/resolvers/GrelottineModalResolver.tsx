@@ -40,7 +40,7 @@ import {
 } from '../../../../../lib/rule-runner/rules/basic-rules/grelottine-rule.ts';
 import { Player } from '../../../../../lib/player.ts';
 import { PlayerCardDetails } from '../../components/PlayerCard.tsx';
-import { DiceFormComponent } from '../../../../components/dice/DiceForm.tsx';
+import { TripleDiceForm } from '../../../../components/dice/TripleDiceForm.tsx';
 import {
   DiceForm,
   getNewDiceForm,
@@ -255,7 +255,7 @@ export function GrelottineModalResolver(): JSX.Element {
             </SimpleGrid>
 
             <Container mt={6}>
-              <DiceFormComponent
+              <TripleDiceForm
                 diceForm={diceForm}
                 onChangeForm={(diceForm) => setDiceForm(diceForm)}
               />

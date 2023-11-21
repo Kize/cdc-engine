@@ -20,7 +20,7 @@ import {
   SliderTrack,
 } from '@chakra-ui/react';
 import { Select } from 'chakra-react-select';
-import { DiceFormComponent } from '../../../../components/dice/DiceForm.tsx';
+import { TripleDiceForm } from '../../../../components/dice/TripleDiceForm.tsx';
 import {
   CustomSelectOption,
   customSelectStyles,
@@ -153,7 +153,7 @@ export function SouffletteModalResolver(): JSX.Element {
                 Combinaison réalisée sur le dernier lancé:
               </FormLabel>
 
-              <DiceFormComponent
+              <TripleDiceForm
                 diceForm={diceForm}
                 onChangeForm={(diceForm) => setDiceForm(diceForm)}
               />

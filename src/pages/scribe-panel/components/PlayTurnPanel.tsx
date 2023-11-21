@@ -1,7 +1,17 @@
 import { DiceForm } from '../../../components/dice/dice-form.ts';
-import { Box, Button, Card, CardBody, CardHeader } from '@chakra-ui/react';
-import { DiceFormComponent } from '../../../components/dice/DiceForm.tsx';
-import { JSX } from 'react';
+import {
+  Box,
+  Button,
+  Card,
+  CardBody,
+  CardHeader,
+  Flex,
+  FormControl,
+  FormLabel,
+  Spacer,
+  Switch,
+} from '@chakra-ui/react';
+import { JSX, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../store/store.ts';
 import { selectCurrentPlayerDetails } from '../../../store/current-game/current-game-selectors.ts';
 import { GiRabbit } from 'react-icons/gi';
@@ -9,6 +19,8 @@ import { playATurnThunk } from '../../../store/current-game/current-game-actions
 import { isVerdierApplicable } from '../../../../lib/rule-runner/rules/level-3/verdier-rule.ts';
 import { GameContextEvent } from '../../../../lib/rule-runner/game-context-event.ts';
 import { DieValue } from '../../../../lib/rule-runner/rules/dice-rule.ts';
+import { OneLineDiceForm } from '../../../components/dice/OneLineDiceForm.tsx';
+import { TripleDiceForm } from '../../../components/dice/TripleDiceForm.tsx';
 
 export function PlayTurnPanel(props: {
   numberOfTurns: number;
@@ -17,6 +29,8 @@ export function PlayTurnPanel(props: {
 }): JSX.Element {
   const currentPlayer = useAppSelector(selectCurrentPlayerDetails);
   const dispatch = useAppDispatch();
+
+  const [isOneLineForm, setIsOneLineForm] = useState<boolean>(true);
 
   const isVerdierRuleEnabled = useAppSelector(
     (state) => state.currentGame.rulesConfiguration.isVerdierEnabled,
@@ -66,13 +80,35 @@ export function PlayTurnPanel(props: {
         >
           Civet
         </Button>
+
+        <Flex>
+          <Spacer />
+          <FormControl display="flex" alignItems="center" w="max-content">
+            <FormLabel htmlFor="new-dice-input" mb="0">
+              Nouveau dé ?
+            </FormLabel>
+
+            <Switch
+              id="new-dice-input"
+              isChecked={isOneLineForm}
+              onChange={() => setIsOneLineForm(!isOneLineForm)}
+            />
+          </FormControl>
+        </Flex>
       </CardHeader>
 
       <CardBody py={0}>
-        <DiceFormComponent
-          diceForm={props.diceForm}
-          onChangeForm={props.onChangeDiceForm}
-        />
+        {isOneLineForm ? (
+          <OneLineDiceForm
+            diceForm={props.diceForm}
+            onChangeForm={props.onChangeDiceForm}
+          />
+        ) : (
+          <TripleDiceForm
+            diceForm={props.diceForm}
+            onChangeForm={props.onChangeDiceForm}
+          />
+        )}
       </CardBody>
     </Card>
   );

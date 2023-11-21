@@ -27,7 +27,7 @@ import {
   SimpleGrid,
   Stack,
 } from '@chakra-ui/react';
-import { DiceFormComponent } from '../../../../components/dice/DiceForm.tsx';
+import { TripleDiceForm } from '../../../../components/dice/TripleDiceForm.tsx';
 import {
   DiceForm,
   getNewDiceForm,
@@ -94,7 +94,7 @@ export function CivetModalResolver(): JSX.Element {
   };
 
   const onClose = () => {
-    civetRuleResolver.reject();
+    resolver.reject();
     resetForm();
   };
 
@@ -227,7 +227,7 @@ export function CivetModalResolver(): JSX.Element {
               </CardHeader>
 
               <CardBody py={0}>
-                <DiceFormComponent
+                <TripleDiceForm
                   diceForm={diceForm}
                   onChangeForm={(diceForm) => setDiceForm(diceForm)}
                 />

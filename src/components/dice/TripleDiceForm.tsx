@@ -8,7 +8,7 @@ interface DiceFormProps {
   onChangeForm: (form: DiceForm) => void;
 }
 
-export function DiceFormComponent({
+export function TripleDiceForm({
   diceForm,
   onChangeForm,
 }: DiceFormProps): JSX.Element {
