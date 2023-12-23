@@ -64,7 +64,7 @@ export function ScribeDrawer({ isOpen, onClose }: Props): JSX.Element {
   };
 
   return (
-    <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
+    <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
       <DrawerOverlay />
       <DrawerContent>
         <DrawerCloseButton />

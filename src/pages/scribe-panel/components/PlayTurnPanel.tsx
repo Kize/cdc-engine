@@ -4,16 +4,22 @@ import {
   Button,
   Card,
   CardBody,
+  CardFooter,
   CardHeader,
   Flex,
   FormControl,
   FormLabel,
   Spacer,
+  Stack,
   Switch,
+  Text,
 } from '@chakra-ui/react';
 import { JSX, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../store/store.ts';
-import { selectCurrentPlayerDetails } from '../../../store/current-game/current-game-selectors.ts';
+import {
+  selectCurrentPlayerDetails,
+  selectLastEventMessage,
+} from '../../../store/current-game/current-game-selectors.ts';
 import { GiRabbit } from 'react-icons/gi';
 import { playATurnThunk } from '../../../store/current-game/current-game-actions-thunks.ts';
 import { isVerdierApplicable } from '../../../../lib/rule-runner/rules/level-3/verdier-rule.ts';
@@ -36,6 +42,8 @@ export function PlayTurnPanel(props: {
     (state) => state.currentGame.rulesConfiguration.isVerdierEnabled,
   );
   const isVerdierActivable = isVerdierApplicable(props.diceForm);
+
+  const lastEventMessage = useAppSelector(selectLastEventMessage);
 
   return (
     <Card pb={[2, 4]} variant="filled" colorScheme="gray">
@@ -110,6 +118,16 @@ export function PlayTurnPanel(props: {
           />
         )}
       </CardBody>
+
+      <CardFooter>
+        <Stack spacing={2}>
+          {lastEventMessage.map((message, index) => (
+            <Text key={index} borderLeft="1px solid orange" pl={2}>
+              {message}
+            </Text>
+          ))}
+        </Stack>
+      </CardFooter>
     </Card>
   );
 }
