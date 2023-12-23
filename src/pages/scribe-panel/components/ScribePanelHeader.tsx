@@ -1,28 +1,38 @@
-import { Box, Heading, Icon, Link, SimpleGrid } from '@chakra-ui/react';
-import { HiOutlineExternalLink } from 'react-icons/hi';
-import { Link as RouterLink } from 'react-router-dom';
-import { CancelGameButton } from './CancelGameButton.tsx';
-import { IconType } from 'react-icons/lib/cjs/iconBase';
+import { JSX } from 'react';
+import {
+  Center,
+  Flex,
+  Heading,
+  IconButton,
+  useDisclosure,
+} from '@chakra-ui/react';
+import { GiHamburgerMenu } from 'react-icons/gi';
+import { ScribeDrawer } from './ScribeDrawer.tsx';
 
-export function ScribePanelHeader() {
+export function ScribePanelHeader(): JSX.Element {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
-    <SimpleGrid columns={[2, 4]} spacing={2} mb={[4, 6]} mt={1} mx={4}>
-      <Heading fontSize="x-large">Partie en cours</Heading>
+    <>
+      <Flex mt={2} ml={2}>
+        <IconButton
+          aria-label="ouvrir le menu d'options"
+          boxSize="2.2em"
+          icon={<GiHamburgerMenu />}
+          fontSize={'1.8em'}
+          // variant="ghost"
+          variant="outline"
+          onClick={onOpen}
+        />
 
-      <Link
-        pt={2}
-        href="https://docs.google.com/document/d/111XDCFHeqVqV-DvnJqJ31rp05tMZbmpxJWQDvPJdIHY/edit#heading=h.kr2581jfe5r"
-        isExternal
-      >
-        Accéder aux règles{' '}
-        <Icon mx="2px" as={HiOutlineExternalLink as IconType} />
-      </Link>
+        <Center>
+          <Heading fontSize="xx-large" pl={6}>
+            Cul de Chouette
+          </Heading>
+        </Center>
+      </Flex>
 
-      <Box pt={2}>
-        <RouterLink to="/history">Afficher l'historique</RouterLink>
-      </Box>
-
-      <CancelGameButton />
-    </SimpleGrid>
+      <ScribeDrawer isOpen={isOpen} onClose={onClose} />
+    </>
   );
 }

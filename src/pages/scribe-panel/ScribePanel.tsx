@@ -51,9 +51,9 @@ export function ScribePanel(): JSX.Element {
 
       <SimpleGrid
         columns={[1, 2]}
-        spacingX={10}
+        spacingX={8}
         spacingY={4}
-        p={[2, null, null, 10]}
+        p={[2, null, null, 6]}
       >
         <Box>
           <PlayerDetailsSummary />

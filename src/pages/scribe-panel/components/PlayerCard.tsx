@@ -1,5 +1,5 @@
 import { JSX } from 'react';
-import { Box, Button, Icon, SimpleGrid } from '@chakra-ui/react';
+import { Box, Button, Icon, SimpleGrid, Stack } from '@chakra-ui/react';
 import { AiOutlineExclamationCircle } from 'react-icons/ai';
 import { useAppDispatch } from '../../../store/store.ts';
 import { applyBevueThunk } from '../../../store/current-game/current-game-actions-thunks.ts';
@@ -37,18 +37,19 @@ export function PlayerCard({
         {score}pts
       </Box>
 
-      <Box>
+      <Stack direction="row" spacing={2}>
         <Icon
           boxSize={'2em'}
           as={FaRegBell as IconType}
           color={hasGrelottine ? 'red' : 'lightgrey'}
         />
+
         <Icon
           boxSize={'2em'}
           as={GiRabbit as IconType}
           color={hasCivet ? 'green' : 'lightgrey'}
         />
-      </Box>
+      </Stack>
 
       <Button
         aria-label="Bévue"

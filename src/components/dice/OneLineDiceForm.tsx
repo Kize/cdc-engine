@@ -51,7 +51,8 @@ export function OneLineDiceForm({
           boxSize="100%"
           aria-label="Ajouter des Opérations"
           icon={<Icon as={AiOutlinePlusCircle as IconType} boxSize="100%" />}
-          bgColor="transparent"
+          variant="ghost"
+          colorScheme="green"
           onClick={() =>
             dispatch(resolversSlice.actions.setAddOperations({ active: true }))
           }
@@ -72,7 +73,7 @@ export function OneLineDiceForm({
           boxSize="100%"
           aria-label="Supprimer le dernier dé selectionné"
           icon={<Icon as={RiDeleteBack2Line as IconType} boxSize="100%" />}
-          bgColor="transparent"
+          variant="ghost"
           onClick={() => deleteDie()}
         />
       </SimpleGrid>
