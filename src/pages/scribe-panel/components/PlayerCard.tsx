@@ -1,16 +1,5 @@
 import { JSX } from 'react';
-import {
-  Box,
-  Button,
-  Card,
-  CardBody,
-  CardHeader,
-  Flex,
-  Spacer,
-  Tag,
-  TagLabel,
-  TagLeftIcon,
-} from '@chakra-ui/react';
+import { Box, Button, Icon, SimpleGrid } from '@chakra-ui/react';
 import { AiOutlineExclamationCircle } from 'react-icons/ai';
 import { useAppDispatch } from '../../../store/store.ts';
 import { applyBevueThunk } from '../../../store/current-game/current-game-actions-thunks.ts';
@@ -28,49 +17,48 @@ export interface PlayerCardDetails {
 }
 
 export function PlayerCard({
-  details,
+  details: { hasCivet, hasGrelottine, isCurrentPlayer, player, score },
 }: {
   details: PlayerCardDetails;
 }): JSX.Element {
   const dispatch = useAppDispatch();
 
   return (
-    <Card
-      variant="filled"
-      bgColor={details.isCurrentPlayer ? 'blue.100' : 'blue.50'}
+    <SimpleGrid
+      columns={4}
+      bgColor={isCurrentPlayer ? 'blue.100' : 'blue.50'}
+      p={2}
     >
-      <CardHeader px={3} py={1}>
-        <Flex>
-          <Box as="span">{details.player}</Box>
-          <Spacer />
+      <Box as="span" fontSize={'1.25em'} maxH={'1.5em'} overflowX="hidden">
+        {player}
+      </Box>
 
-          <Box as="b">{details.score}pts</Box>
-          <Spacer />
+      <Box as="b" fontSize={'1.2em'}>
+        {score}pts
+      </Box>
 
-          <Button
-            aria-label="Bévue"
-            colorScheme="red"
-            variant="outline"
-            size="xs"
-            leftIcon={<AiOutlineExclamationCircle />}
-            onClick={() => dispatch(applyBevueThunk(details.player))}
-          >
-            Bévue
-          </Button>
-        </Flex>
-      </CardHeader>
+      <Box>
+        <Icon
+          boxSize={'2em'}
+          as={FaRegBell as IconType}
+          color={hasGrelottine ? 'red' : 'lightgrey'}
+        />
+        <Icon
+          boxSize={'2em'}
+          as={GiRabbit as IconType}
+          color={hasCivet ? 'green' : 'lightgrey'}
+        />
+      </Box>
 
-      <CardBody px={3} py={[1, 3]}>
-        <Tag colorScheme="red" hidden={!details.hasGrelottine}>
-          <TagLeftIcon as={FaRegBell as IconType} />
-          <TagLabel>Grelottine</TagLabel>
-        </Tag>
-
-        <Tag colorScheme="gray" hidden={!details.hasCivet}>
-          <TagLeftIcon as={GiRabbit as IconType} />
-          <TagLabel>Civet</TagLabel>
-        </Tag>
-      </CardBody>
-    </Card>
+      <Button
+        aria-label="Bévue"
+        colorScheme="red"
+        variant="outline"
+        leftIcon={<AiOutlineExclamationCircle />}
+        onClick={() => dispatch(applyBevueThunk(player))}
+      >
+        Bévue
+      </Button>
+    </SimpleGrid>
   );
 }

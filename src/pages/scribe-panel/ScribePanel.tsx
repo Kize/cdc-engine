@@ -1,11 +1,9 @@
 import { JSX, useEffect, useState } from 'react';
-import { PlayerCard } from './components/PlayerCard.tsx';
-import { Show, SimpleGrid } from '@chakra-ui/react';
+import { Box, SimpleGrid } from '@chakra-ui/react';
 import { useAppDispatch, useAppSelector } from '../../store/store.ts';
 import {
   selectGameStatus,
   selectNumberOfTurns,
-  selectPlayerCardDetails,
 } from '../../store/current-game/current-game-selectors.ts';
 import { playATurnThunk } from '../../store/current-game/current-game-actions-thunks.ts';
 import {
@@ -17,12 +15,11 @@ import { ScribePanelModals } from './components/ScribePanelModals.tsx';
 import { resolversSlice } from '../../store/resolvers/resolvers.slice.ts';
 import { GameStatus } from '../../../lib/game/game-handler.ts';
 import { ScribePanelHeader } from './components/ScribePanelHeader.tsx';
-import { MainActionsPanel } from './components/MainActionsPanel.tsx';
 import { PlayTurnPanel } from './components/PlayTurnPanel.tsx';
 import { GameContextEvent } from '../../../lib/rule-runner/game-context-event.ts';
+import { PlayerDetailsSummary } from './components/PlayerDetailsSummary.tsx';
 
 export function ScribePanel(): JSX.Element {
-  const players = useAppSelector(selectPlayerCardDetails);
   const numberOfTurns = useAppSelector(selectNumberOfTurns);
   const gameStatus = useAppSelector(selectGameStatus);
 
@@ -34,7 +31,7 @@ export function ScribePanel(): JSX.Element {
     }
   });
 
-  const [diceForm, setDiceForm] = useState(getNewDiceForm() as DiceForm);
+  const [diceForm, setDiceForm] = useState<DiceForm>(getNewDiceForm());
 
   const onChangeForm = (form: DiceForm): void => {
     setDiceForm(form);
@@ -53,35 +50,20 @@ export function ScribePanel(): JSX.Element {
       <ScribePanelHeader />
 
       <SimpleGrid
-        minChildWidth={['100%', '20%']}
-        spacingX={[4, 10]}
-        spacingY={[1, 2]}
-        mx={[1, 2]}
-      >
-        {players.map((details) => (
-          <PlayerCard key={details.player} details={details}></PlayerCard>
-        ))}
-      </SimpleGrid>
-
-      <SimpleGrid
         columns={[1, 2]}
         spacingX={10}
         spacingY={4}
         p={[2, null, null, 10]}
       >
-        <Show above="md">
-          <MainActionsPanel />
-        </Show>
+        <Box>
+          <PlayerDetailsSummary />
+        </Box>
 
         <PlayTurnPanel
           numberOfTurns={numberOfTurns}
           diceForm={diceForm}
           onChangeDiceForm={onChangeForm}
         />
-
-        <Show below="md">
-          <MainActionsPanel />
-        </Show>
       </SimpleGrid>
 
       <ScribePanelModals />
