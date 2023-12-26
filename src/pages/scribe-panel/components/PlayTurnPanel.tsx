@@ -11,11 +11,7 @@ import {
 } from '@chakra-ui/react';
 import { JSX } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../store/store.ts';
-import {
-  selectCurrentPlayerDetails,
-  selectLastEventMessage,
-} from '../../../store/current-game/current-game-selectors.ts';
-import { GiRabbit } from 'react-icons/gi';
+import { selectLastEventMessage } from '../../../store/current-game/current-game-selectors.ts';
 import { playATurnThunk } from '../../../store/current-game/current-game-actions-thunks.ts';
 import { isVerdierApplicable } from '../../../../lib/rule-runner/rules/level-3/verdier-rule.ts';
 import { GameContextEvent } from '../../../../lib/rule-runner/game-context-event.ts';
@@ -27,7 +23,6 @@ export function PlayTurnPanel(props: {
   diceForm: DiceForm;
   onChangeDiceForm: (form: DiceForm) => void;
 }): JSX.Element {
-  const currentPlayer = useAppSelector(selectCurrentPlayerDetails);
   const dispatch = useAppDispatch();
 
   const isVerdierRuleEnabled = useAppSelector(
@@ -66,19 +61,6 @@ export function PlayTurnPanel(props: {
           }}
         >
           Verdier
-        </Button>
-
-        <Button
-          aria-label="jouer le civet"
-          leftIcon={<GiRabbit />}
-          colorScheme="orange"
-          mx={3}
-          hidden={!currentPlayer || !currentPlayer.hasCivet}
-          onClick={() =>
-            dispatch(playATurnThunk({ event: GameContextEvent.CIVET_BET }))
-          }
-        >
-          Civet
         </Button>
       </CardHeader>
 
