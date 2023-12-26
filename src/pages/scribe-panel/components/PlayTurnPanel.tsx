@@ -12,11 +12,15 @@ import {
 import { JSX } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../store/store.ts';
 import { selectLastEventMessage } from '../../../store/current-game/current-game-selectors.ts';
-import { playATurnThunk } from '../../../store/current-game/current-game-actions-thunks.ts';
+import {
+  cancelLastEventThunk,
+  playATurnThunk,
+} from '../../../store/current-game/current-game-actions-thunks.ts';
 import { isVerdierApplicable } from '../../../../lib/rule-runner/rules/level-3/verdier-rule.ts';
 import { GameContextEvent } from '../../../../lib/rule-runner/game-context-event.ts';
 import { DieValue } from '../../../../lib/rule-runner/rules/dice-rule.ts';
 import { OneLineDiceForm } from '../../../components/dice/OneLineDiceForm.tsx';
+import { TbArrowBackUp } from 'react-icons/tb';
 
 export function PlayTurnPanel(props: {
   numberOfTurns: number;
@@ -43,8 +47,8 @@ export function PlayTurnPanel(props: {
           aria-label="Jouer un verdier"
           colorScheme="green"
           variant="outline"
-          mx={3}
           borderRadius="full"
+          mx={3}
           hidden={!isVerdierRuleEnabled}
           isDisabled={!isVerdierActivable}
           onClick={async () => {
@@ -60,7 +64,18 @@ export function PlayTurnPanel(props: {
             props.onChangeDiceForm([null, null, null]);
           }}
         >
-          Verdier
+          verdier
+        </Button>
+
+        <Button
+          leftIcon={<TbArrowBackUp />}
+          colorScheme="orange"
+          variant="outline"
+          borderRadius="full"
+          float="right"
+          onClick={() => dispatch(cancelLastEventThunk())}
+        >
+          <Text whiteSpace="initial">annuler</Text>
         </Button>
       </CardHeader>
 

@@ -38,7 +38,9 @@ export function OneLineDiceForm({
 
   const deleteDie = (): void => {
     const newForm = diceForm.map<OptionalDieValue>((value, index) => {
-      return diceForm[index + 1] === null ? null : value;
+      const nextValue = diceForm[index + 1];
+
+      return nextValue === null || nextValue === undefined ? null : value;
     }) as DiceForm;
 
     onChangeForm(newForm);

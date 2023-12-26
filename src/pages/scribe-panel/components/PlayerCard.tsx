@@ -35,6 +35,11 @@ export function PlayerCard({
 }): JSX.Element {
   const dispatch = useAppDispatch();
 
+  const boxTextStyle = {
+    my: 'auto',
+    fontSize: '1.2em',
+  };
+
   const triggerGrelottine = async () => {
     if (hasGrelottine && score > 0) {
       await dispatch(startGrelottineChallengeThunk());
@@ -51,22 +56,26 @@ export function PlayerCard({
     <SimpleGrid
       columns={4}
       bgColor={isCurrentPlayer ? 'blue.100' : 'blue.50'}
-      p={2}
+      borderRadius="md"
     >
-      <Box as="span" fontSize={'1.4em'} maxH={'1.8em'} overflowX="hidden">
+      <Box
+        as="span"
+        maxH={'1.8em'}
+        overflowX="hidden"
+        {...boxTextStyle}
+        px={[1, 3]}
+      >
         {player}
       </Box>
 
-      <Box as="b" fontSize={'1.2em'}>
+      <Box as="b" {...boxTextStyle}>
         {score}pts
       </Box>
 
-      <Stack direction="row" spacing={2}>
+      <Stack direction="row" spacing={2} mt={2}>
         <IconButton
           aria-label="jouer une grelottine"
-          pt={1}
-          boxSize={'2em'}
-          icon={<Icon as={FaRegBell as IconType} boxSize="120%" />}
+          icon={<Icon as={FaRegBell as IconType} boxSize="100%" />}
           variant="ghost"
           isDisabled={!hasGrelottine || score <= 0}
           colorScheme={hasGrelottine ? 'red' : 'whiteAlpha'}
@@ -75,9 +84,7 @@ export function PlayerCard({
 
         <IconButton
           aria-label="jouer son civet"
-          pt={1}
-          boxSize={'2em'}
-          icon={<Icon as={GiRabbit as IconType} boxSize="120%" />}
+          icon={<Icon as={GiRabbit as IconType} boxSize="100%" />}
           variant="ghost"
           isDisabled={!isCurrentPlayer || !hasCivet}
           colorScheme={hasCivet ? 'green' : 'whiteAlpha'}
@@ -91,8 +98,9 @@ export function PlayerCard({
         variant="outline"
         leftIcon={<AiOutlineExclamationCircle />}
         onClick={() => dispatch(applyBevueThunk(player))}
+        m={2}
       >
-        Bévue
+        bévue
       </Button>
     </SimpleGrid>
   );

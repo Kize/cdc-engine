@@ -10,7 +10,7 @@ export function PlayerDetailsSummary(): JSX.Element {
   return (
     <>
       {players.map((details) => (
-        <Box pb={[2, 4]} key={details.player}>
+        <Box pb={1} key={details.player}>
           <PlayerCard details={details} />
         </Box>
       ))}

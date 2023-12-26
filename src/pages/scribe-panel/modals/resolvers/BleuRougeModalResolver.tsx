@@ -23,13 +23,13 @@ import {
   DiceForm,
   isDiceFormValid,
 } from '../../../../components/dice/dice-form.ts';
-import { TripleDiceForm } from '../../../../components/dice/TripleDiceForm.tsx';
 import { Select } from 'chakra-react-select';
 import {
   CustomSelectOption,
   customSelectStyles,
 } from '../../../../utils/custom-select.utils.ts';
 import { BleuRougeBetValue } from '../../../../../lib/rule-runner/rules/level-3/bleu-rouge-rule.ts';
+import { OneLineDiceForm } from '../../../../components/dice/OneLineDiceForm.tsx';
 
 const selectBleuRougePlayers = createSelector(
   selectPlayers,
@@ -146,12 +146,12 @@ export function BleuRougeModalResolver(): JSX.Element {
 
           <Container mt={4} maxW={['100%', '60%']}>
             <FormControl>
-              <FormLabel fontSize={'sm'}>Relance du Blue-Rouge:</FormLabel>
+              <FormLabel fontSize={'sm'}>Relance du Bleu-Rouge:</FormLabel>
 
-              <TripleDiceForm
+              <OneLineDiceForm
                 diceForm={diceForm}
                 onChangeForm={(diceForm) => setDiceForm(diceForm)}
-              ></TripleDiceForm>
+              />
             </FormControl>
           </Container>
         </ModalBody>

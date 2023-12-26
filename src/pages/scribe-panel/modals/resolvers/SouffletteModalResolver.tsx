@@ -20,7 +20,6 @@ import {
   SliderTrack,
 } from '@chakra-ui/react';
 import { Select } from 'chakra-react-select';
-import { TripleDiceForm } from '../../../../components/dice/TripleDiceForm.tsx';
 import {
   CustomSelectOption,
   customSelectStyles,
@@ -34,6 +33,7 @@ import { selectPlayers } from '../../../../store/current-game/current-game-selec
 import { souffletteRuleResolver } from '../../../../store/resolvers/rules/soufflette-rule.resolver.ts';
 import { isDiceRollASoufflette } from '../../../../../lib/rule-runner/rules/level-1/soufflette-rule.ts';
 import { DiceRoll } from '../../../../../lib/rule-runner/rules/dice-rule.ts';
+import { OneLineDiceForm } from '../../../../components/dice/OneLineDiceForm.tsx';
 
 const labelStyles = {
   mt: '3',
@@ -152,7 +152,7 @@ export function SouffletteModalResolver(): JSX.Element {
               Combinaison réalisée sur le dernier lancé:
             </FormLabel>
 
-            <TripleDiceForm
+            <OneLineDiceForm
               diceForm={diceForm}
               onChangeForm={(diceForm) => setDiceForm(diceForm)}
             />

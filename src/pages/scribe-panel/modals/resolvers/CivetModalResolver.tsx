@@ -27,7 +27,6 @@ import {
   SimpleGrid,
   Stack,
 } from '@chakra-ui/react';
-import { TripleDiceForm } from '../../../../components/dice/TripleDiceForm.tsx';
 import {
   DiceForm,
   getNewDiceForm,
@@ -45,6 +44,7 @@ import { isVerdierApplicable } from '../../../../../lib/rule-runner/rules/level-
 import { civetDoubleRuleResolver } from '../../../../store/resolvers/rules/civet-double-rule.resolver.ts';
 import { Player } from '../../../../../lib/player.ts';
 import { selectPlayerCardDetails } from '../../../../store/current-game/current-game-selectors.ts';
+import { OneLineDiceForm } from '../../../../components/dice/OneLineDiceForm.tsx';
 
 export function CivetModalResolver(): JSX.Element {
   const { active, player } = useAppSelector((state) => state.resolvers.civet);
@@ -226,7 +226,7 @@ export function CivetModalResolver(): JSX.Element {
             </CardHeader>
 
             <CardBody py={0}>
-              <TripleDiceForm
+              <OneLineDiceForm
                 diceForm={diceForm}
                 onChangeForm={(diceForm) => setDiceForm(diceForm)}
               />

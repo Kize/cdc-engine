@@ -40,7 +40,6 @@ import {
 } from '../../../../../lib/rule-runner/rules/basic-rules/grelottine-rule.ts';
 import { Player } from '../../../../../lib/player.ts';
 import { PlayerCardDetails } from '../../components/PlayerCard.tsx';
-import { TripleDiceForm } from '../../../../components/dice/TripleDiceForm.tsx';
 import {
   DiceForm,
   getNewDiceForm,
@@ -48,6 +47,7 @@ import {
 } from '../../../../components/dice/dice-form.ts';
 import { BsArrowUpCircle } from 'react-icons/bs';
 import { GiRabbit } from 'react-icons/gi';
+import { OneLineDiceForm } from '../../../../components/dice/OneLineDiceForm.tsx';
 
 export function GrelottineModalResolver(): JSX.Element {
   const { active } = useAppSelector((state) => state.resolvers.grelottine);
@@ -254,7 +254,7 @@ export function GrelottineModalResolver(): JSX.Element {
           </SimpleGrid>
 
           <Container mt={6}>
-            <TripleDiceForm
+            <OneLineDiceForm
               diceForm={diceForm}
               onChangeForm={(diceForm) => setDiceForm(diceForm)}
             />
