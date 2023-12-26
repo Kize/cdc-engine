@@ -72,7 +72,16 @@ export function ScribeDrawer({ isOpen, onClose }: Props): JSX.Element {
 
         <DrawerBody>
           <Stack direction="column" spacing={4}>
-            <RouterLink to="/history">Afficher l'historique</RouterLink>
+            <RouterLink to="/history">
+              <Button
+                colorScheme="blackAlpha"
+                variant="outline"
+                {...buttonsProps}
+                w="100%"
+              >
+                Afficher l'historique
+              </Button>
+            </RouterLink>
 
             <Button
               leftIcon={<HiOutlineBell />}
@@ -121,8 +130,16 @@ export function ScribeDrawer({ isOpen, onClose }: Props): JSX.Element {
                 href="https://docs.google.com/document/d/111XDCFHeqVqV-DvnJqJ31rp05tMZbmpxJWQDvPJdIHY/edit#heading=h.kr2581jfe5r"
                 isExternal
               >
-                Accéder aux règles{' '}
-                <Icon mx="2px" as={HiOutlineExternalLink as IconType} />
+                <Button
+                  colorScheme="blackAlpha"
+                  variant="outline"
+                  w="100%"
+                  rightIcon={
+                    <Icon mx="2px" as={HiOutlineExternalLink as IconType} />
+                  }
+                >
+                  Accéder aux règles
+                </Button>
               </Link>
             </Center>
           </Stack>
