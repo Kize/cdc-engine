@@ -95,100 +95,98 @@ export function ChanteSloubiModal(): JSX.Element {
   };
 
   return (
-    <>
-      <Modal
-        closeOnOverlayClick={false}
-        isOpen={active}
-        onClose={onClose}
-        size="xl"
-      >
-        <ModalOverlay />
-        <ModalContent>
-          <ModalCloseButton />
-          <ModalHeader>
-            Chante-Sloubi!
-            <Tag
-              colorScheme="red"
-              ml={3}
-              hidden={inGamePlayers.length < 7}
-              size="lg"
-            >
-              8 joueurs max - Sloubi impossible
-            </Tag>
-          </ModalHeader>
+    <Modal
+      closeOnOverlayClick={false}
+      isOpen={active}
+      onClose={onClose}
+      size="xl"
+    >
+      <ModalOverlay />
+      <ModalContent>
+        <ModalCloseButton />
+        <ModalHeader>
+          Chante-Sloubi!
+          <Tag
+            colorScheme="red"
+            ml={3}
+            hidden={inGamePlayers.length < 7}
+            size="lg"
+          >
+            8 joueurs max - Sloubi impossible
+          </Tag>
+        </ModalHeader>
 
-          <ModalBody>
-            <SimpleGrid columns={[1, 2]} spacingX={5} spacingY={8}>
-              <FormControl>
-                <FormLabel>Joueur clamant le Sloubi</FormLabel>
+        <ModalBody>
+          <SimpleGrid columns={[1, 2]} spacingX={5} spacingY={8}>
+            <FormControl>
+              <FormLabel>Joueur clamant le Sloubi</FormLabel>
 
-                <CreatableSelect
-                  placeholder="Chanteur"
-                  value={singingPlayer}
-                  options={sloubiOptions}
-                  onChange={setSingingPlayer}
-                  onCreateOption={(player: Player) => {
-                    setSingingPlayer({ value: player, label: player });
-                    setSavedPlayers([...savedPlayers, player].sort());
-                  }}
-                  {...customSelectStyles}
-                />
-              </FormControl>
+              <CreatableSelect
+                placeholder="Chanteur"
+                value={singingPlayer}
+                options={sloubiOptions}
+                onChange={setSingingPlayer}
+                onCreateOption={(player: Player) => {
+                  setSingingPlayer({ value: player, label: player });
+                  setSavedPlayers([...savedPlayers, player].sort());
+                }}
+                {...customSelectStyles}
+              />
+            </FormControl>
 
-              <FormControl>
-                <FormLabel>Valeur du Sloubi</FormLabel>
+            <FormControl>
+              <FormLabel>Valeur du Sloubi</FormLabel>
 
-                <NumberInput size="md" value={sloubiScore} isDisabled>
-                  <NumberInputField />
-                  <NumberInputStepper>
-                    <NumberIncrementStepper />
-                    <NumberDecrementStepper />
-                  </NumberInputStepper>
-                </NumberInput>
-              </FormControl>
+              <NumberInput size="md" value={sloubiScore} isDisabled>
+                <NumberInputField />
+                <NumberInputStepper>
+                  <NumberIncrementStepper />
+                  <NumberDecrementStepper />
+                </NumberInputStepper>
+              </NumberInput>
+            </FormControl>
 
-              <FormControl>
-                <FormLabel>Joueur précédent</FormLabel>
+            <FormControl>
+              <FormLabel>Joueur précédent</FormLabel>
 
-                <Select
-                  placeholder={inGamePlayers[0]}
-                  value={previousPlayer}
-                  options={previousOptions}
-                  onChange={setPreviousPlayer}
-                  {...customSelectStyles}
-                />
-              </FormControl>
+              <Select
+                placeholder={inGamePlayers[0]}
+                value={previousPlayer}
+                options={previousOptions}
+                onChange={setPreviousPlayer}
+                {...customSelectStyles}
+              />
+            </FormControl>
 
-              <Center>
-                <Checkbox
-                  size="lg"
-                  isChecked={isSloubiCompleted}
-                  onChange={toggleIsSloubiCompleted}
-                >
-                  Sloubi réussi
-                </Checkbox>
-              </Center>
-            </SimpleGrid>
-          </ModalBody>
-
-          <ModalFooter>
-            <ButtonGroup>
-              <Button onClick={onClose}>Annuler</Button>
-
-              <Button
-                colorScheme="blue"
-                mr={3}
-                isDisabled={
-                  !singingPlayer || !previousPlayer || inGamePlayers.length > 7
-                }
-                onClick={onValidate}
+            <Center>
+              <Checkbox
+                size="lg"
+                isChecked={isSloubiCompleted}
+                onChange={toggleIsSloubiCompleted}
               >
-                Valider
-              </Button>
-            </ButtonGroup>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-    </>
+                Sloubi réussi
+              </Checkbox>
+            </Center>
+          </SimpleGrid>
+        </ModalBody>
+
+        <ModalFooter>
+          <ButtonGroup>
+            <Button onClick={onClose}>Annuler</Button>
+
+            <Button
+              colorScheme="blue"
+              mr={3}
+              isDisabled={
+                !singingPlayer || !previousPlayer || inGamePlayers.length > 7
+              }
+              onClick={onValidate}
+            >
+              Valider
+            </Button>
+          </ButtonGroup>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
   );
 }

@@ -165,147 +165,145 @@ export function GrelottineModalResolver(): JSX.Element {
   useEffect(setAmountToMax);
 
   return (
-    <>
-      <Modal size="full" isOpen={active} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalCloseButton />
-          <ModalHeader bgColor="yellow.300">Défi de Grelottine</ModalHeader>
+    <Modal size="full" isOpen={active} onClose={onClose}>
+      <ModalOverlay />
+      <ModalContent>
+        <ModalCloseButton />
+        <ModalHeader bgColor="yellow.300">Défi de Grelottine</ModalHeader>
 
-          <ModalBody hidden={!isEnoughPlayers}>
-            <SimpleGrid columns={[1, 1, 4]} spacingY={2}>
-              <HStack shouldWrapChildren={true}>
-                <GrelottineCustomRadioGroup
-                  label="Grelottin"
-                  options={grelottinePlayers}
-                  selectedOption={grelottinPlayer}
-                  opposedOption={challengedPlayer}
-                  setOption={setGrelottinPlayer}
-                />
-
-                <Stack align="center" mx={4}>
-                  <Text as="b">Joueurs</Text>
-                  {grelottinePlayers.map((details) => (
-                    <Box key={details.player} as="span" height={6}>
-                      <Box as={'b'} mr={2}>
-                        {details.player}
-                      </Box>
-                      <Box as="span" fontSize="xs">
-                        ({details.score} pts)
-                      </Box>
-                    </Box>
-                  ))}
-                </Stack>
-
-                <GrelottineCustomRadioGroup
-                  label="Joueur défié"
-                  options={grelottinePlayers}
-                  selectedOption={challengedPlayer}
-                  opposedOption={grelottinPlayer}
-                  setOption={setChallengedPlayer}
-                />
-              </HStack>
-              <Spacer />
-
-              <FormControl as="fieldset">
-                <FormLabel as="legend">Choix du Défi</FormLabel>
-
-                <RadioGroup
-                  value={grelottinBet as GrelottineBet}
-                  onChange={(value) => setGrelottinBet(value as GrelottineBet)}
-                >
-                  <Stack>
-                    {grelottineChallengeBets.map((bet) => (
-                      <Radio value={bet} key={bet} size="lg" height={6}>
-                        {bet}
-                      </Radio>
-                    ))}
-                  </Stack>
-                </RadioGroup>
-              </FormControl>
-
-              <Flex flexFlow={['row-reverse', 'row']}>
-                <FormControl as="fieldset" w="initial">
-                  <FormLabel as="legend">Montant du Défi</FormLabel>
-
-                  <NumberInput
-                    size="md"
-                    maxW={24}
-                    min={0}
-                    value={gambledAmount}
-                    onChange={onChangeBetAmount}
-                  >
-                    <NumberInputField />
-                    <NumberInputStepper>
-                      <NumberIncrementStepper />
-                      <NumberDecrementStepper />
-                    </NumberInputStepper>
-                  </NumberInput>
-
-                  <Button
-                    leftIcon={<BsArrowUpCircle />}
-                    size="sm"
-                    mt={2}
-                    onClick={() => setAmountToMax()}
-                  >
-                    Au Max
-                  </Button>
-                </FormControl>
-              </Flex>
-            </SimpleGrid>
-
-            <Container mt={6}>
-              <TripleDiceForm
-                diceForm={diceForm}
-                onChangeForm={(diceForm) => setDiceForm(diceForm)}
+        <ModalBody hidden={!isEnoughPlayers}>
+          <SimpleGrid columns={[1, 1, 4]} spacingY={2}>
+            <HStack shouldWrapChildren={true}>
+              <GrelottineCustomRadioGroup
+                label="Grelottin"
+                options={grelottinePlayers}
+                selectedOption={grelottinPlayer}
+                opposedOption={challengedPlayer}
+                setOption={setGrelottinPlayer}
               />
 
-              <Center mt={6}>
-                <Button
-                  aria-label="jouer le civet"
-                  leftIcon={<GiRabbit />}
-                  colorScheme="orange"
-                  mx={6}
-                  isDisabled={gambledAmount < 1 || grelottinBet === null}
-                  hidden={!isCivetPossible}
-                  onClick={() => playCivet()}
-                >
-                  Civet
-                </Button>
-              </Center>
-            </Container>
-          </ModalBody>
+              <Stack align="center" mx={4}>
+                <Text as="b">Joueurs</Text>
+                {grelottinePlayers.map((details) => (
+                  <Box key={details.player} as="span" height={6}>
+                    <Box as={'b'} mr={2}>
+                      {details.player}
+                    </Box>
+                    <Box as="span" fontSize="xs">
+                      ({details.score} pts)
+                    </Box>
+                  </Box>
+                ))}
+              </Stack>
 
-          <ModalBody hidden={isEnoughPlayers}>
-            <Heading fontSize="lg">
-              Nécessite au moins deux joueurs remplissant les conditions
-              suivantes:
-            </Heading>
+              <GrelottineCustomRadioGroup
+                label="Joueur défié"
+                options={grelottinePlayers}
+                selectedOption={challengedPlayer}
+                opposedOption={grelottinPlayer}
+                setOption={setChallengedPlayer}
+              />
+            </HStack>
+            <Spacer />
 
-            <UnorderedList>
-              <ListItem>Le joueur doit posséder une Grelottine</ListItem>
-              <ListItem>
-                Le score du joueur doit être strictement positif
-              </ListItem>
-            </UnorderedList>
-          </ModalBody>
+            <FormControl as="fieldset">
+              <FormLabel as="legend">Choix du Défi</FormLabel>
 
-          <ModalFooter hidden={!isEnoughPlayers}>
-            <ButtonGroup>
-              <Button onClick={onClose}>Annuler</Button>
-
-              <Button
-                colorScheme="blue"
-                isDisabled={!isFormValid}
-                onClick={onValidate}
+              <RadioGroup
+                value={grelottinBet as GrelottineBet}
+                onChange={(value) => setGrelottinBet(value as GrelottineBet)}
               >
-                Valider
+                <Stack>
+                  {grelottineChallengeBets.map((bet) => (
+                    <Radio value={bet} key={bet} size="lg" height={6}>
+                      {bet}
+                    </Radio>
+                  ))}
+                </Stack>
+              </RadioGroup>
+            </FormControl>
+
+            <Flex flexFlow={['row-reverse', 'row']}>
+              <FormControl as="fieldset" w="initial">
+                <FormLabel as="legend">Montant du Défi</FormLabel>
+
+                <NumberInput
+                  size="md"
+                  maxW={24}
+                  min={0}
+                  value={gambledAmount}
+                  onChange={onChangeBetAmount}
+                >
+                  <NumberInputField />
+                  <NumberInputStepper>
+                    <NumberIncrementStepper />
+                    <NumberDecrementStepper />
+                  </NumberInputStepper>
+                </NumberInput>
+
+                <Button
+                  leftIcon={<BsArrowUpCircle />}
+                  size="sm"
+                  mt={2}
+                  onClick={() => setAmountToMax()}
+                >
+                  Au Max
+                </Button>
+              </FormControl>
+            </Flex>
+          </SimpleGrid>
+
+          <Container mt={6}>
+            <TripleDiceForm
+              diceForm={diceForm}
+              onChangeForm={(diceForm) => setDiceForm(diceForm)}
+            />
+
+            <Center mt={6}>
+              <Button
+                aria-label="jouer le civet"
+                leftIcon={<GiRabbit />}
+                colorScheme="orange"
+                mx={6}
+                isDisabled={gambledAmount < 1 || grelottinBet === null}
+                hidden={!isCivetPossible}
+                onClick={() => playCivet()}
+              >
+                Civet
               </Button>
-            </ButtonGroup>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-    </>
+            </Center>
+          </Container>
+        </ModalBody>
+
+        <ModalBody hidden={isEnoughPlayers}>
+          <Heading fontSize="lg">
+            Nécessite au moins deux joueurs remplissant les conditions
+            suivantes:
+          </Heading>
+
+          <UnorderedList>
+            <ListItem>Le joueur doit posséder une Grelottine</ListItem>
+            <ListItem>
+              Le score du joueur doit être strictement positif
+            </ListItem>
+          </UnorderedList>
+        </ModalBody>
+
+        <ModalFooter hidden={!isEnoughPlayers}>
+          <ButtonGroup>
+            <Button onClick={onClose}>Annuler</Button>
+
+            <Button
+              colorScheme="blue"
+              isDisabled={!isFormValid}
+              onClick={onValidate}
+            >
+              Valider
+            </Button>
+          </ButtonGroup>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
   );
 }
 

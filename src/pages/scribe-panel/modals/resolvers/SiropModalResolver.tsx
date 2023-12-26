@@ -177,147 +177,145 @@ export function SiropModalResolver(): JSX.Element {
   };
 
   return (
-    <>
-      <Modal
-        closeOnOverlayClick={false}
-        isOpen={active}
-        size="full"
-        onClose={onClose}
-      >
-        <ModalOverlay />
-        <ModalContent>
-          <ModalCloseButton />
-          <ModalHeader>
-            {player} a réalisé une Chouette de {chouetteValue}!
-          </ModalHeader>
+    <Modal
+      closeOnOverlayClick={false}
+      isOpen={active}
+      size="full"
+      onClose={onClose}
+    >
+      <ModalOverlay />
+      <ModalContent>
+        <ModalCloseButton />
+        <ModalHeader>
+          {player} a réalisé une Chouette de {chouetteValue}!
+        </ModalHeader>
 
-          <ModalBody>
-            {isAttrapeOiseauEnabled && (
-              <Card {...cardsProps}>
-                <CardHeader pb={0} color="blue">
-                  Attrape-Oiseau
-                </CardHeader>
-
-                <CardBody pt={0}>
-                  <Container>
-                    <Select
-                      isClearable
-                      placeholder={attrapeOiseauOptions[0]?.label ?? ''}
-                      value={selectedAttrapeOiseau}
-                      options={attrapeOiseauOptions}
-                      onChange={setSelectedAttrapeOiseau}
-                      {...customSelectStyles}
-                    />
-                  </Container>
-                </CardBody>
-              </Card>
-            )}
-
+        <ModalBody>
+          {isAttrapeOiseauEnabled && (
             <Card {...cardsProps}>
               <CardHeader pb={0} color="blue">
-                Annonces:
+                Attrape-Oiseau
               </CardHeader>
 
               <CardBody pt={0}>
-                <SimpleGrid columns={[2, bids.length]} spacingY={4}>
-                  {bids.map((bidForm) => (
-                    <FormControl as="fieldset" key={bidForm.player}>
-                      <FormLabel as="legend">{bidForm.player}</FormLabel>
-
-                      <RadioGroup
-                        value={bidForm.playerBid}
-                        onChange={(bet: BidType) =>
-                          selectedABet(bet, bidForm.player)
-                        }
-                      >
-                        <Stack spacing={0}>
-                          {enabledBids.map((bid) => (
-                            <Radio
-                              value={bid.type}
-                              key={bid.type}
-                              isDisabled={!bid.isPlayable}
-                              variant="filled"
-                            >
-                              {bid.type}
-                            </Radio>
-                          ))}
-                        </Stack>
-                      </RadioGroup>
-                    </FormControl>
-                  ))}
-                </SimpleGrid>
-              </CardBody>
-            </Card>
-
-            <Card {...cardsProps}>
-              <CardHeader pb={0} color="blue">
-                Résultat du dé siroté:
-              </CardHeader>
-
-              <CardBody>
-                <Container maxW="25em">
-                  <DieInput dieValue={dieValue} selectDie={selectDie} />
+                <Container>
+                  <Select
+                    isClearable
+                    placeholder={attrapeOiseauOptions[0]?.label ?? ''}
+                    value={selectedAttrapeOiseau}
+                    options={attrapeOiseauOptions}
+                    onChange={setSelectedAttrapeOiseau}
+                    {...customSelectStyles}
+                  />
                 </Container>
               </CardBody>
             </Card>
+          )}
 
-            <Card {...cardsProps}>
-              <CardHeader pb={0} color="blue">
-                Validation des annonces:
-              </CardHeader>
+          <Card {...cardsProps}>
+            <CardHeader pb={0} color="blue">
+              Annonces:
+            </CardHeader>
 
-              <CardBody mb={2}>
-                <SimpleGrid columns={[1, bids.length]}>
-                  <CheckboxGroup
-                    value={validatedPlayers}
-                    onChange={(values: Array<Player>) =>
-                      setValidatedPlayers(values)
-                    }
-                  >
-                    {bids.map((bidForm) => (
-                      <Checkbox
-                        value={bidForm.player}
-                        key={bidForm.player}
-                        isDisabled={isSiropGagnantInputDisabled(bidForm)}
-                        size="sm"
-                        fontWeight={
-                          isSiropGagnantInputDisabled(bidForm)
-                            ? 'normal'
-                            : 'extrabold'
-                        }
-                      >
-                        {bidForm.player} a crié "Sirop-Gagnant!"
-                      </Checkbox>
-                    ))}
-                  </CheckboxGroup>
-                </SimpleGrid>
-              </CardBody>
-            </Card>
-          </ModalBody>
+            <CardBody pt={0}>
+              <SimpleGrid columns={[2, bids.length]} spacingY={4}>
+                {bids.map((bidForm) => (
+                  <FormControl as="fieldset" key={bidForm.player}>
+                    <FormLabel as="legend">{bidForm.player}</FormLabel>
 
-          <ModalFooter>
-            <Stack
-              direction={['column-reverse', 'row']}
-              m={['auto', 'initial']}
-              spacing={[8, 10]}
+                    <RadioGroup
+                      value={bidForm.playerBid}
+                      onChange={(bet: BidType) =>
+                        selectedABet(bet, bidForm.player)
+                      }
+                    >
+                      <Stack spacing={0}>
+                        {enabledBids.map((bid) => (
+                          <Radio
+                            value={bid.type}
+                            key={bid.type}
+                            isDisabled={!bid.isPlayable}
+                            variant="filled"
+                          >
+                            {bid.type}
+                          </Radio>
+                        ))}
+                      </Stack>
+                    </RadioGroup>
+                  </FormControl>
+                ))}
+              </SimpleGrid>
+            </CardBody>
+          </Card>
+
+          <Card {...cardsProps}>
+            <CardHeader pb={0} color="blue">
+              Résultat du dé siroté:
+            </CardHeader>
+
+            <CardBody>
+              <Container maxW="25em">
+                <DieInput dieValue={dieValue} selectDie={selectDie} />
+              </Container>
+            </CardBody>
+          </Card>
+
+          <Card {...cardsProps}>
+            <CardHeader pb={0} color="blue">
+              Validation des annonces:
+            </CardHeader>
+
+            <CardBody mb={2}>
+              <SimpleGrid columns={[1, bids.length]}>
+                <CheckboxGroup
+                  value={validatedPlayers}
+                  onChange={(values: Array<Player>) =>
+                    setValidatedPlayers(values)
+                  }
+                >
+                  {bids.map((bidForm) => (
+                    <Checkbox
+                      value={bidForm.player}
+                      key={bidForm.player}
+                      isDisabled={isSiropGagnantInputDisabled(bidForm)}
+                      size="sm"
+                      fontWeight={
+                        isSiropGagnantInputDisabled(bidForm)
+                          ? 'normal'
+                          : 'extrabold'
+                      }
+                    >
+                      {bidForm.player} a crié "Sirop-Gagnant!"
+                    </Checkbox>
+                  ))}
+                </CheckboxGroup>
+              </SimpleGrid>
+            </CardBody>
+          </Card>
+        </ModalBody>
+
+        <ModalFooter>
+          <Stack
+            direction={['column-reverse', 'row']}
+            m={['auto', 'initial']}
+            spacing={[8, 10]}
+          >
+            <Button onClick={onClose}>Annuler</Button>
+
+            <Button colorScheme="orange" onClick={() => onValidate(false)}>
+              Aucun sirotage
+            </Button>
+
+            <Button
+              colorScheme="blue"
+              isDisabled={!isFormValid}
+              onClick={() => onValidate(true)}
             >
-              <Button onClick={onClose}>Annuler</Button>
-
-              <Button colorScheme="orange" onClick={() => onValidate(false)}>
-                Aucun sirotage
-              </Button>
-
-              <Button
-                colorScheme="blue"
-                isDisabled={!isFormValid}
-                onClick={() => onValidate(true)}
-              >
-                Valider
-              </Button>
-            </Stack>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-    </>
+              Valider
+            </Button>
+          </Stack>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
   );
 }

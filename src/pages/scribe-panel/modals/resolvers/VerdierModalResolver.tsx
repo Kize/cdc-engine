@@ -37,6 +37,8 @@ export function VerdierModalResolver(): JSX.Element {
 
   const onClose = () => {
     setSelectedPlayers([]);
+    setLastDieValue(null);
+
     verdierRuleResolver.reject();
   };
 
@@ -48,6 +50,7 @@ export function VerdierModalResolver(): JSX.Element {
       });
 
       setSelectedPlayers([]);
+      setLastDieValue(null);
     }
   };
 
@@ -58,62 +61,58 @@ export function VerdierModalResolver(): JSX.Element {
   };
 
   return (
-    <>
-      <Modal closeOnOverlayClick={false} isOpen={active} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalCloseButton />
-          <ModalHeader>
-            <Box as="span">Annonce de Civet en cours. À {player} de jouer.</Box>
-          </ModalHeader>
+    <Modal closeOnOverlayClick={false} isOpen={active} onClose={onClose}>
+      <ModalOverlay />
+      <ModalContent>
+        <ModalCloseButton />
+        <ModalHeader>
+          <Box as="span">Annonce de Civet en cours. À {player} de jouer.</Box>
+        </ModalHeader>
 
-          <ModalBody>
-            <FormControl as="fieldset">
-              <FormLabel as="legend">
-                Joueurs ayant crié "Verlignette"
-              </FormLabel>
+        <ModalBody>
+          <FormControl as="fieldset">
+            <FormLabel as="legend">Joueurs ayant crié "Verlignette"</FormLabel>
 
-              <CheckboxGroup
-                value={selectedPlayers}
-                onChange={(values: Array<Player>) => setSelectedPlayers(values)}
-              >
-                <Stack>
-                  {players.map((player) => (
-                    <Checkbox value={player} key={player} size="lg" mb={2}>
-                      {player}
-                    </Checkbox>
-                  ))}
-                </Stack>
-              </CheckboxGroup>
-            </FormControl>
+            <CheckboxGroup
+              value={selectedPlayers}
+              onChange={(values: Array<Player>) => setSelectedPlayers(values)}
+            >
+              <Stack>
+                {players.map((player) => (
+                  <Checkbox value={player} key={player} size="lg" mb={2}>
+                    {player}
+                  </Checkbox>
+                ))}
+              </Stack>
+            </CheckboxGroup>
+          </FormControl>
 
-            <SimpleGrid columns={2} maxW="40%" spacingX={8} mx="auto">
-              <DieFace dieValue={diceValues[0]} disabled={true} />
-              <DieFace dieValue={diceValues[1]} disabled={true} />
-            </SimpleGrid>
+          <SimpleGrid columns={2} maxW="40%" spacingX={8} mx="auto">
+            <DieFace dieValue={diceValues[0]} disabled={true} />
+            <DieFace dieValue={diceValues[1]} disabled={true} />
+          </SimpleGrid>
 
-            <FormControl as="fieldset">
-              <FormLabel as="legend">Dernier dé</FormLabel>
+          <FormControl as="fieldset">
+            <FormLabel as="legend">Dernier dé</FormLabel>
 
-              <DieInput dieValue={lastDieValue} selectDie={selectLastDie} />
-            </FormControl>
-          </ModalBody>
+            <DieInput dieValue={lastDieValue} selectDie={selectLastDie} />
+          </FormControl>
+        </ModalBody>
 
-          <ModalFooter>
-            <ButtonGroup>
-              <Button onClick={onClose}>Annuler</Button>
+        <ModalFooter>
+          <ButtonGroup>
+            <Button onClick={onClose}>Annuler</Button>
 
-              <Button
-                colorScheme="blue"
-                onClick={onValidate}
-                isDisabled={lastDieValue === null}
-              >
-                Valider
-              </Button>
-            </ButtonGroup>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-    </>
+            <Button
+              colorScheme="blue"
+              onClick={onValidate}
+              isDisabled={lastDieValue === null}
+            >
+              Valider
+            </Button>
+          </ButtonGroup>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
   );
 }

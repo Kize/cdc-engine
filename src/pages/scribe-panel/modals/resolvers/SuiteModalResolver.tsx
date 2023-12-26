@@ -50,71 +50,69 @@ export function SuiteModalResolver(): JSX.Element {
   };
 
   return (
-    <>
-      <Modal
-        closeOnOverlayClick={false}
-        isOpen={active}
-        onClose={onClose}
-        size="xl"
-      >
-        <ModalOverlay />
-        <ModalContent>
-          <ModalCloseButton />
-          <ModalHeader>{player} a réalisé une Suite</ModalHeader>
+    <Modal
+      closeOnOverlayClick={false}
+      isOpen={active}
+      onClose={onClose}
+      size="xl"
+    >
+      <ModalOverlay />
+      <ModalContent>
+        <ModalCloseButton />
+        <ModalHeader>{player} a réalisé une Suite</ModalHeader>
 
-          <ModalBody>
-            <SimpleGrid columns={[1, 2]}>
-              <FormControl as="fieldset">
-                <FormLabel as="legend">Joueur ayant perdu la Suite</FormLabel>
+        <ModalBody>
+          <SimpleGrid columns={[1, 2]}>
+            <FormControl as="fieldset">
+              <FormLabel as="legend">Joueur ayant perdu la Suite</FormLabel>
 
-                <RadioGroup onChange={setSelectedPlayer} value={selectedPlayer}>
-                  <Stack>
-                    {players.map((player) => (
-                      <Radio value={player} key={player} size="lg" mb={2}>
-                        {player}
-                      </Radio>
-                    ))}
-                  </Stack>
-                </RadioGroup>
+              <RadioGroup onChange={setSelectedPlayer} value={selectedPlayer}>
+                <Stack>
+                  {players.map((player) => (
+                    <Radio value={player} key={player} size="lg" mb={2}>
+                      {player}
+                    </Radio>
+                  ))}
+                </Stack>
+              </RadioGroup>
+            </FormControl>
+
+            <Center>
+              <FormControl w={['100%', null, '50%']}>
+                <FormLabel>Multiplicateur</FormLabel>
+
+                <NumberInput
+                  size="md"
+                  maxW={24}
+                  min={1}
+                  value={multiplier}
+                  onChange={(_, value) => setMultiplier(value)}
+                >
+                  <NumberInputField />
+                  <NumberInputStepper>
+                    <NumberIncrementStepper />
+                    <NumberDecrementStepper />
+                  </NumberInputStepper>
+                </NumberInput>
               </FormControl>
+            </Center>
+          </SimpleGrid>
+        </ModalBody>
 
-              <Center>
-                <FormControl w={['100%', null, '50%']}>
-                  <FormLabel>Multiplicateur</FormLabel>
+        <ModalFooter>
+          <ButtonGroup>
+            <Button onClick={onClose}>Annuler</Button>
 
-                  <NumberInput
-                    size="md"
-                    maxW={24}
-                    min={1}
-                    value={multiplier}
-                    onChange={(_, value) => setMultiplier(value)}
-                  >
-                    <NumberInputField />
-                    <NumberInputStepper>
-                      <NumberIncrementStepper />
-                      <NumberDecrementStepper />
-                    </NumberInputStepper>
-                  </NumberInput>
-                </FormControl>
-              </Center>
-            </SimpleGrid>
-          </ModalBody>
-
-          <ModalFooter>
-            <ButtonGroup>
-              <Button onClick={onClose}>Annuler</Button>
-
-              <Button
-                colorScheme="blue"
-                isDisabled={!selectedPlayer}
-                onClick={onValidate}
-              >
-                Valider
-              </Button>
-            </ButtonGroup>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-    </>
+            <Button
+              colorScheme="blue"
+              isDisabled={!selectedPlayer}
+              onClick={onValidate}
+            >
+              Valider
+            </Button>
+          </ButtonGroup>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
   );
 }

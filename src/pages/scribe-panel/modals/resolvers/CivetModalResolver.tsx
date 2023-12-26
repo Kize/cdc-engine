@@ -127,129 +127,127 @@ export function CivetModalResolver(): JSX.Element {
   };
 
   return (
-    <>
-      <Modal
-        closeOnOverlayClick={false}
-        isOpen={active}
-        size="xl"
-        onClose={onClose}
-      >
-        <ModalOverlay />
-        <ModalContent>
-          <ModalCloseButton />
-          <ModalHeader>{player} utilise son Civet</ModalHeader>
+    <Modal
+      closeOnOverlayClick={false}
+      isOpen={active}
+      size="xl"
+      onClose={onClose}
+    >
+      <ModalOverlay />
+      <ModalContent>
+        <ModalCloseButton />
+        <ModalHeader>{player} utilise son Civet</ModalHeader>
 
-          <ModalBody>
+        <ModalBody>
+          <Card mb={6}>
+            <CardHeader fontSize="sm" py={2}>
+              Annonce:
+            </CardHeader>
+
+            <CardBody pt={0}>
+              <SimpleGrid columns={2}>
+                <FormControl>
+                  <FormLabel fontSize="xs">Défi:</FormLabel>
+
+                  <Select
+                    placeholder={options[0]?.label ?? ''}
+                    value={selectedBet}
+                    options={options}
+                    onChange={setSelectedBet}
+                    {...customSelectStyles}
+                  />
+                </FormControl>
+
+                <Center>
+                  <FormControl w="initial">
+                    <FormLabel fontSize="xs">Montant</FormLabel>
+
+                    <NumberInput
+                      maxW={24}
+                      min={1}
+                      max={102}
+                      value={amount}
+                      onChange={(_, value) => setAmount(value)}
+                    >
+                      <NumberInputField />
+                      <NumberInputStepper>
+                        <NumberIncrementStepper />
+                        <NumberDecrementStepper />
+                      </NumberInputStepper>
+                    </NumberInput>
+                  </FormControl>
+                </Center>
+              </SimpleGrid>
+            </CardBody>
+          </Card>
+
+          {isCivetDoubleEnabled && otherPlayersWithCivet.length > 0 && (
             <Card mb={6}>
               <CardHeader fontSize="sm" py={2}>
-                Annonce:
+                Civet Doublé:
               </CardHeader>
 
               <CardBody pt={0}>
-                <SimpleGrid columns={2}>
-                  <FormControl>
-                    <FormLabel fontSize="xs">Défi:</FormLabel>
-
-                    <Select
-                      placeholder={options[0]?.label ?? ''}
-                      value={selectedBet}
-                      options={options}
-                      onChange={setSelectedBet}
-                      {...customSelectStyles}
-                    />
-                  </FormControl>
-
-                  <Center>
-                    <FormControl w="initial">
-                      <FormLabel fontSize="xs">Montant</FormLabel>
-
-                      <NumberInput
-                        maxW={24}
-                        min={1}
-                        max={102}
-                        value={amount}
-                        onChange={(_, value) => setAmount(value)}
-                      >
-                        <NumberInputField />
-                        <NumberInputStepper>
-                          <NumberIncrementStepper />
-                          <NumberDecrementStepper />
-                        </NumberInputStepper>
-                      </NumberInput>
-                    </FormControl>
-                  </Center>
-                </SimpleGrid>
-              </CardBody>
-            </Card>
-
-            {isCivetDoubleEnabled && otherPlayersWithCivet.length > 0 && (
-              <Card mb={6}>
-                <CardHeader fontSize="sm" py={2}>
-                  Civet Doublé:
-                </CardHeader>
-
-                <CardBody pt={0}>
-                  <CheckboxGroup
-                    value={otherBettingPlayers}
-                    onChange={(values: Array<Player>) =>
-                      setOtherBettingPlayers(values)
-                    }
-                  >
-                    <Stack>
-                      {otherPlayersWithCivet.map((player) => (
-                        <Checkbox value={player} key={player} size="lg" mb={2}>
-                          {player}
-                        </Checkbox>
-                      ))}
-                    </Stack>
-                  </CheckboxGroup>
-                </CardBody>
-              </Card>
-            )}
-
-            <Card>
-              <CardHeader fontSize="sm" py={2}>
-                <Box as="span">Combinaison réalisée:</Box>
-
-                <Button
-                  aria-label="Jouer un verdier"
-                  colorScheme="green"
-                  variant="outline"
-                  size="sm"
-                  mx={3}
-                  borderRadius="full"
-                  hidden={!isVerdierRuleEnabled}
-                  isDisabled={!isVerdierActivable}
-                  onClick={playCivet}
+                <CheckboxGroup
+                  value={otherBettingPlayers}
+                  onChange={(values: Array<Player>) =>
+                    setOtherBettingPlayers(values)
+                  }
                 >
-                  Verdier
-                </Button>
-              </CardHeader>
-
-              <CardBody py={0}>
-                <TripleDiceForm
-                  diceForm={diceForm}
-                  onChangeForm={(diceForm) => setDiceForm(diceForm)}
-                />
+                  <Stack>
+                    {otherPlayersWithCivet.map((player) => (
+                      <Checkbox value={player} key={player} size="lg" mb={2}>
+                        {player}
+                      </Checkbox>
+                    ))}
+                  </Stack>
+                </CheckboxGroup>
               </CardBody>
             </Card>
-          </ModalBody>
+          )}
 
-          <ModalFooter>
-            <ButtonGroup>
-              <Button onClick={onClose}>Annuler</Button>
+          <Card>
+            <CardHeader fontSize="sm" py={2}>
+              <Box as="span">Combinaison réalisée:</Box>
 
               <Button
-                colorScheme="blue"
-                isDisabled={!isFormValid}
-                onClick={() => onValidate()}
+                aria-label="Jouer un verdier"
+                colorScheme="green"
+                variant="outline"
+                size="sm"
+                mx={3}
+                borderRadius="full"
+                hidden={!isVerdierRuleEnabled}
+                isDisabled={!isVerdierActivable}
+                onClick={playCivet}
               >
-                Valider
+                Verdier
               </Button>
-            </ButtonGroup>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-    </>
+            </CardHeader>
+
+            <CardBody py={0}>
+              <TripleDiceForm
+                diceForm={diceForm}
+                onChangeForm={(diceForm) => setDiceForm(diceForm)}
+              />
+            </CardBody>
+          </Card>
+        </ModalBody>
+
+        <ModalFooter>
+          <ButtonGroup>
+            <Button onClick={onClose}>Annuler</Button>
+
+            <Button
+              colorScheme="blue"
+              isDisabled={!isFormValid}
+              onClick={() => onValidate()}
+            >
+              Valider
+            </Button>
+          </ButtonGroup>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
   );
 }

@@ -57,67 +57,65 @@ export function EndGameModal(): JSX.Element {
   };
 
   return (
-    <>
-      <Modal
-        closeOnOverlayClick={false}
-        isOpen={active}
-        size="4xl"
-        onClose={onClose}
-      >
-        <ModalOverlay />
-        <ModalContent>
-          <ModalCloseButton />
-          <ModalHeader>La partie est terminée !</ModalHeader>
+    <Modal
+      closeOnOverlayClick={false}
+      isOpen={active}
+      size="4xl"
+      onClose={onClose}
+    >
+      <ModalOverlay />
+      <ModalContent>
+        <ModalCloseButton />
+        <ModalHeader>La partie est terminée !</ModalHeader>
 
-          <ModalBody>
-            <SimpleGrid columns={[1, 2]} spacingX={8} spacingY={4}>
-              <TableContainer>
-                <Table size="sm">
-                  <TableCaption>
-                    La partie a duré {turnNumber} tours.
-                  </TableCaption>
-                  <Thead>
-                    <Tr>
-                      <Th>Joueurs</Th>
-                      <Th>Scores</Th>
-                      <Th>+</Th>
-                      <Th>-</Th>
+        <ModalBody>
+          <SimpleGrid columns={[1, 2]} spacingX={8} spacingY={4}>
+            <TableContainer>
+              <Table size="sm">
+                <TableCaption>
+                  La partie a duré {turnNumber} tours.
+                </TableCaption>
+                <Thead>
+                  <Tr>
+                    <Th>Joueurs</Th>
+                    <Th>Scores</Th>
+                    <Th>+</Th>
+                    <Th>-</Th>
+                  </Tr>
+                </Thead>
+                <Tbody>
+                  {playerScores.map((details) => (
+                    <Tr key={details.player}>
+                      <Td>{details.player}</Td>
+                      <Td textAlign="right" pr={[6, 12]}>
+                        <Text as="b">{details.score} pts</Text>
+                      </Td>
+                      <Td>{details.positiveScore}</Td>
+                      <Td>{details.negativeScore}</Td>
                     </Tr>
-                  </Thead>
-                  <Tbody>
-                    {playerScores.map((details) => (
-                      <Tr key={details.player}>
-                        <Td>{details.player}</Td>
-                        <Td textAlign="right" pr={[6, 12]}>
-                          <Text as="b">{details.score} pts</Text>
-                        </Td>
-                        <Td>{details.positiveScore}</Td>
-                        <Td>{details.negativeScore}</Td>
-                      </Tr>
-                    ))}
-                  </Tbody>
-                </Table>
-              </TableContainer>
+                  ))}
+                </Tbody>
+              </Table>
+            </TableContainer>
 
-              <Center>
-                <Image src={getRandomImage()} />
-              </Center>
-            </SimpleGrid>
-          </ModalBody>
+            <Center>
+              <Image src={getRandomImage()} />
+            </Center>
+          </SimpleGrid>
+        </ModalBody>
 
-          <ModalFooter>
-            <ButtonGroup>
-              <Button colorScheme="green" onClick={onAddOperations}>
-                Ajouter des opérations
-              </Button>
+        <ModalFooter>
+          <ButtonGroup>
+            <Button colorScheme="green" onClick={onAddOperations}>
+              Ajouter des opérations
+            </Button>
 
-              <Button colorScheme="blue" onClick={onClose}>
-                Terminer
-              </Button>
-            </ButtonGroup>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-    </>
+            <Button colorScheme="blue" onClick={onClose}>
+              Terminer
+            </Button>
+          </ButtonGroup>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
   );
 }

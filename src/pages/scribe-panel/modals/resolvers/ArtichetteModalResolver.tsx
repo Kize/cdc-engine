@@ -28,40 +28,38 @@ export function ArtichetteModalResolver(): JSX.Element {
   };
 
   return (
-    <>
-      <Modal closeOnOverlayClick={false} isOpen={active} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalCloseButton />
-          <ModalHeader>{player} a réalisé une Artichette</ModalHeader>
+    <Modal closeOnOverlayClick={false} isOpen={active} onClose={onClose}>
+      <ModalOverlay />
+      <ModalContent>
+        <ModalCloseButton />
+        <ModalHeader>{player} a réalisé une Artichette</ModalHeader>
 
-          <ModalBody>
-            <Container p={8}>
-              <SimpleGrid columns={[1, 2]} spacingX={8} spacingY={4}>
-                <Button
-                  colorScheme="orange"
-                  size="lg"
-                  onClick={() => onValidate(false)}
-                >
-                  Artichette!
-                </Button>
+        <ModalBody>
+          <Container p={8}>
+            <SimpleGrid columns={[1, 2]} spacingX={8} spacingY={4}>
+              <Button
+                colorScheme="orange"
+                size="lg"
+                onClick={() => onValidate(false)}
+              >
+                Artichette!
+              </Button>
 
-                <Button
-                  colorScheme="blue"
-                  size="lg"
-                  onClick={() => onValidate(true)}
-                >
-                  Raitournelle!
-                </Button>
-              </SimpleGrid>
-            </Container>
-          </ModalBody>
+              <Button
+                colorScheme="blue"
+                size="lg"
+                onClick={() => onValidate(true)}
+              >
+                Raitournelle!
+              </Button>
+            </SimpleGrid>
+          </Container>
+        </ModalBody>
 
-          <ModalFooter>
-            <Button onClick={onClose}>Annuler</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-    </>
+        <ModalFooter>
+          <Button onClick={onClose}>Annuler</Button>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
   );
 }

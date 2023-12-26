@@ -42,49 +42,47 @@ export function ChouetteVeluteModalResolver(): JSX.Element {
   };
 
   return (
-    <>
-      <Modal closeOnOverlayClick={false} isOpen={active} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalCloseButton />
-          <ModalHeader>{player} a réalisé une Chouette Velute !</ModalHeader>
+    <Modal closeOnOverlayClick={false} isOpen={active} onClose={onClose}>
+      <ModalOverlay />
+      <ModalContent>
+        <ModalCloseButton />
+        <ModalHeader>{player} a réalisé une Chouette Velute !</ModalHeader>
 
-          <ModalBody>
-            <FormControl as="fieldset">
-              <FormLabel as="legend">
-                Joueurs ayant disputés la Chouette Velute
-              </FormLabel>
+        <ModalBody>
+          <FormControl as="fieldset">
+            <FormLabel as="legend">
+              Joueurs ayant disputés la Chouette Velute
+            </FormLabel>
 
-              <CheckboxGroup
-                value={selectedPlayers}
-                onChange={(values: Array<Player>) => setSelectedPlayers(values)}
-              >
-                <Stack>
-                  {players.map((player) => (
-                    <Checkbox value={player} key={player} size="lg" mb={2}>
-                      {player}
-                    </Checkbox>
-                  ))}
-                </Stack>
-              </CheckboxGroup>
-            </FormControl>
-          </ModalBody>
+            <CheckboxGroup
+              value={selectedPlayers}
+              onChange={(values: Array<Player>) => setSelectedPlayers(values)}
+            >
+              <Stack>
+                {players.map((player) => (
+                  <Checkbox value={player} key={player} size="lg" mb={2}>
+                    {player}
+                  </Checkbox>
+                ))}
+              </Stack>
+            </CheckboxGroup>
+          </FormControl>
+        </ModalBody>
 
-          <ModalFooter>
-            <ButtonGroup>
-              <Button onClick={onClose}>Annuler</Button>
+        <ModalFooter>
+          <ButtonGroup>
+            <Button onClick={onClose}>Annuler</Button>
 
-              <Button
-                colorScheme="blue"
-                isDisabled={selectedPlayers.length === 0}
-                onClick={onValidate}
-              >
-                Valider
-              </Button>
-            </ButtonGroup>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-    </>
+            <Button
+              colorScheme="blue"
+              isDisabled={selectedPlayers.length === 0}
+              onClick={onValidate}
+            >
+              Valider
+            </Button>
+          </ButtonGroup>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
   );
 }

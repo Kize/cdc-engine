@@ -117,61 +117,59 @@ export function BleuRougeModalResolver(): JSX.Element {
   };
 
   return (
-    <>
-      <Modal
-        closeOnOverlayClick={false}
-        isOpen={active}
-        onClose={onClose}
-        size="3xl"
-      >
-        <ModalOverlay />
-        <ModalContent>
-          <ModalCloseButton />
-          <ModalHeader>{player} a réalisé un Bleu-Rouge!</ModalHeader>
+    <Modal
+      closeOnOverlayClick={false}
+      isOpen={active}
+      onClose={onClose}
+      size="3xl"
+    >
+      <ModalOverlay />
+      <ModalContent>
+        <ModalCloseButton />
+        <ModalHeader>{player} a réalisé un Bleu-Rouge!</ModalHeader>
 
-          <ModalBody>
-            <SimpleGrid columns={[2, bids.length]} spacingX={4}>
-              {bids.map((bid) => (
-                <FormControl key={bid.player}>
-                  <FormLabel>{bid.player}</FormLabel>
+        <ModalBody>
+          <SimpleGrid columns={[2, bids.length]} spacingX={4}>
+            {bids.map((bid) => (
+              <FormControl key={bid.player}>
+                <FormLabel>{bid.player}</FormLabel>
 
-                  <Select
-                    value={bid.bet}
-                    options={getOptions(bid.player)}
-                    onChange={(value) => setBid(value, bid.player)}
-                    {...customSelectStyles}
-                  ></Select>
-                </FormControl>
-              ))}
-            </SimpleGrid>
-
-            <Container mt={4} maxW={['100%', '60%']}>
-              <FormControl>
-                <FormLabel fontSize={'sm'}>Relance du Blue-Rouge:</FormLabel>
-
-                <TripleDiceForm
-                  diceForm={diceForm}
-                  onChangeForm={(diceForm) => setDiceForm(diceForm)}
-                ></TripleDiceForm>
+                <Select
+                  value={bid.bet}
+                  options={getOptions(bid.player)}
+                  onChange={(value) => setBid(value, bid.player)}
+                  {...customSelectStyles}
+                ></Select>
               </FormControl>
-            </Container>
-          </ModalBody>
+            ))}
+          </SimpleGrid>
 
-          <ModalFooter>
-            <ButtonGroup>
-              <Button onClick={onClose}>Annuler</Button>
+          <Container mt={4} maxW={['100%', '60%']}>
+            <FormControl>
+              <FormLabel fontSize={'sm'}>Relance du Blue-Rouge:</FormLabel>
 
-              <Button
-                colorScheme="blue"
-                isDisabled={!isFormValid}
-                onClick={onValidate}
-              >
-                Valider
-              </Button>
-            </ButtonGroup>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-    </>
+              <TripleDiceForm
+                diceForm={diceForm}
+                onChangeForm={(diceForm) => setDiceForm(diceForm)}
+              ></TripleDiceForm>
+            </FormControl>
+          </Container>
+        </ModalBody>
+
+        <ModalFooter>
+          <ButtonGroup>
+            <Button onClick={onClose}>Annuler</Button>
+
+            <Button
+              colorScheme="blue"
+              isDisabled={!isFormValid}
+              onClick={onValidate}
+            >
+              Valider
+            </Button>
+          </ButtonGroup>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
   );
 }
