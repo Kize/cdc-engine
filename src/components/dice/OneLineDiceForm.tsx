@@ -3,11 +3,11 @@ import { Box, Icon, IconButton, SimpleGrid } from '@chakra-ui/react';
 import { DieInput } from './DieInput.tsx';
 import { DieShape } from './DieShape.tsx';
 import { DiceForm, OptionalDieValue } from './dice-form.ts';
-import { AiOutlinePlusCircle } from 'react-icons/ai';
 import { RiDeleteBack2Line } from 'react-icons/ri';
 import { useAppDispatch } from '../../store/store.ts';
 import { resolversSlice } from '../../store/resolvers/resolvers.slice.ts';
 import { IconType } from 'react-icons/lib/cjs/iconBase';
+import { MdFormatListBulletedAdd } from 'react-icons/md';
 
 interface DiceFormProps {
   diceForm: DiceForm;
@@ -46,11 +46,17 @@ export function OneLineDiceForm({
 
   return (
     <Box>
-      <SimpleGrid mx={0} my={2} columns={5} spacingX={2}>
+      <SimpleGrid my={2} pb={2} columns={5} spacingX={2}>
         <IconButton
           boxSize="100%"
           aria-label="Ajouter des Opérations"
-          icon={<Icon as={AiOutlinePlusCircle as IconType} boxSize="100%" />}
+          icon={
+            <Icon
+              as={MdFormatListBulletedAdd as IconType}
+              boxSize="80%"
+              my="10%"
+            />
+          }
           variant="ghost"
           colorScheme="green"
           onClick={() =>
@@ -61,7 +67,8 @@ export function OneLineDiceForm({
         {diceForm.map((dieValue, index) => (
           <Box
             key={index.toString()}
-            p={1}
+            px={2}
+            py={1}
             bg="rgba(0, 0, 0, 0.1)"
             borderRadius="xl"
           >
@@ -72,7 +79,7 @@ export function OneLineDiceForm({
         <IconButton
           boxSize="100%"
           aria-label="Supprimer le dernier dé selectionné"
-          icon={<Icon as={RiDeleteBack2Line as IconType} boxSize="100%" />}
+          icon={<Icon as={RiDeleteBack2Line as IconType} boxSize="80%" />}
           variant="ghost"
           onClick={() => deleteDie()}
         />

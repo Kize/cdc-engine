@@ -41,13 +41,5 @@ export function DieShape({ dieValue }: Props): JSX.Element {
     }
   };
 
-  return (
-    <Icon
-      //m={0}
-      //p={0}
-      boxSize="100%"
-      as={getDieIcon(dieValue)}
-      color="blue.400"
-    />
-  );
+  return <Icon boxSize="100%" as={getDieIcon(dieValue)} color="blue.400" />;
 }
