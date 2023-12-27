@@ -1,17 +1,8 @@
 import { JSX, useState } from 'react';
-import {
-  closestCenter,
-  DndContext,
-  DragEndEvent,
-  KeyboardSensor,
-  PointerSensor,
-  useSensor,
-  useSensors,
-} from '@dnd-kit/core';
+import { closestCenter, DndContext, DragEndEvent } from '@dnd-kit/core';
 import {
   arrayMove,
   SortableContext,
-  sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import { Box, Flex, List } from '@chakra-ui/react';
@@ -42,7 +33,6 @@ export function PlayersSelection(props: {
   );
 
   const [selectedPlayers, setSelectedPlayers] = useState([] as Array<string>);
-
   const [selectedOption, setSelectedOption] = useState(null);
 
   const selectPlayer = (option: CustomSelectOption | null) => {
@@ -116,24 +106,13 @@ export function PlayersSelection(props: {
     }
   };
 
-  const sensors = useSensors(
-    useSensor(PointerSensor),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
-    }),
-  );
-
   return (
     <>
       <Box as="span" p={2} display="block">
         Sélectionner de 2 à 8 joueurs:
       </Box>
 
-      <DndContext
-        sensors={sensors}
-        collisionDetection={closestCenter}
-        onDragEnd={handleDragEnd}
-      >
+      <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
         <SortableContext
           items={selectedPlayers}
           strategy={verticalListSortingStrategy}

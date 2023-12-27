@@ -1,5 +1,4 @@
 import { JSX, useState } from 'react';
-import './CreateNewGame.css';
 import { Box, Button, Center, Heading, SimpleGrid } from '@chakra-ui/react';
 import { PlayersSelection } from './PlayersSelection.tsx';
 import { useAppDispatch, useAppSelector } from '../../store/store.ts';

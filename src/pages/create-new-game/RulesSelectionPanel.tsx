@@ -1,5 +1,4 @@
 import { JSX } from 'react';
-import './CreateNewGame.css';
 import {
   Box,
   Checkbox,

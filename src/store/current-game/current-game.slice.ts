@@ -8,6 +8,7 @@ import { RulesConfiguration } from '../../../lib/rule-runner/rule-runner-configu
 export interface CurrentGameState {
   id: string;
   startDate: string;
+  isDoublette: boolean;
   players: Array<Player>;
   events: Array<GameEvent>;
   rulesConfiguration: RulesConfiguration;
@@ -23,6 +24,7 @@ export const currentGameSlice = createSlice({
       state.players = payload.players;
       state.events = payload.events;
       state.rulesConfiguration = payload.rulesConfiguration;
+      state.isDoublette = payload.isDoublette;
     },
     resetGame: (state) => {
       const newState = getNewCurrentGameState();
@@ -31,6 +33,7 @@ export const currentGameSlice = createSlice({
       state.players = newState.players;
       state.events = newState.events;
       state.rulesConfiguration = newState.rulesConfiguration;
+      state.isDoublette = newState.isDoublette;
     },
     addEvent: (state, { payload }: PayloadAction<GameEvent>) => {
       state.events.push(payload);
@@ -54,6 +57,7 @@ export function getNewCurrentGameState(): CurrentGameState {
   return {
     id: getNewGameId(),
     startDate: new Date().toISOString(),
+    isDoublette: false,
     players: [],
     events: [],
     rulesConfiguration: {

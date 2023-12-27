@@ -39,14 +39,39 @@ export class GameHandler {
     this.ruleRunner = new RuleRunner([]);
   }
 
-  getGameStatus(events: Array<GameEvent>, players: Array<Player>): GameStatus {
+  getGameStatus(
+    events: Array<GameEvent>,
+    players: Array<Player>,
+    isDoublette = false,
+  ): GameStatus {
     if (players.length === 0 || !this.ruleRunner.isRuleEnabled(Rules.NEANT)) {
       return GameStatus.CREATION;
     }
 
-    const playerScores = players.map((player) =>
+    let playerScores = players.map((player) =>
       this.history.getPlayerScore(events, player),
     );
+
+    if (isDoublette) {
+      if (players.length % 2 !== 0) {
+        throw new Error('Should have an even number of players');
+      }
+
+      const nbPlayers = playerScores.length;
+      playerScores = playerScores.reduce(
+        (teamScores: Array<number>, currentScore, index) => {
+          if (((index + 1) * nbPlayers) / 2 > nbPlayers) {
+            return teamScores;
+          }
+
+          return [
+            ...teamScores,
+            currentScore + playerScores[index + nbPlayers / 2],
+          ];
+        },
+        [],
+      );
+    }
 
     const maxScore = Math.max(...playerScores);
     if (maxScore >= 343) {
