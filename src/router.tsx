@@ -35,6 +35,7 @@ function createNewGameLoader() {
   const gameStatus = cdcGameHandler.getGameStatus(
     currentGame.events,
     currentGame.players,
+    currentGame.isDoublette,
   );
 
   switch (gameStatus) {
@@ -56,6 +57,7 @@ function scribePanelLoader() {
   const gameStatus = cdcGameHandler.getGameStatus(
     currentGame.events,
     currentGame.players,
+    currentGame.isDoublette,
   );
 
   switch (gameStatus) {
@@ -73,6 +75,7 @@ function historyLoader() {
   const gameStatus = cdcGameHandler.getGameStatus(
     currentGame.events,
     currentGame.players,
+    currentGame.isDoublette,
   );
 
   switch (gameStatus) {

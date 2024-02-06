@@ -22,8 +22,9 @@ export const selectIsDoublette = (state: RootState) =>
 export const selectGameStatus = createSelector(
   selectPlayers,
   selectEvents,
-  (players, events): GameStatus =>
-    cdcGameHandler.getGameStatus(events, players),
+  selectIsDoublette,
+  (players, events, isDoublette): GameStatus =>
+    cdcGameHandler.getGameStatus(events, players, isDoublette),
 );
 
 export const selectPlayerCardDetails = createSelector(

@@ -42,7 +42,7 @@ export class GameHandler {
   getGameStatus(
     events: Array<GameEvent>,
     players: Array<Player>,
-    isDoublette = false,
+    isDoublette: boolean,
   ): GameStatus {
     if (players.length === 0 || !this.ruleRunner.isRuleEnabled(Rules.NEANT)) {
       return GameStatus.CREATION;
@@ -57,17 +57,14 @@ export class GameHandler {
         throw new Error('Should have an even number of players');
       }
 
-      const nbPlayers = playerScores.length;
+      const half = playerScores.length / 2;
       playerScores = playerScores.reduce(
         (teamScores: Array<number>, currentScore, index) => {
-          if (((index + 1) * nbPlayers) / 2 > nbPlayers) {
+          if (index >= half) {
             return teamScores;
           }
 
-          return [
-            ...teamScores,
-            currentScore + playerScores[index + nbPlayers / 2],
-          ];
+          return [...teamScores, currentScore + playerScores[index + half]];
         },
         [],
       );
