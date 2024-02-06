@@ -9,10 +9,16 @@ import { startGameThunk } from '../../store/current-game/current-game-lifecycle-
 export function CreateNewGame(): JSX.Element {
   const rulesConfiguration = useAppSelector(selectRulesConfiguration);
 
-  const [playersForm, setPlayersForm] = useState([] as Array<string>);
+  const [isDoublette, setIsDoublette] = useState<boolean>(false);
+  const [playersForm, setPlayersForm] = useState<Array<string>>([]);
   const [rulesForm, setRulesForm] = useState(rulesConfiguration);
 
   const dispatch = useAppDispatch();
+
+  const isStartButtonDisabled =
+    playersForm.length < 2 ||
+    playersForm.length > 8 ||
+    (isDoublette && (playersForm.length % 2 !== 0 || playersForm.length < 4));
 
   return (
     <>
@@ -22,7 +28,14 @@ export function CreateNewGame(): JSX.Element {
 
       <SimpleGrid columns={[1, 2]}>
         <Box p={3}>
-          <PlayersSelection setPlayers={setPlayersForm} maxPlayers={8} />
+          <PlayersSelection
+            setPlayers={setPlayersForm}
+            isDoublette={isDoublette}
+            toggleIsDoublette={() => {
+              setIsDoublette(!isDoublette);
+            }}
+            maxPlayers={8}
+          />
         </Box>
 
         <Box p={3}>
@@ -34,8 +47,10 @@ export function CreateNewGame(): JSX.Element {
         <Button
           size="lg"
           colorScheme="blue"
-          isDisabled={playersForm.length < 2 || playersForm.length > 8}
-          onClick={() => dispatch(startGameThunk(playersForm, rulesForm))}
+          isDisabled={isStartButtonDisabled}
+          onClick={() =>
+            dispatch(startGameThunk(isDoublette, playersForm, rulesForm))
+          }
         >
           Jouer
         </Button>

@@ -5,12 +5,15 @@ import {
   Heading,
   IconButton,
   Spacer,
+  Tag,
   useDisclosure,
 } from '@chakra-ui/react';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { ScribeDrawer } from './ScribeDrawer.tsx';
+import { useAppSelector } from '../../../store/store.ts';
 
 export function ScribePanelHeader(): JSX.Element {
+  const isDoublette = useAppSelector((state) => state.currentGame.isDoublette);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -18,7 +21,17 @@ export function ScribePanelHeader(): JSX.Element {
       <Flex mt={2} mx={2}>
         <Center>
           <Heading fontSize="xx-large" pl={6}>
-            Cul de Chouette
+            <span>Cul de Chouette</span>
+            {isDoublette && (
+              <Tag size="md" colorScheme="green" m={3}>
+                Doublette
+              </Tag>
+            )}
+            {!isDoublette && (
+              <Tag size="md" colorScheme="gray" m={3}>
+                Chacun pour soi
+              </Tag>
+            )}
           </Heading>
         </Center>
 
@@ -34,7 +47,11 @@ export function ScribePanelHeader(): JSX.Element {
         />
       </Flex>
 
-      <ScribeDrawer isOpen={isOpen} onClose={onClose} />
+      <ScribeDrawer
+        isOpen={isOpen}
+        onClose={onClose}
+        isDoublette={isDoublette}
+      />
     </>
   );
 }

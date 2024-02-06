@@ -9,11 +9,13 @@ import { router } from '../../router.tsx';
 
 export const startGameThunk =
   (
+    isDoublette: boolean,
     players: Array<Player>,
     rulesConfiguration: RulesConfiguration,
   ): AsyncAppThunk =>
   async (dispatch) => {
     const newGame = getNewCurrentGameState();
+    newGame.isDoublette = isDoublette;
     newGame.players = [...players];
     newGame.rulesConfiguration = { ...rulesConfiguration };
 

@@ -2,7 +2,6 @@ import { RootState } from '../store.ts';
 import { createSelector } from '@reduxjs/toolkit';
 
 import { cdcGameHandler } from '../../utils/game-handler-configuration.ts';
-import { PlayerCardDetails } from '../../pages/scribe-panel/components/PlayerCard.tsx';
 import {
   GameLineType,
   historyLineToMessage,
@@ -10,11 +9,15 @@ import {
 import { RuleEffectEvent } from '../../../lib/rule-runner/rules/rule-effect.ts';
 import { PlayerWithSumScores } from '../../pages/scribe-panel/modals/EndGameModal.tsx';
 import { GameStatus } from '../../../lib/game/game-handler.ts';
+import { Player } from '../../../lib/player.ts';
+import { PlayerCardDetails } from '../../components/player-cards/player-card-details.ts';
 
 export const selectPlayers = (state: RootState) => state.currentGame.players;
 export const selectEvents = (state: RootState) => state.currentGame.events;
 export const selectRulesConfiguration = (state: RootState) =>
   state.currentGame.rulesConfiguration;
+export const selectIsDoublette = (state: RootState) =>
+  state.currentGame.isDoublette;
 
 export const selectGameStatus = createSelector(
   selectPlayers,
@@ -27,7 +30,7 @@ export const selectPlayerCardDetails = createSelector(
   selectPlayers,
   selectEvents,
   selectRulesConfiguration,
-  (players, events, rules) =>
+  (players: Array<Player>, events, rules) =>
     players.map<PlayerCardDetails>((player) => ({
       player,
       score: cdcGameHandler.history.getPlayerScore(events, player),
@@ -39,15 +42,10 @@ export const selectPlayerCardDetails = createSelector(
     })),
 );
 
-export const selectCurrentPlayerDetails = createSelector(
-  selectPlayerCardDetails,
-  (players) => players.find((p) => p.isCurrentPlayer),
-);
-
 export const selectPlayersWithSumScores = createSelector(
   selectPlayers,
   selectEvents,
-  (players, events) =>
+  (players: Array<Player>, events) =>
     players
       .map<PlayerWithSumScores>((player) => ({
         player,

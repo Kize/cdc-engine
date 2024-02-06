@@ -5,7 +5,18 @@ import {
   SortableContext,
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
-import { Box, Flex, List } from '@chakra-ui/react';
+import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  Box,
+  Center,
+  Flex,
+  FormControl,
+  FormLabel,
+  List,
+  Switch,
+} from '@chakra-ui/react';
 import { CreatableSelect } from 'chakra-react-select';
 import { SortablePlayerOption } from './SortablePlayerOption.tsx';
 import { useLocalStorage } from '../../utils/use-local-storage.hook.ts';
@@ -17,6 +28,8 @@ import {
 export function PlayersSelection(props: {
   maxPlayers: number;
   setPlayers: (players: Array<string>) => void;
+  isDoublette: boolean;
+  toggleIsDoublette: () => void;
 }): JSX.Element {
   const [savedPlayers, setSavedPlayers] = useLocalStorage<Array<string>>(
     'players',
@@ -108,6 +121,18 @@ export function PlayersSelection(props: {
 
   return (
     <>
+      <FormControl>
+        <Center>
+          <FormLabel>Mode doublette</FormLabel>
+
+          <Switch
+            size="lg"
+            colorScheme="green"
+            onChange={() => props.toggleIsDoublette()}
+          />
+        </Center>
+      </FormControl>
+
       <Box as="span" p={2} display="block">
         Sélectionner de 2 à 8 joueurs:
       </Box>
@@ -148,6 +173,21 @@ export function PlayersSelection(props: {
         onChange={selectPlayer}
         onCreateOption={createPlayer}
       />
+
+      {props.isDoublette && selectedPlayers.length < 4 && (
+        <Alert status="error" mt={2}>
+          <AlertIcon />
+          <AlertDescription>4 joueurs minimum</AlertDescription>
+        </Alert>
+      )}
+      {props.isDoublette && selectedPlayers.length % 2 !== 0 && (
+        <Alert status="error" mt={2}>
+          <AlertIcon />
+          <AlertDescription>
+            Un nombre pair de joueurs est requis à la Doublette.
+          </AlertDescription>
+        </Alert>
+      )}
     </>
   );
 }

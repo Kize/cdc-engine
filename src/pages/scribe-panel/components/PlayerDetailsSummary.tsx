@@ -1,19 +1,15 @@
 import { JSX } from 'react';
 import { useAppSelector } from '../../../store/store.ts';
-import { selectPlayerCardDetails } from '../../../store/current-game/current-game-selectors.ts';
-import { Box } from '@chakra-ui/react';
-import { PlayerCard } from './PlayerCard.tsx';
+import { SingleModePlayerCards } from '../../../components/player-cards/SingleModePlayerCards.tsx';
+import { DoubletteModePlayerCards } from '../../../components/player-cards/DoubletteModePlayerCards.tsx';
 
 export function PlayerDetailsSummary(): JSX.Element {
-  const players = useAppSelector(selectPlayerCardDetails);
+  const isDoublette = useAppSelector((state) => state.currentGame.isDoublette);
 
   return (
     <>
-      {players.map((details) => (
-        <Box pb={1} key={details.player}>
-          <PlayerCard details={details} />
-        </Box>
-      ))}
+      {!isDoublette && <SingleModePlayerCards />}
+      {isDoublette && <DoubletteModePlayerCards />}
     </>
   );
 }

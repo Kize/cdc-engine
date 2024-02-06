@@ -39,7 +39,6 @@ import {
   GrelottineBet,
 } from '../../../../../lib/rule-runner/rules/basic-rules/grelottine-rule.ts';
 import { Player } from '../../../../../lib/player.ts';
-import { PlayerCardDetails } from '../../components/PlayerCard.tsx';
 import {
   DiceForm,
   getNewDiceForm,
@@ -48,6 +47,7 @@ import {
 import { BsArrowUpCircle } from 'react-icons/bs';
 import { GiRabbit } from 'react-icons/gi';
 import { OneLineDiceForm } from '../../../../components/dice/OneLineDiceForm.tsx';
+import { PlayerCardDetails } from '../../../../components/player-cards/player-card-details.ts';
 
 export function GrelottineModalResolver(): JSX.Element {
   const { active } = useAppSelector((state) => state.resolvers.grelottine);
@@ -215,7 +215,7 @@ export function GrelottineModalResolver(): JSX.Element {
               >
                 <Stack>
                   {grelottineChallengeBets.map((bet) => (
-                    <Radio value={bet} key={bet} size="lg" height={6}>
+                    <Radio value={bet} key={bet} size="lg" py={10}>
                       {bet}
                     </Radio>
                   ))}

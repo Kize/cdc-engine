@@ -33,10 +33,15 @@ import { useAppDispatch } from '../../../store/store.ts';
 
 interface Props {
   isOpen: boolean;
+  isDoublette: boolean;
   onClose: () => void;
 }
 
-export function ScribeDrawer({ isOpen, onClose }: Props): JSX.Element {
+export function ScribeDrawer({
+  isOpen,
+  onClose,
+  isDoublette,
+}: Props): JSX.Element {
   const dispatch = useAppDispatch();
 
   const buttonsProps = {
@@ -96,6 +101,7 @@ export function ScribeDrawer({ isOpen, onClose }: Props): JSX.Element {
               leftIcon={<HiOutlineSpeakerphone />}
               colorScheme="blue"
               onClick={openChanteSloubiModal}
+              isDisabled={isDoublette}
               {...buttonsProps}
             >
               Chante-Sloubi
