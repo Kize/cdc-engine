@@ -53,6 +53,9 @@ export enum RuleEffectEvent {
   BLEU_ROUGE_BET_WON = 'Annonce de Bleu-rouge gagnée',
   ADD_JARRET = "Ajout d'un Jarret",
   REMOVE_JARRET = 'Retrait du Jarret',
+
+  TICHETTE_WON = "Gain d'une Tichette",
+  TICHETTE_LOST = "Gain d'une Tichette",
 }
 
 export enum NotImplementedRuleEffectEvent {

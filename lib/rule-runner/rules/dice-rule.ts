@@ -19,6 +19,7 @@ export abstract class DiceRule implements Rule {
     if (gameContext.event === GameContextEvent.DICE_ROLL) {
       return this.isApplicableToDiceRoll(gameContext.diceRoll);
     }
+
     return false;
   }
 

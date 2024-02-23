@@ -33,7 +33,7 @@ export class ChouetteRule extends DiceRule {
     return Promise.resolve([this.getChouetteRuleEffect(player, diceRoll)]);
   }
 
-  protected getChouetteScore(diceRoll: DiceRoll): number {
+  getChouetteScore(diceRoll: DiceRoll): number {
     const chouetteValue = this.getChouetteValue(diceRoll);
 
     return chouetteValue ** 2;
