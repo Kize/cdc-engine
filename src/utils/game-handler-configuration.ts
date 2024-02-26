@@ -12,6 +12,8 @@ import { civetRuleResolver } from '../store/resolvers/rules/civet-rule.resolver.
 import { culDeChouetteRuleResolver } from '../store/resolvers/rules/cul-de-chouette-rule.resolver.ts';
 import { verdierRuleResolver } from '../store/resolvers/rules/verdier-rule.resolver.ts';
 import { civetDoubleRuleResolver } from '../store/resolvers/rules/civet-double-rule.resolver.ts';
+import { tichetteRuleResolver } from '../store/resolvers/rules/tichette-rule.resolver.ts';
+import { robobrolRuleResolver } from '../store/resolvers/rules/robobrol-rule.resolver.ts';
 
 export const cdcGameHandler = new GameHandler();
 
@@ -31,5 +33,7 @@ export function configureGameHandlerRules(
     civetDoubleRuleResolver: civetDoubleRuleResolver,
     bleuRougeRuleResolver: bleuRougeRuleResolver,
     verdierRuleResolver: verdierRuleResolver,
+    tichetteRuleResolver: tichetteRuleResolver,
+    robobrolRuleResolver: robobrolRuleResolver,
   });
 }

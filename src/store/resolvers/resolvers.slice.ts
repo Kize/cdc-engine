@@ -29,6 +29,14 @@ export interface ResolversState {
     player: Player;
     diceValues: [DieValue, DieValue];
   };
+  tichette: {
+    active: boolean;
+    player: Player;
+  };
+  robobrol: {
+    active: boolean;
+    player: Player;
+  };
 }
 
 function initialState(): ResolversState {
@@ -77,6 +85,14 @@ function initialState(): ResolversState {
       active: false,
       player: '',
       diceValues: [1, 1],
+    },
+    tichette: {
+      active: false,
+      player: '',
+    },
+    robobrol: {
+      active: false,
+      player: '',
     },
   };
 }
@@ -153,6 +169,18 @@ export const resolversSlice = createSlice({
       { payload }: PayloadAction<ResolversState['verdier']>,
     ) => {
       state.verdier = { ...payload };
+    },
+    setTichette: (
+      state,
+      { payload }: PayloadAction<ResolversState['tichette']>,
+    ) => {
+      state.tichette = { ...payload };
+    },
+    setRobobrol: (
+      state,
+      { payload }: PayloadAction<ResolversState['robobrol']>,
+    ) => {
+      state.robobrol = { ...payload };
     },
   },
 });

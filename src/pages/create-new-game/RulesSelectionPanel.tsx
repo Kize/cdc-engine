@@ -37,6 +37,7 @@ export function RulesSelectionPanel({ rules, setRules }: Props): JSX.Element {
       isVerdierEnabled: false,
       isBleuRougeEnabled: false,
       isDoubleBevueEnabled: false,
+      isTichetteEnabled: false,
     };
 
     form.forEach((ruleKey) => {

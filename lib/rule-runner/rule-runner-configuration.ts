@@ -39,6 +39,12 @@ import {
   CulDeChouetteResolutionPayload,
 } from './rules/basic-rules/cul-de-chouette-rule.ts';
 import { CivetDoubledResolution } from './rules/level-2/civet-doubled-rule.ts';
+import {
+  RobobrolResolution,
+  RobobrolResolutionPayload,
+  TichetteResolution,
+  TichetteResolutionPayload,
+} from './rules/level-5/tichette-rule.ts';
 
 export interface RulesConfiguration {
   isSouffletteEnabled: boolean;
@@ -50,6 +56,7 @@ export interface RulesConfiguration {
   isVerdierEnabled: boolean;
   isBleuRougeEnabled: boolean;
   isDoubleBevueEnabled: boolean;
+  isTichetteEnabled: boolean;
 }
 
 export interface Resolvers {
@@ -90,6 +97,14 @@ export interface Resolvers {
     VerdierResolution,
     VerdierResolutionPayload
   >;
+  tichetteRuleResolver?: RuleResolver<
+    TichetteResolution,
+    TichetteResolutionPayload
+  >;
+  robobrolRuleResolver?: RuleResolver<
+    RobobrolResolution,
+    RobobrolResolutionPayload
+  >;
 }
 
 export const BASIC_RULES: Array<Rules> = [
@@ -108,6 +123,7 @@ export const ALL_RULES_ORDERED: Array<Rules> = [
   Rules.CIVET_DOUBLED,
   Rules.CIVET,
   Rules.VERDIER,
+  Rules.TICHETTE,
   Rules.CUL_DE_CHOUETTE,
   Rules.SUITE,
   Rules.CHOUETTE_VELUTE,
