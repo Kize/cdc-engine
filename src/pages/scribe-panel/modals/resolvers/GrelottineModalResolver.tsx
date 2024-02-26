@@ -29,7 +29,6 @@ import {
   SimpleGrid,
   Spacer,
   Stack,
-  Text,
   UnorderedList,
 } from '@chakra-ui/react';
 import { selectPlayerCardDetails } from '../../../../store/current-game/current-game-selectors.ts';
@@ -173,7 +172,7 @@ export function GrelottineModalResolver(): JSX.Element {
 
         <ModalBody hidden={!isEnoughPlayers}>
           <SimpleGrid columns={[1, 1, 4]} spacingY={2}>
-            <HStack shouldWrapChildren={true}>
+            <HStack shouldWrapChildren={true} spacing={[5, 20, 20]}>
               <GrelottineCustomRadioGroup
                 label="Grelottin"
                 options={grelottinePlayers}
@@ -181,21 +180,6 @@ export function GrelottineModalResolver(): JSX.Element {
                 opposedOption={challengedPlayer}
                 setOption={setGrelottinPlayer}
               />
-
-              <Stack align="center" mx={4}>
-                <Text as="b">Joueurs</Text>
-                {grelottinePlayers.map((details) => (
-                  <Box key={details.player} as="span" height={6}>
-                    <Box as={'b'} mr={2}>
-                      {details.player}
-                    </Box>
-                    <Box as="span" fontSize="xs">
-                      ({details.score} pts)
-                    </Box>
-                  </Box>
-                ))}
-              </Stack>
-
               <GrelottineCustomRadioGroup
                 label="Joueur défié"
                 options={grelottinePlayers}
@@ -338,16 +322,26 @@ function GrelottineCustomRadioGroup({
       <FormLabel as="legend">{label}</FormLabel>
 
       <RadioGroup value={selectedOption} onChange={setOption}>
-        <Stack align="center">
+        <Stack align="right">
           {options.map((details) => (
             <Radio
               value={details.player}
               key={details.player}
               size="lg"
               height={6}
+              py={10}
               isDisabled={details.player === opposedOption}
               onClick={handleClickWithReset}
-            ></Radio>
+            >
+              <Box key={details.player} as="span" fontSize="s">
+                <Box as="span" mr={2}>
+                  {details.player}
+                </Box>
+                <Box as="span" fontSize="xs">
+                  ({details.score} pts)
+                </Box>
+              </Box>
+            </Radio>
           ))}
         </Stack>
       </RadioGroup>
