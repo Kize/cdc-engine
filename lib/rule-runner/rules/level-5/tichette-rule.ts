@@ -9,6 +9,7 @@ import {
   CulDeChouetteRule,
   getCulDeChouetteScore,
 } from '../basic-rules/cul-de-chouette-rule.ts';
+import { GameContextEvent } from '../../game-context-event.ts';
 
 export interface TichetteResolution {
   playersWhoClaimedTichette: Array<{ player: Player; score: number }>;
@@ -18,13 +19,25 @@ export interface TichetteResolutionPayload {
   player: Player;
 }
 
+export interface RobobrolResolution {
+  diceRoll: DiceRoll;
+}
+
+export interface RobobrolResolutionPayload {
+  player: Player;
+}
+
 export class TichetteRule extends DiceRule {
   name = Rules.TICHETTE;
 
   constructor(
-    private readonly resolver: Resolver<
+    private readonly tichetteResolver: Resolver<
       TichetteResolution,
       TichetteResolutionPayload
+    >,
+    private readonly robobrolResolver: Resolver<
+      RobobrolResolution,
+      RobobrolResolutionPayload
     >,
   ) {
     super();
@@ -37,19 +50,38 @@ export class TichetteRule extends DiceRule {
     return validSums.includes(sum);
   }
 
-  private computeSum(diceRoll: DiceRoll): number {
-    return diceRoll.reduce((acc, v) => acc + v, 0);
-  }
-
   async applyDiceRule(context: DiceRollGameContext): Promise<RuleEffects> {
-    const { playersWhoClaimedTichette } = await this.resolver.getResolution({
-      player: context.player,
-    });
+    const { playersWhoClaimedTichette } =
+      await this.tichetteResolver.getResolution({
+        player: context.player,
+      });
 
     const diceRollRuleEffects =
       await context.runner.handleGameEventInsideTichette(context);
 
     const rule = context.runner.getFirstApplicableRule(context, true);
+
+    const isSecondDiceRoll =
+      playersWhoClaimedTichette.length === 1 &&
+      rule instanceof CulDeChouetteRule;
+
+    const robobrolRuleEffects: RuleEffects = [];
+    if (isSecondDiceRoll) {
+      const robobrolPlayer = playersWhoClaimedTichette.at(0)!.player;
+
+      const robobrolResolution = await this.robobrolResolver.getResolution({
+        player: robobrolPlayer,
+      });
+
+      const effects = await context.runner.handleGameEvent({
+        event: GameContextEvent.DICE_ROLL,
+        player: robobrolPlayer,
+        diceRoll: robobrolResolution.diceRoll,
+        runner: context.runner,
+      });
+
+      robobrolRuleEffects.push(...effects);
+    }
 
     const tichetteRuleEffects = this.computeTichetteRuleEffects(
       playersWhoClaimedTichette,
@@ -57,7 +89,11 @@ export class TichetteRule extends DiceRule {
       rule,
     );
 
-    return [...diceRollRuleEffects, ...tichetteRuleEffects];
+    return [
+      ...diceRollRuleEffects,
+      ...tichetteRuleEffects,
+      ...robobrolRuleEffects,
+    ];
   }
 
   private computeTichetteRuleEffects(
@@ -75,8 +111,6 @@ export class TichetteRule extends DiceRule {
       this.computeSum(diceRoll) +
       this.computeDiceRollValue(diceRoll, ruleToApply);
 
-    const value = tichetteCoef * tichetteScore;
-
     const bestScore = Math.max(
       ...playersWhoClaimedTichette.map((d) => d.score),
     );
@@ -85,12 +119,16 @@ export class TichetteRule extends DiceRule {
       .filter((d) => d.score === bestScore)
       .map((d) => ({
         player: d.player,
-        value,
+        value: tichetteCoef * tichetteScore,
         event:
           tichetteCoef === 1
             ? RuleEffectEvent.TICHETTE_WON
             : RuleEffectEvent.TICHETTE_LOST,
       }));
+  }
+
+  private computeSum(diceRoll: DiceRoll): number {
+    return diceRoll.reduce((acc, v) => acc + v, 0);
   }
 
   private computeDiceRollValue(diceRoll: DiceRoll, ruleToApply: Rule): number {
