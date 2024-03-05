@@ -7,14 +7,39 @@ import {
   HStack,
   Icon,
   SimpleGrid,
-  Stack,
   Text,
 } from '@chakra-ui/react';
-import { TiStar as untypedTiStar } from 'react-icons/ti';
+import { TiStar } from 'react-icons/ti';
 import { RulesConfiguration } from '../../../lib/rule-runner/rule-runner-configuration.ts';
 import { IconType } from 'react-icons/lib/cjs/iconBase';
+import { Rules } from '../../../lib/rule-runner/rules/rule.ts';
 
-const TiStar = untypedTiStar as IconType;
+const rulesByLevel: Array<{
+  level: number;
+  rules: Array<keyof RulesConfiguration>;
+}> = [
+  {
+    level: 1,
+    rules: [
+      'isSouffletteEnabled',
+      'isSiropEnabled',
+      'isAttrapeOiseauEnabled',
+      'isCivetEnabled',
+    ],
+  },
+  {
+    level: 2,
+    rules: ['isArtichetteEnabled', 'isCivetDoubleEnabled'],
+  },
+  {
+    level: 3,
+    rules: ['isVerdierEnabled', 'isBleuRougeEnabled'],
+  },
+  {
+    level: 5,
+    rules: ['isTichetteEnabled'],
+  },
+];
 
 type Props = {
   rules: RulesConfiguration;
@@ -26,7 +51,7 @@ export function RulesSelectionPanel({ rules, setRules }: Props): JSX.Element {
     .filter(([, value]) => value)
     .map(([key]) => key);
 
-  const onChangeRules = (form: Array<keyof RulesConfiguration>): void => {
+  const onChangeRules = (newForm: Array<keyof RulesConfiguration>): void => {
     const updatedRules: RulesConfiguration = {
       isSouffletteEnabled: false,
       isSiropEnabled: false,
@@ -40,20 +65,46 @@ export function RulesSelectionPanel({ rules, setRules }: Props): JSX.Element {
       isTichetteEnabled: false,
     };
 
-    form.forEach((ruleKey) => {
+    newForm.forEach((ruleKey) => {
       updatedRules[ruleKey] = true;
     });
+
+    if (updatedRules.isCivetEnabled && !updatedRules.isSiropEnabled) {
+      updatedRules.isCivetEnabled = false;
+    }
+
+    if (updatedRules.isAttrapeOiseauEnabled && !updatedRules.isSiropEnabled) {
+      updatedRules.isAttrapeOiseauEnabled = false;
+    }
+
+    if (updatedRules.isCivetDoubleEnabled && !updatedRules.isCivetEnabled) {
+      updatedRules.isCivetDoubleEnabled = false;
+    }
 
     setRules(updatedRules);
   };
 
-  const ruleSectionHeadingProps = {
-    size: 'md',
-    mb: 2,
+  const isRuleCheckboxDisabled = (
+    ruleLabel: keyof RulesConfiguration,
+  ): boolean => {
+    switch (ruleLabel) {
+      case 'isAttrapeOiseauEnabled':
+      case 'isCivetEnabled':
+        return !rules.isSiropEnabled;
+      case 'isCivetDoubleEnabled':
+        return !rules.isCivetEnabled;
+      case 'isTichetteEnabled':
+        return true;
+      default:
+        return false;
+    }
   };
 
-  const ruleStackProps = {
-    spacing: 1,
+  const ruleSectionHeadingProps = {
+    size: 'md',
+    mb: 3,
+    borderBottom: '1px solid',
+    borderColor: 'green.400',
   };
 
   const ruleCheckboxProps = {
@@ -61,88 +112,72 @@ export function RulesSelectionPanel({ rules, setRules }: Props): JSX.Element {
   };
 
   return (
-    <Box pl={[3, 10]}>
+    <Box>
       <CheckboxGroup value={form} onChange={onChangeRules}>
-        <SimpleGrid columns={[1, 1, 2]} spacingY={4}>
-          <Box>
+        {...rulesByLevel.map((ruleLevel) => (
+          <Box mb={6}>
             <Heading as="h2" {...ruleSectionHeadingProps}>
               <HStack>
                 <Text>Difficulté</Text>
-                <Icon as={TiStar} />
+                {...[...(Array(ruleLevel.level) as Array<void>)].map(() => (
+                  <Icon as={TiStar as IconType} />
+                ))}
               </HStack>
             </Heading>
 
-            <Stack {...ruleStackProps}>
-              <Checkbox {...ruleCheckboxProps} value="isSouffletteEnabled">
-                La Soufflette
-              </Checkbox>
-              <Checkbox {...ruleCheckboxProps} value="isSiropEnabled">
-                Le Sirop
-              </Checkbox>
-              <Checkbox {...ruleCheckboxProps} value="isAttrapeOiseauEnabled">
-                L'Attrape-Oiseau
-              </Checkbox>
-              <Checkbox {...ruleCheckboxProps} value="isCivetEnabled">
-                Le Civet
-              </Checkbox>
-            </Stack>
+            <SimpleGrid columns={[1, 2]} spacingY={1} pl={5}>
+              {...ruleLevel.rules.map((ruleLabel) => (
+                <Checkbox
+                  {...ruleCheckboxProps}
+                  value={ruleLabel}
+                  isDisabled={isRuleCheckboxDisabled(ruleLabel)}
+                >
+                  {translateRuleLabel(ruleLabel)}
+                </Checkbox>
+              ))}
+            </SimpleGrid>
           </Box>
+        ))}
 
-          <Box>
-            <Heading as="h2" {...ruleSectionHeadingProps}>
-              <HStack>
-                <Text>Difficulté</Text>
-                <Icon as={TiStar} />
-                <Icon as={TiStar} />
-              </HStack>
-            </Heading>
+        <Box>
+          <Heading as="h2" {...ruleSectionHeadingProps}>
+            <HStack>
+              <Text>Options</Text>
+            </HStack>
+          </Heading>
 
-            <Stack {...ruleStackProps}>
-              <Checkbox {...ruleCheckboxProps} value="isArtichetteEnabled">
-                L'Artichette
-              </Checkbox>
-
-              <Checkbox {...ruleCheckboxProps} value="isCivetDoubleEnabled">
-                Le Civet Doublé
-              </Checkbox>
-            </Stack>
-          </Box>
-
-          <Box>
-            <Heading as="h2" {...ruleSectionHeadingProps}>
-              <HStack>
-                <Text>Difficulté</Text>
-                <Icon as={TiStar} />
-                <Icon as={TiStar} />
-                <Icon as={TiStar} />
-              </HStack>
-            </Heading>
-
-            <Stack {...ruleStackProps}>
-              <Checkbox {...ruleCheckboxProps} value="isVerdierEnabled">
-                Le Verdier
-              </Checkbox>
-              <Checkbox {...ruleCheckboxProps} value="isBleuRougeEnabled">
-                Le Bleu-Rouge
-              </Checkbox>
-            </Stack>
-          </Box>
-
-          <Box>
-            <Heading as="h2" {...ruleSectionHeadingProps}>
-              <HStack>
-                <Text>Options</Text>
-              </HStack>
-            </Heading>
-
-            <Stack {...ruleStackProps}>
-              <Checkbox {...ruleCheckboxProps} value="isDoubleBevueEnabled">
-                Bévue doublée
-              </Checkbox>
-            </Stack>
-          </Box>
-        </SimpleGrid>
+          <SimpleGrid columns={[1, 2]} spacingY={1} pl={5}>
+            <Checkbox {...ruleCheckboxProps} value="isDoubleBevueEnabled">
+              Bévue doublée
+            </Checkbox>
+          </SimpleGrid>
+        </Box>
       </CheckboxGroup>
     </Box>
   );
+}
+
+function translateRuleLabel(ruleLabel: keyof RulesConfiguration): Rules {
+  switch (ruleLabel) {
+    case 'isArtichetteEnabled':
+      return Rules.ARTICHETTE;
+    case 'isAttrapeOiseauEnabled':
+      return Rules.ATTRAPE_OISEAU;
+    case 'isSiropEnabled':
+      return Rules.SIROP;
+    case 'isCivetEnabled':
+      return Rules.CIVET;
+    case 'isCivetDoubleEnabled':
+      return Rules.CIVET_DOUBLED;
+    case 'isSouffletteEnabled':
+      return Rules.SOUFFLETTE;
+    case 'isBleuRougeEnabled':
+      return Rules.BLEU_ROUGE;
+    case 'isDoubleBevueEnabled':
+      return Rules.DOUBLE_BEVUE;
+    case 'isVerdierEnabled':
+      return Rules.VERDIER;
+    case 'isTichetteEnabled':
+      return Rules.TICHETTE;
+  }
 }
