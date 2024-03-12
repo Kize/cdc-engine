@@ -12,7 +12,6 @@ import {
   ModalCloseButton,
   ModalContent,
   ModalFooter,
-  ModalHeader,
   ModalOverlay,
   NumberDecrementStepper,
   NumberIncrementStepper,
@@ -36,6 +35,7 @@ import {
   customSelectStyles,
 } from '../../../utils/custom-select.utils.ts';
 import { addPlayerWithChanteSloubiThunk } from '../../../store/current-game/current-game-actions-thunks.ts';
+import { BevueModalHeader } from '../../../components/custom-modal/BevueModalHeader.tsx';
 
 export function ChanteSloubiModal(): JSX.Element {
   const { active } = useAppSelector((state) => state.resolvers.chanteSloubi);
@@ -104,8 +104,9 @@ export function ChanteSloubiModal(): JSX.Element {
       <ModalOverlay />
       <ModalContent>
         <ModalCloseButton />
-        <ModalHeader>
-          Chante-Sloubi!
+        <BevueModalHeader title={'Chante-Sloubi!'} />
+
+        <ModalBody>
           <Tag
             colorScheme="red"
             ml={3}
@@ -114,9 +115,7 @@ export function ChanteSloubiModal(): JSX.Element {
           >
             8 joueurs max - Sloubi impossible
           </Tag>
-        </ModalHeader>
 
-        <ModalBody>
           <SimpleGrid columns={[1, 2]} spacingX={5} spacingY={8}>
             <FormControl>
               <FormLabel>Joueur clamant le Sloubi</FormLabel>

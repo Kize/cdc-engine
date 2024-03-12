@@ -19,6 +19,7 @@ import {
 import { selectPlayers } from '../../../../store/current-game/current-game-selectors.ts';
 import { Player } from '../../../../../lib/player.ts';
 import { chouetteVeluteResolver } from '../../../../store/resolvers/rules/chouette-velute-rule.resolver.ts';
+import { BevueModalHeader } from '../../../../components/custom-modal/BevueModalHeader.tsx';
 
 export function ChouetteVeluteModalResolver(): JSX.Element {
   const { active, player } = useAppSelector(
@@ -46,6 +47,8 @@ export function ChouetteVeluteModalResolver(): JSX.Element {
       <ModalOverlay />
       <ModalContent>
         <ModalCloseButton />
+        <BevueModalHeader title={`${player} a réalisé une Chouette Velute!`} />
+
         <ModalHeader>{player} a réalisé une Chouette Velute !</ModalHeader>
 
         <ModalBody>

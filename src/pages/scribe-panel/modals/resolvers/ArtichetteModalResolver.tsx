@@ -8,11 +8,11 @@ import {
   ModalCloseButton,
   ModalContent,
   ModalFooter,
-  ModalHeader,
   ModalOverlay,
   SimpleGrid,
 } from '@chakra-ui/react';
 import { artichetteRuleResolver } from '../../../../store/resolvers/rules/artichette-rule.resolver.ts';
+import { BevueModalHeader } from '../../../../components/custom-modal/BevueModalHeader.tsx';
 
 export function ArtichetteModalResolver(): JSX.Element {
   const { active, player } = useAppSelector(
@@ -32,7 +32,8 @@ export function ArtichetteModalResolver(): JSX.Element {
       <ModalOverlay />
       <ModalContent>
         <ModalCloseButton />
-        <ModalHeader>{player} a réalisé une Artichette</ModalHeader>
+
+        <BevueModalHeader title={`${player} a réalisé une Artichette!`} />
 
         <ModalBody>
           <Container p={8}>

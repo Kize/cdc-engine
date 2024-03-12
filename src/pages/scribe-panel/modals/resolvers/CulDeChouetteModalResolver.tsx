@@ -10,7 +10,6 @@ import {
   ModalCloseButton,
   ModalContent,
   ModalFooter,
-  ModalHeader,
   ModalOverlay,
   Radio,
   RadioGroup,
@@ -19,6 +18,7 @@ import {
 import { selectPlayers } from '../../../../store/current-game/current-game-selectors.ts';
 import { Player } from '../../../../../lib/player.ts';
 import { culDeChouetteRuleResolver } from '../../../../store/resolvers/rules/cul-de-chouette-rule.resolver.ts';
+import { BevueModalHeader } from '../../../../components/custom-modal/BevueModalHeader.tsx';
 
 export function CulDeChouetteModalResolver(): JSX.Element {
   const { active, player } = useAppSelector(
@@ -52,7 +52,9 @@ export function CulDeChouetteModalResolver(): JSX.Element {
       <ModalOverlay />
       <ModalContent>
         <ModalCloseButton />
-        <ModalHeader>{player} a réalisé un Cul de Chouette !!!</ModalHeader>
+        <BevueModalHeader
+          title={`${player} a réalisé un Cul de Chouette !!!`}
+        />
 
         <ModalBody>
           <FormControl as="fieldset">

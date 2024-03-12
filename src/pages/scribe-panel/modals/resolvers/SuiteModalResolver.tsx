@@ -11,7 +11,6 @@ import {
   ModalCloseButton,
   ModalContent,
   ModalFooter,
-  ModalHeader,
   ModalOverlay,
   NumberDecrementStepper,
   NumberIncrementStepper,
@@ -26,6 +25,7 @@ import {
 import { suiteRuleResolver } from '../../../../store/resolvers/rules/suite-rule.resolver.ts';
 import { selectPlayers } from '../../../../store/current-game/current-game-selectors.ts';
 import { Player } from '../../../../../lib/player.ts';
+import { BevueModalHeader } from '../../../../components/custom-modal/BevueModalHeader.tsx';
 
 export function SuiteModalResolver(): JSX.Element {
   const { active, player } = useAppSelector((state) => state.resolvers.suite);
@@ -59,7 +59,7 @@ export function SuiteModalResolver(): JSX.Element {
       <ModalOverlay />
       <ModalContent>
         <ModalCloseButton />
-        <ModalHeader>{player} a réalisé une Suite</ModalHeader>
+        <BevueModalHeader title={`${player} a réalisé une Suite`} />
 
         <ModalBody>
           <SimpleGrid columns={[1, 2]}>

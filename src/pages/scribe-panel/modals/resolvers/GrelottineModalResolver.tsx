@@ -17,7 +17,6 @@ import {
   ModalCloseButton,
   ModalContent,
   ModalFooter,
-  ModalHeader,
   ModalOverlay,
   NumberDecrementStepper,
   NumberIncrementStepper,
@@ -47,6 +46,7 @@ import { BsArrowUpCircle } from 'react-icons/bs';
 import { GiRabbit } from 'react-icons/gi';
 import { OneLineDiceForm } from '../../../../components/dice/OneLineDiceForm.tsx';
 import { PlayerCardDetails } from '../../../../components/player-cards/player-card-details.ts';
+import { BevueModalHeader } from '../../../../components/custom-modal/BevueModalHeader.tsx';
 
 export function GrelottineModalResolver(): JSX.Element {
   const { active } = useAppSelector((state) => state.resolvers.grelottine);
@@ -168,7 +168,7 @@ export function GrelottineModalResolver(): JSX.Element {
       <ModalOverlay />
       <ModalContent>
         <ModalCloseButton />
-        <ModalHeader bgColor="yellow.300">Défi de Grelottine</ModalHeader>
+        <BevueModalHeader title={'Défi de Grelottine'} bgColor="yellow.300" />
 
         <ModalBody hidden={!isEnoughPlayers}>
           <SimpleGrid columns={[1, 1, 4]} spacingY={2}>

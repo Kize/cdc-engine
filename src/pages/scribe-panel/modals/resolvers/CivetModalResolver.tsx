@@ -17,7 +17,6 @@ import {
   ModalCloseButton,
   ModalContent,
   ModalFooter,
-  ModalHeader,
   ModalOverlay,
   NumberDecrementStepper,
   NumberIncrementStepper,
@@ -45,6 +44,7 @@ import { civetDoubleRuleResolver } from '../../../../store/resolvers/rules/civet
 import { Player } from '../../../../../lib/player.ts';
 import { selectPlayerCardDetails } from '../../../../store/current-game/current-game-selectors.ts';
 import { OneLineDiceForm } from '../../../../components/dice/OneLineDiceForm.tsx';
+import { BevueModalHeader } from '../../../../components/custom-modal/BevueModalHeader.tsx';
 
 export function CivetModalResolver(): JSX.Element {
   const { active, player } = useAppSelector((state) => state.resolvers.civet);
@@ -136,7 +136,7 @@ export function CivetModalResolver(): JSX.Element {
       <ModalOverlay />
       <ModalContent>
         <ModalCloseButton />
-        <ModalHeader>{player} utilise son Civet</ModalHeader>
+        <BevueModalHeader title={`${player} utilise son Civet`} />
 
         <ModalBody>
           <Card mb={6}>

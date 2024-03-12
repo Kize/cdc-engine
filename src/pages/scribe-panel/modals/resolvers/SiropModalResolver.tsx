@@ -15,7 +15,6 @@ import {
   ModalCloseButton,
   ModalContent,
   ModalFooter,
-  ModalHeader,
   ModalOverlay,
   Radio,
   RadioGroup,
@@ -39,6 +38,7 @@ import {
 } from '../../../../utils/custom-select.utils.ts';
 import { Select } from 'chakra-react-select';
 import { attrapeOiseauRuleResolver } from '../../../../store/resolvers/rules/attrape-oiseau-rule.resolver.ts';
+import { BevueModalHeader } from '../../../../components/custom-modal/BevueModalHeader.tsx';
 
 const getNewBidForm = (player: Player) => ({
   player,
@@ -186,9 +186,9 @@ export function SiropModalResolver(): JSX.Element {
       <ModalOverlay />
       <ModalContent>
         <ModalCloseButton />
-        <ModalHeader>
-          {player} a réalisé une Chouette de {chouetteValue}!
-        </ModalHeader>
+        <BevueModalHeader
+          title={`${player} a réalisé une Chouette de ${chouetteValue}!`}
+        />
 
         <ModalBody>
           {isAttrapeOiseauEnabled && (

@@ -11,7 +11,6 @@ import {
   ModalCloseButton,
   ModalContent,
   ModalFooter,
-  ModalHeader,
   ModalOverlay,
   Slider,
   SliderFilledTrack,
@@ -34,6 +33,7 @@ import { souffletteRuleResolver } from '../../../../store/resolvers/rules/souffl
 import { isDiceRollASoufflette } from '../../../../../lib/rule-runner/rules/level-1/soufflette-rule.ts';
 import { DiceRoll } from '../../../../../lib/rule-runner/rules/dice-rule.ts';
 import { OneLineDiceForm } from '../../../../components/dice/OneLineDiceForm.tsx';
+import { BevueModalHeader } from '../../../../components/custom-modal/BevueModalHeader.tsx';
 
 const labelStyles = {
   mt: '3',
@@ -98,7 +98,7 @@ export function SouffletteModalResolver(): JSX.Element {
       <ModalOverlay />
       <ModalContent>
         <ModalCloseButton />
-        <ModalHeader>{player} a réalisé une Soufflette</ModalHeader>
+        <BevueModalHeader title={`${player} a réalisé une Soufflette!`} />
 
         <ModalBody>
           <Flex>

@@ -1,7 +1,6 @@
 import { JSX, useState } from 'react';
 import { useAppSelector } from '../../../../store/store.ts';
 import {
-  Box,
   Button,
   ButtonGroup,
   Checkbox,
@@ -13,7 +12,6 @@ import {
   ModalCloseButton,
   ModalContent,
   ModalFooter,
-  ModalHeader,
   ModalOverlay,
   SimpleGrid,
   Stack,
@@ -24,9 +22,10 @@ import { verdierRuleResolver } from '../../../../store/resolvers/rules/verdier-r
 import { DieInput } from '../../../../components/dice/DieInput.tsx';
 import { DieFace } from '../../../../components/dice/DieFace.tsx';
 import { OptionalDieValue } from '../../../../components/dice/dice-form.ts';
+import { BevueModalHeader } from '../../../../components/custom-modal/BevueModalHeader.tsx';
 
 export function VerdierModalResolver(): JSX.Element {
-  const { active, player, diceValues } = useAppSelector(
+  const { active, diceValues } = useAppSelector(
     (state) => state.resolvers.verdier,
   );
   const players = useAppSelector(selectPlayers);
@@ -65,13 +64,13 @@ export function VerdierModalResolver(): JSX.Element {
       <ModalOverlay />
       <ModalContent>
         <ModalCloseButton />
-        <ModalHeader>
-          <Box as="span">Annonce de Civet en cours. À {player} de jouer.</Box>
-        </ModalHeader>
+        <BevueModalHeader title={'Verdier'} />
 
         <ModalBody>
           <FormControl as="fieldset">
-            <FormLabel as="legend">Joueurs ayant crié "Verlignette"</FormLabel>
+            <FormLabel as="legend">
+              Joueurs ayants crié "Vert-Linette!"
+            </FormLabel>
 
             <CheckboxGroup
               value={selectedPlayers}

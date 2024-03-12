@@ -11,7 +11,6 @@ import {
   ModalCloseButton,
   ModalContent,
   ModalFooter,
-  ModalHeader,
   ModalOverlay,
   SimpleGrid,
 } from '@chakra-ui/react';
@@ -30,6 +29,7 @@ import {
 } from '../../../../utils/custom-select.utils.ts';
 import { BleuRougeBetValue } from '../../../../../lib/rule-runner/rules/level-3/bleu-rouge-rule.ts';
 import { OneLineDiceForm } from '../../../../components/dice/OneLineDiceForm.tsx';
+import { BevueModalHeader } from '../../../../components/custom-modal/BevueModalHeader.tsx';
 
 const selectBleuRougePlayers = createSelector(
   selectPlayers,
@@ -126,7 +126,7 @@ export function BleuRougeModalResolver(): JSX.Element {
       <ModalOverlay />
       <ModalContent>
         <ModalCloseButton />
-        <ModalHeader>{player} a réalisé un Bleu-Rouge!</ModalHeader>
+        <BevueModalHeader title={`${player} a réalisé une Bleu-Rouge!`} />
 
         <ModalBody>
           <SimpleGrid columns={[2, bids.length]} spacingX={4}>
