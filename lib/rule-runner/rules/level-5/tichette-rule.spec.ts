@@ -215,6 +215,7 @@ describe('applyRule', () => {
   it('triggers a second turn in case of a robobrol, and it resolves the second turn for the person calling the robobrol', async () => {
     const tichetteResolution: TichetteResolution = {
       playersWhoClaimedTichette: [{ player: 'Jules', score: 100 }],
+      hasClaimedRobobrol: true,
     };
     const culDeChouetteResolution: CulDeChouetteResolution = {
       claimingPlayer: 'Alban',

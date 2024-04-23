@@ -13,10 +13,12 @@ import { GameContextEvent } from '../../game-context-event.ts';
 
 export interface TichetteResolution {
   playersWhoClaimedTichette: Array<{ player: Player; score: number }>;
+  hasClaimedRobobrol?: boolean;
 }
 
 export interface TichetteResolutionPayload {
   player: Player;
+  canClaimRobobrol: boolean;
 }
 
 export interface RobobrolResolution {
@@ -51,22 +53,29 @@ export class TichetteRule extends DiceRule {
   }
 
   async applyDiceRule(context: DiceRollGameContext): Promise<RuleEffects> {
-    const { playersWhoClaimedTichette } =
+    const applicableRuleOnDiceRoll = context.runner.getFirstApplicableRule(
+      context,
+      true,
+    );
+    const isCulDeChouette =
+      applicableRuleOnDiceRoll instanceof CulDeChouetteRule;
+
+    const { playersWhoClaimedTichette, hasClaimedRobobrol } =
       await this.tichetteResolver.getResolution({
         player: context.player,
+        canClaimRobobrol: isCulDeChouette,
       });
 
     const diceRollRuleEffects =
       await context.runner.handleGameEventInsideTichette(context);
 
-    const rule = context.runner.getFirstApplicableRule(context, true);
-
-    const isSecondDiceRoll =
+    const shouldStartRobobrolReRoll =
       playersWhoClaimedTichette.length === 1 &&
-      rule instanceof CulDeChouetteRule;
+      isCulDeChouette &&
+      hasClaimedRobobrol;
 
     const robobrolRuleEffects: RuleEffects = [];
-    if (isSecondDiceRoll) {
+    if (shouldStartRobobrolReRoll) {
       const robobrolPlayer = playersWhoClaimedTichette.at(0)!.player;
 
       const robobrolResolution = await this.robobrolResolver.getResolution({
@@ -86,7 +95,7 @@ export class TichetteRule extends DiceRule {
     const tichetteRuleEffects = this.computeTichetteRuleEffects(
       playersWhoClaimedTichette,
       context.diceRoll,
-      rule,
+      applicableRuleOnDiceRoll,
     );
 
     return [

@@ -10,11 +10,15 @@ class TichetteRuleResolver extends RuleResolver<
   TichetteResolution,
   TichetteResolutionPayload
 > {
-  initResolution({ player }: TichetteResolutionPayload): void {
+  initResolution({
+    player,
+    canClaimRobobrol,
+  }: TichetteResolutionPayload): void {
     store.dispatch(
       resolversSlice.actions.setTichette({
         active: true,
         player,
+        canClaimRobobrol,
       }),
     );
   }
@@ -24,6 +28,7 @@ class TichetteRuleResolver extends RuleResolver<
       resolversSlice.actions.setTichette({
         active: false,
         player: '',
+        canClaimRobobrol: false,
       }),
     );
   }

@@ -32,6 +32,7 @@ export interface ResolversState {
   tichette: {
     active: boolean;
     player: Player;
+    canClaimRobobrol: boolean;
   };
   robobrol: {
     active: boolean;
@@ -89,6 +90,7 @@ function initialState(): ResolversState {
     tichette: {
       active: false,
       player: '',
+      canClaimRobobrol: false,
     },
     robobrol: {
       active: false,

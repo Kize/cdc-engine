@@ -12,6 +12,8 @@ import { BleuRougeModalResolver } from '../modals/resolvers/BleuRougeModalResolv
 import { CivetModalResolver } from '../modals/resolvers/CivetModalResolver.tsx';
 import { CulDeChouetteModalResolver } from '../modals/resolvers/CulDeChouetteModalResolver.tsx';
 import { VerdierModalResolver } from '../modals/resolvers/VerdierModalResolver.tsx';
+import { TichetteModalResolver } from '../modals/resolvers/TichetteModalResolver.tsx';
+import { RobobrolModalResolver } from '../modals/resolvers/RobobrolModalResolver.tsx';
 
 export function ScribePanelModals(): JSX.Element {
   return (
@@ -31,6 +33,8 @@ export function ScribePanelModals(): JSX.Element {
       <BleuRougeModalResolver />
 
       <VerdierModalResolver />
+      <TichetteModalResolver />
+      <RobobrolModalResolver />
 
       <EndGameModal />
     </>

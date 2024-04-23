@@ -93,8 +93,6 @@ export function RulesSelectionPanel({ rules, setRules }: Props): JSX.Element {
         return !rules.isSiropEnabled;
       case 'isCivetDoubleEnabled':
         return !rules.isCivetEnabled;
-      case 'isTichetteEnabled':
-        return true;
       default:
         return false;
     }
