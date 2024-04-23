@@ -53,9 +53,10 @@ export class TichetteRule extends DiceRule {
   }
 
   async applyDiceRule(context: DiceRollGameContext): Promise<RuleEffects> {
+    const runnerOptions = { rulesBlackList: [this.name] };
     const applicableRuleOnDiceRoll = context.runner.getFirstApplicableRule(
       context,
-      true,
+      runnerOptions,
     );
     const isCulDeChouette =
       applicableRuleOnDiceRoll instanceof CulDeChouetteRule;
@@ -66,8 +67,10 @@ export class TichetteRule extends DiceRule {
         canClaimRobobrol: isCulDeChouette,
       });
 
-    const diceRollRuleEffects =
-      await context.runner.handleGameEventInsideTichette(context);
+    const diceRollRuleEffects = await context.runner.handleGameEvent(
+      context,
+      runnerOptions,
+    );
 
     const shouldStartRobobrolReRoll =
       playersWhoClaimedTichette.length === 1 &&

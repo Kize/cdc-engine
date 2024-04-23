@@ -6,30 +6,31 @@ import { UnknownGameContext } from './game-context.ts';
 export class RuleRunner {
   constructor(private readonly rules: Array<Rule>) {}
 
-  async handleGameEvent(event: UnknownGameContext): Promise<RuleEffects> {
-    return this.getFirstApplicableRule(event).applyRule(
-      new GameContextWrapper(event),
-    );
-  }
-
-  async handleGameEventInsideTichette(
+  async handleGameEvent(
     event: UnknownGameContext,
+    options: Options = {},
   ): Promise<RuleEffects> {
-    return this.getFirstApplicableRule(event, true).applyRule(
+    return this.getFirstApplicableRule(event, options).applyRule(
       new GameContextWrapper(event),
     );
   }
 
-  getFirstApplicableRule(
-    event: UnknownGameContext,
-    isInsideTichette = false,
-  ): Rule {
-    const rule = this.rules.find((rule) => {
-      if (isInsideTichette && rule.name === Rules.TICHETTE) {
-        return false;
-      }
-      return rule.isApplicableToGameContext(event);
-    });
+  getFirstApplicableRule(event: UnknownGameContext, options: Options): Rule {
+    const rule = this.rules
+      .filter((rule) => {
+        if (options.rulesWhiteList) {
+          return options.rulesWhiteList.includes(rule.name);
+        }
+
+        if (options.rulesBlackList) {
+          return !options.rulesBlackList.includes(rule.name);
+        }
+
+        return true;
+      })
+      .find((rule) => {
+        return rule.isApplicableToGameContext(event);
+      });
 
     if (!rule) {
       throw new Error('There should always be at least one applicable rule.');
@@ -44,3 +45,13 @@ export class RuleRunner {
     return !!rule;
   }
 }
+
+type Options =
+  | {
+      rulesWhiteList?: Array<Rules>;
+      rulesBlackList?: never;
+    }
+  | {
+      rulesWhiteList?: never;
+      rulesBlackList?: Array<Rules>;
+    };

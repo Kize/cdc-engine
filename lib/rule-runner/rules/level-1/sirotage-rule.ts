@@ -1,6 +1,5 @@
 import { ChouetteRule } from '../basic-rules/chouette-rule';
 import { Resolver } from '../rule-resolver';
-import { getCulDeChouetteScore } from '../basic-rules/cul-de-chouette-rule';
 import { DiceRoll, DieValue } from '../dice-rule';
 import { RuleEffect, RuleEffectEvent, RuleEffects } from '../rule-effect';
 import { RuleRunner } from '../../rule-runner';
@@ -13,6 +12,7 @@ import {
   SIROTAGE_BID_TYPES,
 } from './sirotage-rule.types';
 import { DiceRollGameContext } from '../../game-context.ts';
+import { GameContextEvent } from '../../game-context-event.ts';
 
 export interface SiropResolutionPayload {
   player: string;
@@ -67,13 +67,15 @@ export class SirotageRule extends ChouetteRule {
       return [this.getChouetteRuleEffect(player, diceRoll)];
     }
 
-    const sirotageRuleEffects = this.getSirotageRuleEffects(
+    const sirotageRuleEffects = await this.getSirotageRuleEffects(
       player,
       diceRoll,
       resolution,
       runner,
     );
+
     const bidRuleEffects = this.getBidRuleEffects(resolution, diceRoll);
+
     return [...sirotageRuleEffects, ...bidRuleEffects];
   }
 
@@ -123,22 +125,33 @@ export class SirotageRule extends ChouetteRule {
     );
   }
 
-  protected getSirotageRuleEffects(
+  protected async getSirotageRuleEffects(
     currentplayer: string,
     diceRoll: DiceRoll,
     resolution: ActiveSirotageResolution,
     runner: RuleRunner,
-  ): Array<RuleEffect> {
+  ): Promise<RuleEffect[]> {
     const chouetteValue = this.getChouetteValue(diceRoll);
     const isSirotageWon = resolution.lastDieValue === chouetteValue;
+
     if (isSirotageWon) {
-      return [
+      const ruleEffects = await runner.handleGameEvent(
         {
-          event: RuleEffectEvent.SIROP_WON,
+          event: GameContextEvent.DICE_ROLL,
           player: currentplayer,
-          value: getCulDeChouetteScore(diceRoll),
+          diceRoll: [chouetteValue, chouetteValue, chouetteValue],
+          runner,
         },
-      ];
+        { rulesWhiteList: [Rules.CUL_DE_CHOUETTE] },
+      );
+
+      return ruleEffects.map((ruleEffect) => ({
+        ...ruleEffect,
+        event:
+          ruleEffect.event === RuleEffectEvent.CUL_DE_CHOUETTE
+            ? RuleEffectEvent.SIROP_WON
+            : RuleEffectEvent.SIROP_STOLEN,
+      }));
     }
 
     const lostSirotageRuleEffects: Array<RuleEffect> = [

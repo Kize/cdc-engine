@@ -29,8 +29,10 @@ export enum RuleEffectEvent {
 
   SIROP_LOST = 'Sirotage perdu',
   SIROP_WON = 'Sirotage gagné',
+  SIROP_STOLEN = 'Sirotage volé',
   ATTRAPE_OISEAU_WON = "Sirotage d'Attrape-oiseau gagné",
   ATTRAPE_OISEAU_LOST = "Sirotage d'Attrape-oiseau perdu",
+  ATTRAPE_OISEAU_STOLEN = "Sirotage d'Attrape-oiseau volé",
   SIROP_BET_LOST = 'Pari de Sirotage perdu',
   SIROP_BET_WON = 'Pari de Sirotage gagné',
   SIROP_BET_SKIPPED = 'Aucun pari sur le Sirotage',

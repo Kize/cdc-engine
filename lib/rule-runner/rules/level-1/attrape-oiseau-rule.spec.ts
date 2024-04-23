@@ -9,6 +9,11 @@ import { SiropResolutionPayload } from './sirotage-rule';
 import { RuleEffect, RuleEffectEvent } from '../rule-effect';
 import { DummyContextBuilder } from '../../../tests/dummy-game-context-builder';
 import { BidType, SiropBid } from './sirotage-rule.types';
+import {
+  CulDeChouetteResolution,
+  CulDeChouetteRule,
+} from '../basic-rules/cul-de-chouette-rule.ts';
+import { RuleRunner } from '../../rule-runner.ts';
 
 describe('It has the sirotage behaviour if there is no attrape oiseau', () => {
   testSirotageRule((resolution) => {
@@ -72,6 +77,15 @@ describe('applyRule', () => {
       DummyContextBuilder.aDiceRollContext()
         .withplayer('Alban')
         .withDiceRoll([3, 3, 4])
+        .withRuleRunner(
+          new RuleRunner([
+            new CulDeChouetteRule({
+              getResolution: vi.fn().mockResolvedValue({
+                claimingPlayer: 'Delphin',
+              } as CulDeChouetteResolution),
+            }),
+          ]),
+        )
         .build(),
     );
 

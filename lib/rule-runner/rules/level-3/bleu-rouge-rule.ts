@@ -49,7 +49,7 @@ export class BleuRougeRule extends ChouetteRule {
     const addJarretRuleEffects: RuleEffects = [];
     const secondRollContext: DiceRollGameContext = { ...context, diceRoll };
     const isANeant =
-      context.runner.getFirstApplicableRule(secondRollContext) instanceof
+      context.runner.getFirstApplicableRule(secondRollContext, {}) instanceof
       NeantRule;
 
     if (isANeant) {

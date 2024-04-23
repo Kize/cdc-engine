@@ -15,6 +15,11 @@ import {
 } from './civet-rule';
 import { RuleRunner } from '../../rule-runner';
 import { BidType, SiropBid } from './sirotage-rule.types';
+import {
+  CulDeChouetteResolution,
+  CulDeChouetteResolutionPayload,
+  CulDeChouetteRule,
+} from '../basic-rules/cul-de-chouette-rule.ts';
 
 describe('applyRule', () => {
   testSirotageRule((resolution) => {
@@ -98,24 +103,32 @@ export function testSirotageRule(
     });
   });
 
-  it('registers a positive change of score for the player when the sirotage is won', async () => {
+  it('triggers the cul de chouette rule to validate the sirop won', async () => {
     const sirotageRule = getSirotageRuleForResolution({
       isSirote: true,
       lastDieValue: 2,
       bids: [],
     });
 
+    const cdcResolver: Resolver<
+      CulDeChouetteResolution,
+      CulDeChouetteResolutionPayload
+    > = {
+      getResolution: vi.fn().mockResolvedValue({
+        claimingPlayer: 'Alban',
+      } as CulDeChouetteResolution),
+    };
+
     const gameContext = DummyContextBuilder.aDiceRollContext()
-      .withplayer('Alban')
+      .withplayer('Delphin')
       .withDiceRoll([2, 3, 2])
+      .withRuleRunner(new RuleRunner([new CulDeChouetteRule(cdcResolver)]))
       .build();
 
-    expect(
-      await sirotageRule.applyRule(gameContext),
-    ).toContainEqual<RuleEffect>({
-      event: RuleEffectEvent.SIROP_WON,
-      player: 'Alban',
-      value: 60,
+    await sirotageRule.applyRule(gameContext);
+
+    expect(cdcResolver.getResolution).toHaveBeenCalledWith({
+      player: 'Delphin',
     });
   });
 
@@ -203,6 +216,15 @@ export function testSirotageRule(
     const gameContext = DummyContextBuilder.aDiceRollContext()
       .withplayer('Alban')
       .withDiceRoll([3, 3, 5])
+      .withRuleRunner(
+        new RuleRunner([
+          new CulDeChouetteRule({
+            getResolution: vi
+              .fn()
+              .mockResolvedValue({ claimingPlayer: 'Alban' }),
+          }),
+        ]),
+      )
       .build();
 
     const ruleEffects = await sirotageRule.applyRule(gameContext);

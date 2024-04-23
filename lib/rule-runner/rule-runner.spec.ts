@@ -55,7 +55,7 @@ describe('getFirstApplicableRule', () => {
       .asDiceRoll();
 
     const wrapper = () => {
-      runner.getFirstApplicableRule(gameContext);
+      runner.getFirstApplicableRule(gameContext, {});
     };
 
     expect(wrapper).toThrow();
@@ -69,7 +69,7 @@ describe('getFirstApplicableRule', () => {
       .build()
       .asDiceRoll();
 
-    const rule = runner.getFirstApplicableRule(gameContext);
+    const rule = runner.getFirstApplicableRule(gameContext, {});
 
     expect(rule).toBeInstanceOf(ChouetteRule);
   });

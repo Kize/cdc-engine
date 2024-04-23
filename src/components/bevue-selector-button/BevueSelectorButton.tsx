@@ -22,7 +22,9 @@ export function BevueSelectorButton(): JSX.Element {
 
       <MenuList>
         {players.map((player) => (
-          <MenuItem onClick={() => applyBevue(player)}>{player}</MenuItem>
+          <MenuItem onClick={() => applyBevue(player)} key={player}>
+            {player}
+          </MenuItem>
         ))}
       </MenuList>
     </Menu>
