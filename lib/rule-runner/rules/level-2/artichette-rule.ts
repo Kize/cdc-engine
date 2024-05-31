@@ -24,10 +24,14 @@ export class ArtichetteRule extends DiceRule {
     super();
   }
 
-  isApplicableToDiceRoll(diceRoll: DiceRoll): boolean {
+  static isDiceRollArtichette(diceRoll: DiceRoll): boolean {
     const [dieValue1, dieValue2, dieValue3] = [...diceRoll].sort();
 
     return dieValue1 === 3 && dieValue2 === 4 && dieValue3 === 4;
+  }
+
+  isApplicableToDiceRoll(diceRoll: DiceRoll): boolean {
+    return ArtichetteRule.isDiceRollArtichette(diceRoll);
   }
 
   async applyDiceRule(context: DiceRollGameContext): Promise<RuleEffects> {

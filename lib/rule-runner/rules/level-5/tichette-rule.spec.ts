@@ -47,6 +47,20 @@ describe('isApplicableToGameContext', () => {
 
     expect(rule.isApplicableToGameContext(context)).toBe(false);
   });
+
+  it('returns false if dice make an Artichette (4,4,3)', () => {
+    const rule = new TichetteRule(
+      { getResolution: vi.fn() },
+      { getResolution: vi.fn() },
+    );
+
+    const context = DummyContextBuilder.aDiceRollContext()
+      .withDiceRoll([4, 4, 3])
+      .build()
+      .asDiceRoll();
+
+    expect(rule.isApplicableToGameContext(context)).toBe(false);
+  });
 });
 
 describe('applyRule', () => {

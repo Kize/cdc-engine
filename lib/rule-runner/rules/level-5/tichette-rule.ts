@@ -10,6 +10,7 @@ import {
   getCulDeChouetteScore,
 } from '../basic-rules/cul-de-chouette-rule.ts';
 import { GameContextEvent } from '../../game-context-event.ts';
+import { ArtichetteRule } from '../level-2/artichette-rule.ts';
 
 export interface TichetteResolution {
   playersWhoClaimedTichette: Array<{ player: Player; score: number }>;
@@ -49,7 +50,9 @@ export class TichetteRule extends DiceRule {
     const validSums = [3, 5, 7, 11, 13, 17];
     const sum = this.computeSum(diceRoll);
 
-    return validSums.includes(sum);
+    const isArtichette = ArtichetteRule.isDiceRollArtichette(diceRoll);
+
+    return !isArtichette && validSums.includes(sum);
   }
 
   async applyDiceRule(context: DiceRollGameContext): Promise<RuleEffects> {
