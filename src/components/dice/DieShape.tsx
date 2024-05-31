@@ -9,9 +9,9 @@ import {
   BsDice6,
 } from 'react-icons/bs';
 import { CiSquareQuestion } from 'react-icons/ci';
-import { IconType } from 'react-icons/lib/cjs/iconBase';
 import './DieFace.css';
 import { OptionalDieValue } from './dice-form.ts';
+import { IconType } from 'react-icons';
 
 interface Props {
   dieValue: OptionalDieValue;
@@ -25,19 +25,19 @@ export function DieShape({ dieValue }: Props): JSX.Element {
   const getDieIcon = (value: OptionalDieValue): IconType => {
     switch (value) {
       case 1:
-        return BsDice1 as IconType;
+        return BsDice1;
       case 2:
-        return BsDice2 as IconType;
+        return BsDice2;
       case 3:
-        return BsDice3 as IconType;
+        return BsDice3;
       case 4:
-        return BsDice4 as IconType;
+        return BsDice4;
       case 5:
-        return BsDice5 as IconType;
+        return BsDice5;
       case 6:
-        return BsDice6 as IconType;
+        return BsDice6;
       default:
-        return CiSquareQuestion as IconType;
+        return CiSquareQuestion;
     }
   };
 

@@ -20,7 +20,6 @@ import {
   HiOutlineExternalLink,
   HiOutlineSpeakerphone,
 } from 'react-icons/hi';
-import { IconType } from 'react-icons/lib/cjs/iconBase';
 import { CancelGameButton } from './CancelGameButton.tsx';
 import { TbArrowBackUp } from 'react-icons/tb';
 import {
@@ -140,9 +139,7 @@ export function ScribeDrawer({
                   colorScheme="blackAlpha"
                   variant="outline"
                   w="100%"
-                  rightIcon={
-                    <Icon mx="2px" as={HiOutlineExternalLink as IconType} />
-                  }
+                  rightIcon={<Icon mx="2px" as={HiOutlineExternalLink} />}
                 >
                   Accéder aux règles
                 </Button>

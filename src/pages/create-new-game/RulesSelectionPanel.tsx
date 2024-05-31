@@ -11,7 +11,6 @@ import {
 } from '@chakra-ui/react';
 import { TiStar } from 'react-icons/ti';
 import { RulesConfiguration } from '../../../lib/rule-runner/rule-runner-configuration.ts';
-import { IconType } from 'react-icons/lib/cjs/iconBase';
 import { Rules } from '../../../lib/rule-runner/rules/rule.ts';
 
 const rulesByLevel: Array<{
@@ -118,7 +117,7 @@ export function RulesSelectionPanel({ rules, setRules }: Props): JSX.Element {
               <HStack>
                 <Text>Difficulté</Text>
                 {...[...(Array(ruleLevel.level) as Array<void>)].map(() => (
-                  <Icon as={TiStar as IconType} />
+                  <Icon as={TiStar} />
                 ))}
               </HStack>
             </Heading>

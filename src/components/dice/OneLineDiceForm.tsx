@@ -6,7 +6,6 @@ import { DiceForm, OptionalDieValue } from './dice-form.ts';
 import { RiDeleteBack2Line } from 'react-icons/ri';
 import { useAppDispatch } from '../../store/store.ts';
 import { resolversSlice } from '../../store/resolvers/resolvers.slice.ts';
-import { IconType } from 'react-icons/lib/cjs/iconBase';
 import { MdFormatListBulletedAdd } from 'react-icons/md';
 
 interface DiceFormProps {
@@ -52,13 +51,7 @@ export function OneLineDiceForm({
         <IconButton
           boxSize="100%"
           aria-label="Ajouter des Opérations"
-          icon={
-            <Icon
-              as={MdFormatListBulletedAdd as IconType}
-              boxSize="80%"
-              my="10%"
-            />
-          }
+          icon={<Icon as={MdFormatListBulletedAdd} boxSize="80%" my="10%" />}
           variant="ghost"
           colorScheme="green"
           onClick={() =>
@@ -81,7 +74,7 @@ export function OneLineDiceForm({
         <IconButton
           boxSize="100%"
           aria-label="Supprimer le dernier dé selectionné"
-          icon={<Icon as={RiDeleteBack2Line as IconType} boxSize="80%" />}
+          icon={<Icon as={RiDeleteBack2Line} boxSize="80%" />}
           variant="ghost"
           onClick={() => deleteDie()}
         />

@@ -1,13 +1,13 @@
 import { SystemStyleObject } from '@chakra-ui/react';
+import { SelectedOptionStyle } from 'chakra-react-select';
 
 export const customSelectStyles = {
-  selectedOptionStyle: 'check',
+  selectedOptionStyle: <SelectedOptionStyle>'check',
   chakraStyles: {
     dropdownIndicator: (provided: SystemStyleObject) => ({
       ...provided,
       bg: 'transparent',
       px: 2,
-      cursor: 'inherit',
     }),
     indicatorSeparator: (provided: SystemStyleObject) => ({
       ...provided,

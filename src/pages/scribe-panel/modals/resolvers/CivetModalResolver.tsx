@@ -1,5 +1,4 @@
 import { JSX, useState } from 'react';
-import { useAppSelector } from '../../../../store/store.ts';
 import {
   Box,
   Button,
@@ -31,9 +30,10 @@ import {
   getNewDiceForm,
   isDiceFormValid,
 } from '../../../../components/dice/dice-form.ts';
+import { Select } from 'chakra-react-select';
+import { useAppSelector } from '../../../../store/store.ts';
 import { civetRuleResolver } from '../../../../store/resolvers/rules/civet-rule.resolver.ts';
 import { CivetBet } from '../../../../../lib/rule-runner/rules/level-1/civet-rule.ts';
-import { Select } from 'chakra-react-select';
 import {
   CustomSelectOption,
   customSelectStyles,
