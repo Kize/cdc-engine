@@ -57,7 +57,7 @@ export enum RuleEffectEvent {
   REMOVE_JARRET = 'Retrait du Jarret',
 
   TICHETTE_WON = "Gain d'une Tichette",
-  TICHETTE_LOST = "Gain d'une Tichette",
+  TICHETTE_LOST = "Perte d'une Tichette",
 }
 
 export enum NotImplementedRuleEffectEvent {

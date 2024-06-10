@@ -38,7 +38,6 @@ import {
 } from '../../../../../lib/rule-runner/rules/basic-rules/grelottine-rule.ts';
 import { Player } from '../../../../../lib/player.ts';
 import {
-  DiceForm,
   getNewDiceForm,
   isDiceFormValid,
 } from '../../../../components/dice/dice-form.ts';
@@ -67,7 +66,7 @@ export function GrelottineModalResolver(): JSX.Element {
   const [challengedPlayer, setChallengedPlayer] = useState('' as Player);
   const [grelottinBet, setGrelottinBet] = useState<null | GrelottineBet>(null);
   const [gambledAmount, setGambledAmount] = useState(0);
-  const [diceForm, setDiceForm] = useState(getNewDiceForm() as DiceForm);
+  const [diceForm, setDiceForm] = useState(getNewDiceForm());
   const isFormValid =
     grelottinPlayer &&
     challengedPlayer &&

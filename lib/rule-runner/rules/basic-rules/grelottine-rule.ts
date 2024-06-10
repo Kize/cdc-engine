@@ -47,9 +47,8 @@ export class GrelottineRule implements Rule {
         player: challengedPlayer,
       };
 
-      lastCombinationRuleEffects = await runner.handleGameEvent(
-        civetGameContext,
-      );
+      lastCombinationRuleEffects =
+        await runner.handleGameEvent(civetGameContext);
     } else {
       lastCombinationRuleEffects = await runner.handleGameEvent({
         event: GameContextEvent.DICE_ROLL,
