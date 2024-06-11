@@ -1,276 +1,278 @@
-import { Player } from '../player';
-import { GameEvent, HistoryHelper } from '../history/history-helper.ts';
-import { RuleRunner } from '../rule-runner/rule-runner';
-import { Rules } from '../rule-runner/rules/rule';
+import { nanoid } from "@reduxjs/toolkit";
+import { type GameEvent, HistoryHelper } from "../history/history-helper.ts";
 import {
-  GameLineType,
-  getNewEventId,
-  HistoryLine,
-} from '../history/history-line.ts';
+	GameLineType,
+	type HistoryLine,
+	getNewEventId,
+} from "../history/history-line.ts";
+import type { Player } from "../player";
+import { GameContextEvent } from "../rule-runner/game-context-event.ts";
+import type {
+	ChallengeGrelottineGameContext,
+	PlayATurnGameContext,
+	UnknownGameContext,
+} from "../rule-runner/game-context.ts";
+import { RuleRunner } from "../rule-runner/rule-runner";
+import type {
+	Resolvers,
+	RulesConfiguration,
+} from "../rule-runner/rule-runner-configuration.ts";
 import {
-  ChallengeGrelottineGameContext,
-  PlayATurnGameContext,
-  UnknownGameContext,
-} from '../rule-runner/game-context.ts';
-import { nanoid } from '@reduxjs/toolkit';
-import { GameContextEvent } from '../rule-runner/game-context-event.ts';
-import {
-  Resolvers,
-  RulesConfiguration,
-} from '../rule-runner/rule-runner-configuration.ts';
-import {
-  getAllRulesEnabled,
-  instanciateRules,
-} from '../rule-runner/rule-runner.utils.ts';
-import { AddOperationLinesContext } from './add-operations.ts';
+	getAllRulesEnabled,
+	instanciateRules,
+} from "../rule-runner/rule-runner.utils.ts";
+import { Rules } from "../rule-runner/rules/rule";
+import type { AddOperationLinesContext } from "./add-operations.ts";
 
 export enum GameStatus {
-  CREATION = 'creation',
-  IN_GAME = 'in game',
-  FINISHED = 'finished',
+	CREATION = "creation",
+	IN_GAME = "in game",
+	FINISHED = "finished",
 }
 
 export class GameHandler {
-  history: HistoryHelper;
-  ruleRunner: RuleRunner;
+	history: HistoryHelper;
+	ruleRunner: RuleRunner;
 
-  constructor() {
-    this.history = new HistoryHelper();
-    this.ruleRunner = new RuleRunner([]);
-  }
+	constructor() {
+		this.history = new HistoryHelper();
+		this.ruleRunner = new RuleRunner([]);
+	}
 
-  getGameStatus(
-    events: Array<GameEvent>,
-    players: Array<Player>,
-    isDoublette: boolean,
-  ): GameStatus {
-    if (players.length === 0 || !this.ruleRunner.isRuleEnabled(Rules.NEANT)) {
-      return GameStatus.CREATION;
-    }
+	getGameStatus(
+		events: Array<GameEvent>,
+		players: Array<Player>,
+		isDoublette: boolean,
+	): GameStatus {
+		if (players.length === 0 || !this.ruleRunner.isRuleEnabled(Rules.NEANT)) {
+			return GameStatus.CREATION;
+		}
 
-    let playerScores = players.map((player) =>
-      this.history.getPlayerScore(events, player),
-    );
+		let playerScores = players.map((player) =>
+			this.history.getPlayerScore(events, player),
+		);
 
-    if (isDoublette) {
-      if (players.length % 2 !== 0) {
-        throw new Error('Should have an even number of players');
-      }
+		if (isDoublette) {
+			if (players.length % 2 !== 0) {
+				throw new Error("Should have an even number of players");
+			}
 
-      const half = playerScores.length / 2;
-      playerScores = playerScores.reduce(
-        (teamScores: Array<number>, currentScore, index) => {
-          if (index >= half) {
-            return teamScores;
-          }
+			const half = playerScores.length / 2;
+			playerScores = playerScores.reduce(
+				(teamScores: Array<number>, currentScore, index) => {
+					if (index >= half) {
+						return teamScores;
+					}
 
-          return [...teamScores, currentScore + playerScores[index + half]];
-        },
-        [],
-      );
-    }
+					teamScores.push(currentScore + playerScores[index + half]);
 
-    const maxScore = Math.max(...playerScores);
-    if (maxScore >= 343) {
-      return GameStatus.FINISHED;
-    }
+					return teamScores;
+				},
+				[],
+			);
+		}
 
-    return GameStatus.IN_GAME;
-  }
+		const maxScore = Math.max(...playerScores);
+		if (maxScore >= 343) {
+			return GameStatus.FINISHED;
+		}
 
-  getNumberOfTurns(events: Array<GameEvent>, players: Array<Player>): number {
-    if (players.length === 0) {
-      return 0;
-    }
+		return GameStatus.IN_GAME;
+	}
 
-    const turnNumbersPerPlayer = players.map((player) =>
-      this.history.getNumberOfTurnsPlayed(events, player),
-    );
+	getNumberOfTurns(events: Array<GameEvent>, players: Array<Player>): number {
+		if (players.length === 0) {
+			return 0;
+		}
 
-    if (turnNumbersPerPlayer[0] === 0) {
-      return 1;
-    }
+		const turnNumbersPerPlayer = players.map((player) =>
+			this.history.getNumberOfTurnsPlayed(events, player),
+		);
 
-    if (
-      turnNumbersPerPlayer[0] ===
-      turnNumbersPerPlayer[turnNumbersPerPlayer.length - 1]
-    ) {
-      return turnNumbersPerPlayer[0] + 1;
-    }
+		if (turnNumbersPerPlayer[0] === 0) {
+			return 1;
+		}
 
-    return turnNumbersPerPlayer[0];
-  }
+		if (
+			turnNumbersPerPlayer[0] ===
+			turnNumbersPerPlayer[turnNumbersPerPlayer.length - 1]
+		) {
+			return turnNumbersPerPlayer[0] + 1;
+		}
 
-  getCurrentPlayer(events: Array<GameEvent>, players: Array<Player>): Player {
-    if (players.length === 0) {
-      throw new Error('no players defined.');
-    }
+		return turnNumbersPerPlayer[0];
+	}
 
-    const playersWithTurnsNumbers = players.map((player) => ({
-      player,
-      numberOfTurnsPlayed: this.history.getNumberOfTurnsPlayed(events, player),
-    }));
+	getCurrentPlayer(events: Array<GameEvent>, players: Array<Player>): Player {
+		if (players.length === 0) {
+			throw new Error("no players defined.");
+		}
 
-    const currentPlayer = playersWithTurnsNumbers.find(
-      (playerWrapper, index, array) => {
-        if (index === 0) {
-          return false;
-        }
+		const playersWithTurnsNumbers = players.map((player) => ({
+			player,
+			numberOfTurnsPlayed: this.history.getNumberOfTurnsPlayed(events, player),
+		}));
 
-        return (
-          playerWrapper.numberOfTurnsPlayed <
-          array[index - 1].numberOfTurnsPlayed
-        );
-      },
-    )?.player;
+		const currentPlayer = playersWithTurnsNumbers.find(
+			(playerWrapper, index, array) => {
+				if (index === 0) {
+					return false;
+				}
 
-    return currentPlayer ?? players[0];
-  }
+				return (
+					playerWrapper.numberOfTurnsPlayed <
+					array[index - 1].numberOfTurnsPlayed
+				);
+			},
+		)?.player;
 
-  setRules(rulesConfiguration: RulesConfiguration, resolvers: Resolvers): void {
-    const rules = instanciateRules(
-      getAllRulesEnabled(rulesConfiguration),
-      resolvers,
-    );
+		return currentPlayer ?? players[0];
+	}
 
-    this.ruleRunner = new RuleRunner(rules);
-  }
+	setRules(rulesConfiguration: RulesConfiguration, resolvers: Resolvers): void {
+		const rules = instanciateRules(
+			getAllRulesEnabled(rulesConfiguration),
+			resolvers,
+		);
 
-  async playATurn(context: PlayATurnGameContext): Promise<GameEvent> {
-    const turnPlayed: GameEvent['historyLines'][0] = {
-      player: context.player,
-      amount: 0,
-      designation: GameLineType.PLAY_TURN,
-    };
+		this.ruleRunner = new RuleRunner(rules);
+	}
 
-    const gameEvent = await this.applyRuleEngine(context);
+	async playATurn(context: PlayATurnGameContext): Promise<GameEvent> {
+		const turnPlayed: GameEvent["historyLines"][0] = {
+			player: context.player,
+			amount: 0,
+			designation: GameLineType.PLAY_TURN,
+		};
 
-    return {
-      ...gameEvent,
-      historyLines: [turnPlayed, ...gameEvent.historyLines],
-    };
-  }
+		const gameEvent = await this.applyRuleEngine(context);
 
-  async applyBevue(player: Player): Promise<GameEvent> {
-    return this.applyRuleEngine({
-      event: GameContextEvent.APPLY_BEVUE,
-      playerWhoMadeABevue: player,
-    });
-  }
+		return {
+			...gameEvent,
+			historyLines: [turnPlayed, ...gameEvent.historyLines],
+		};
+	}
 
-  async startGrelottineChallenge(
-    context: ChallengeGrelottineGameContext,
-  ): Promise<GameEvent> {
-    return this.applyRuleEngine(context);
-  }
+	async applyBevue(player: Player): Promise<GameEvent> {
+		return this.applyRuleEngine({
+			event: GameContextEvent.APPLY_BEVUE,
+			playerWhoMadeABevue: player,
+		});
+	}
 
-  singSloubi(
-    {
-      isSloubiCompleted,
-      sloubiPlayer,
-      previousPlayer,
-      sloubiScore,
-    }: ChanteSloubiGameContext,
-    events: Array<GameEvent>,
-    players: Array<Player>,
-  ): GameEvent {
-    if (players.length === 0) {
-      throw new Error('There should be at least 2 players to sing a sloubi.');
-    }
+	async startGrelottineChallenge(
+		context: ChallengeGrelottineGameContext,
+	): Promise<GameEvent> {
+		return this.applyRuleEngine(context);
+	}
 
-    const currentPlayer = this.getCurrentPlayer(events, players);
-    const lastPlayerToPlay = players.reduce(
-      (lastPlayer: Player, player, index) => {
-        if (currentPlayer === player) {
-          const previousPlayer = players.at(index - 1);
+	singSloubi(
+		{
+			isSloubiCompleted,
+			sloubiPlayer,
+			previousPlayer,
+			sloubiScore,
+		}: ChanteSloubiGameContext,
+		events: Array<GameEvent>,
+		players: Array<Player>,
+	): GameEvent {
+		if (players.length === 0) {
+			throw new Error("There should be at least 2 players to sing a sloubi.");
+		}
 
-          return previousPlayer ? previousPlayer : lastPlayer;
-        }
+		const currentPlayer = this.getCurrentPlayer(events, players);
+		const lastPlayerToPlay = players.reduce(
+			(lastPlayer: Player, player, index) => {
+				if (currentPlayer === player) {
+					const previousPlayer = players.at(index - 1);
 
-        return lastPlayer;
-      },
-      players.at(-1)!,
-    );
+					return previousPlayer ? previousPlayer : lastPlayer;
+				}
 
-    const previousPlayerNumberOfTurns = this.history.getNumberOfTurnsPlayed(
-      events,
-      previousPlayer,
-    );
+				return lastPlayer;
+			},
+			players.at(-1)!,
+		);
 
-    const sloubiPlayerTurnNumber =
-      previousPlayer === lastPlayerToPlay
-        ? previousPlayerNumberOfTurns - 1
-        : previousPlayerNumberOfTurns;
+		const previousPlayerNumberOfTurns = this.history.getNumberOfTurnsPlayed(
+			events,
+			previousPlayer,
+		);
 
-    const turnsPlayedHistory = Array.from({
-      length: sloubiPlayerTurnNumber,
-    }).map<HistoryLine>(() => ({
-      designation: GameLineType.PLAY_TURN,
-      player: sloubiPlayer,
-      amount: 0,
-    }));
+		const sloubiPlayerTurnNumber =
+			previousPlayer === lastPlayerToPlay
+				? previousPlayerNumberOfTurns - 1
+				: previousPlayerNumberOfTurns;
 
-    return {
-      id: getNewEventId(),
-      historyLines: [
-        ...turnsPlayedHistory,
-        {
-          designation: GameLineType.SLOUBI,
-          player: sloubiPlayer,
-          amount: isSloubiCompleted
-            ? Math.ceil(sloubiScore * 1.5)
-            : sloubiScore,
-        },
-      ],
-    };
-  }
+		const turnsPlayedHistory = Array.from({
+			length: sloubiPlayerTurnNumber,
+		}).map<HistoryLine>(() => ({
+			designation: GameLineType.PLAY_TURN,
+			player: sloubiPlayer,
+			amount: 0,
+		}));
 
-  addOperations(
-    { operations, shouldHandleEndTurn }: AddOperationLinesContext,
-    events: Array<GameEvent>,
-    players: Array<Player>,
-  ): GameEvent {
-    const gameEvent: GameEvent = {
-      id: getNewEventId(),
-      historyLines: operations,
-    };
+		return {
+			id: getNewEventId(),
+			historyLines: [
+				...turnsPlayedHistory,
+				{
+					designation: GameLineType.SLOUBI,
+					player: sloubiPlayer,
+					amount: isSloubiCompleted
+						? Math.ceil(sloubiScore * 1.5)
+						: sloubiScore,
+				},
+			],
+		};
+	}
 
-    if (shouldHandleEndTurn) {
-      const currentPlayer = this.getCurrentPlayer(events, players);
-      gameEvent.historyLines.push({
-        designation: GameLineType.PLAY_TURN,
-        player: currentPlayer,
-        amount: 0,
-      });
-    }
+	addOperations(
+		{ operations, shouldHandleEndTurn }: AddOperationLinesContext,
+		events: Array<GameEvent>,
+		players: Array<Player>,
+	): GameEvent {
+		const gameEvent: GameEvent = {
+			id: getNewEventId(),
+			historyLines: operations,
+		};
 
-    return gameEvent;
-  }
+		if (shouldHandleEndTurn) {
+			const currentPlayer = this.getCurrentPlayer(events, players);
+			gameEvent.historyLines.push({
+				designation: GameLineType.PLAY_TURN,
+				player: currentPlayer,
+				amount: 0,
+			});
+		}
 
-  private async applyRuleEngine(
-    context: UnknownGameContext,
-  ): Promise<GameEvent> {
-    const ruleEffects = await this.ruleRunner.handleGameEvent(context);
+		return gameEvent;
+	}
 
-    return {
-      id: getNewEventId(),
-      historyLines: ruleEffects.map((ruleEffect) => ({
-        designation: ruleEffect.event,
-        player: ruleEffect.player,
-        amount: ruleEffect.value,
-      })),
-    };
-  }
+	private async applyRuleEngine(
+		context: UnknownGameContext,
+	): Promise<GameEvent> {
+		const ruleEffects = await this.ruleRunner.handleGameEvent(context);
+
+		return {
+			id: getNewEventId(),
+			historyLines: ruleEffects.map((ruleEffect) => ({
+				designation: ruleEffect.event,
+				player: ruleEffect.player,
+				amount: ruleEffect.value,
+			})),
+		};
+	}
 }
 
 export function getNewGameId(): string {
-  return nanoid(16);
+	return nanoid(16);
 }
 
 //TODO: refactor this to be a rule of the rule runner
 export interface ChanteSloubiGameContext {
-  sloubiPlayer: Player;
-  previousPlayer: Player;
-  sloubiScore: number;
-  isSloubiCompleted: boolean;
+	sloubiPlayer: Player;
+	previousPlayer: Player;
+	sloubiScore: number;
+	isSloubiCompleted: boolean;
 }

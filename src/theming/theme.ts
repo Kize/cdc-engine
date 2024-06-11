@@ -1,8 +1,8 @@
-import { extendTheme } from '@chakra-ui/react';
-import { radioTheme } from './radio.theme.ts';
+import { extendTheme } from "@chakra-ui/react";
+import { radioTheme } from "./radio.theme.ts";
 
 export const theme = extendTheme({
-  components: {
-    Radio: radioTheme,
-  },
+	components: {
+		Radio: radioTheme,
+	},
 });

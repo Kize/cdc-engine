@@ -1,37 +1,37 @@
-import { RuleResolver } from '../../../../lib/rule-runner/rules/rule-resolver.ts';
-import { store } from '../../store.ts';
-import { resolversSlice } from '../resolvers.slice.ts';
-import {
-  TichetteResolution,
-  TichetteResolutionPayload,
-} from '../../../../lib/rule-runner/rules/level-5/tichette-rule.ts';
+import type {
+	TichetteResolution,
+	TichetteResolutionPayload,
+} from "../../../../lib/rule-runner/rules/level-5/tichette-rule.ts";
+import { RuleResolver } from "../../../../lib/rule-runner/rules/rule-resolver.ts";
+import { store } from "../../store.ts";
+import { resolversSlice } from "../resolvers.slice.ts";
 
 class TichetteRuleResolver extends RuleResolver<
-  TichetteResolution,
-  TichetteResolutionPayload
+	TichetteResolution,
+	TichetteResolutionPayload
 > {
-  initResolution({
-    player,
-    canClaimRobobrol,
-  }: TichetteResolutionPayload): void {
-    store.dispatch(
-      resolversSlice.actions.setTichette({
-        active: true,
-        player,
-        canClaimRobobrol,
-      }),
-    );
-  }
+	initResolution({
+		player,
+		canClaimRobobrol,
+	}: TichetteResolutionPayload): void {
+		store.dispatch(
+			resolversSlice.actions.setTichette({
+				active: true,
+				player,
+				canClaimRobobrol,
+			}),
+		);
+	}
 
-  endResolution(): void {
-    store.dispatch(
-      resolversSlice.actions.setTichette({
-        active: false,
-        player: '',
-        canClaimRobobrol: false,
-      }),
-    );
-  }
+	endResolution(): void {
+		store.dispatch(
+			resolversSlice.actions.setTichette({
+				active: false,
+				player: "",
+				canClaimRobobrol: false,
+			}),
+		);
+	}
 }
 
 export const tichetteRuleResolver = new TichetteRuleResolver();

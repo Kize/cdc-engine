@@ -1,38 +1,38 @@
-import { describe, expect, it } from 'vitest';
-import { NeantRule } from './neant-rule';
-import { RuleEffect, RuleEffectEvent } from '../rule-effect';
-import { DummyContextBuilder } from '../../../tests/dummy-game-context-builder';
+import { describe, expect, it } from "vitest";
+import { DummyContextBuilder } from "../../../tests/dummy-game-context-builder";
+import { type RuleEffect, RuleEffectEvent } from "../rule-effect";
+import { NeantRule } from "./neant-rule";
 
-describe('isApplicableToDiceRoll', () => {
-  it('returns always true', function () {
-    const rule = new NeantRule();
+describe("isApplicableToDiceRoll", () => {
+	it("returns always true", () => {
+		const rule = new NeantRule();
 
-    expect(rule.isApplicableToDiceRoll()).toBe(true);
-  });
+		expect(rule.isApplicableToDiceRoll()).toBe(true);
+	});
 });
 
-describe('applyRule', () => {
-  it('applies a grelottine to the current player', () => {
-    const effects = new NeantRule().applyRule(
-      DummyContextBuilder.aDiceRollContext().withplayer('Alban').build(),
-    );
+describe("applyRule", () => {
+	it("applies a grelottine to the current player", () => {
+		const effects = new NeantRule().applyRule(
+			DummyContextBuilder.aDiceRollContext().withPlayer("Alban").build(),
+		);
 
-    expect(effects).toContainEqual<RuleEffect>({
-      event: RuleEffectEvent.ADD_GRELOTTINE,
-      player: 'Alban',
-      value: 0,
-    });
-  });
+		expect(effects).toContainEqual<RuleEffect>({
+			event: RuleEffectEvent.ADD_GRELOTTINE,
+			player: "Alban",
+			value: 0,
+		});
+	});
 
-  it('registers a change of score the the current player', () => {
-    const effects = new NeantRule().applyRule(
-      DummyContextBuilder.aDiceRollContext().withplayer('Alban').build(),
-    );
+	it("registers a change of score the the current player", () => {
+		const effects = new NeantRule().applyRule(
+			DummyContextBuilder.aDiceRollContext().withPlayer("Alban").build(),
+		);
 
-    expect(effects).toContainEqual<RuleEffect>({
-      event: RuleEffectEvent.NEANT,
-      player: 'Alban',
-      value: 0,
-    });
-  });
+		expect(effects).toContainEqual<RuleEffect>({
+			event: RuleEffectEvent.NEANT,
+			player: "Alban",
+			value: 0,
+		});
+	});
 });
