@@ -51,7 +51,7 @@ describe("applyRule", () => {
 
 		const ruleEffects = await rule.applyRule(
 			DummyContextBuilder.aVerdierContext()
-				.withplayer("Alban")
+				.withPlayer("Alban")
 				.withDiceValues([2, 4])
 				.withRuleRunner(new RuleRunner([new ChouetteRule()]))
 				.build(),
@@ -76,7 +76,7 @@ describe("applyRule", () => {
 
 		const ruleEffects = await rule.applyRule(
 			DummyContextBuilder.aVerdierContext()
-				.withplayer("Alban")
+				.withPlayer("Alban")
 				.withDiceValues([2, 4])
 				.build(),
 		);
@@ -106,7 +106,7 @@ describe("applyRule", () => {
 
 		const ruleEffects = await rule.applyRule(
 			DummyContextBuilder.aVerdierContext()
-				.withplayer("Alban")
+				.withPlayer("Alban")
 				.withDiceValues([2, 4])
 				.build(),
 		);

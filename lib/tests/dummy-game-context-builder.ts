@@ -94,7 +94,7 @@ class DummyCivetContextBuilder {
 	private player = "";
 	private ruleRunner: RuleRunner = new RuleRunner([new NeantRule()]);
 
-	withplayer(player: string): this {
+	withPlayer(player: string): this {
 		this.player = player;
 		return this;
 	}
@@ -118,7 +118,7 @@ class DummyVerdierContextBuilder {
 	private ruleRunner: RuleRunner = new RuleRunner([new NeantRule()]);
 	private diceValues: [DieValue, DieValue] = [1, 1];
 
-	withplayer(player: string): this {
+	withPlayer(player: string): this {
 		this.player = player;
 		return this;
 	}
