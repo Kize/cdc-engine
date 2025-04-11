@@ -61,7 +61,7 @@ describe("applyRule", () => {
 		const rule = new CivetDoubledRule(resolver);
 
 		const ruleEffects = await rule.applyRule(
-			DummyContextBuilder.aCivetContext().withplayer("Alban").build(),
+			DummyContextBuilder.aCivetContext().withPlayer("Alban").build(),
 		);
 
 		expect(ruleEffects).toContainEqual<RuleEffect>({
@@ -93,7 +93,7 @@ describe("applyRule", () => {
 		const ruleEffects = await rule.applyRule(
 			DummyContextBuilder.aCivetContext()
 				.withRuleRunner(new RuleRunner([new VeluteRule()]))
-				.withplayer("Alban")
+				.withPlayer("Alban")
 				.build(),
 		);
 
@@ -118,7 +118,7 @@ describe("applyRule", () => {
 		const rule = new CivetDoubledRule(resolver);
 
 		const ruleEffects = await rule.applyRule(
-			DummyContextBuilder.aCivetContext().withplayer("Alban").build(),
+			DummyContextBuilder.aCivetContext().withPlayer("Alban").build(),
 		);
 
 		expect(ruleEffects).toContainEqual<RuleEffect>({

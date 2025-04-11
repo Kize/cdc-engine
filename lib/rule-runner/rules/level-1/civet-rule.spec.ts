@@ -76,7 +76,7 @@ export function testCivetRule(
 		const rule = getCivetRuleForResolution(resolution);
 
 		const ruleEffects = await rule.applyRule(
-			DummyContextBuilder.aCivetContext().withplayer("Alban").build(),
+			DummyContextBuilder.aCivetContext().withPlayer("Alban").build(),
 		);
 
 		expect(ruleEffects).toContainEqual<RuleEffect>({
@@ -97,7 +97,7 @@ export function testCivetRule(
 		const rule = getCivetRuleForResolution(resolution);
 
 		const ruleEffects = await rule.applyRule(
-			DummyContextBuilder.aCivetContext().withplayer("Alban").build(),
+			DummyContextBuilder.aCivetContext().withPlayer("Alban").build(),
 		);
 
 		expect(ruleEffects).toContainEqual<RuleEffect>({
@@ -119,7 +119,7 @@ export function testCivetRule(
 
 		const ruleEffects = await rule.applyRule(
 			DummyContextBuilder.aCivetContext()
-				.withplayer("Alban")
+				.withPlayer("Alban")
 				.withRuleRunner(new RuleRunner([new VeluteRule()]))
 				.build(),
 		);
@@ -143,7 +143,7 @@ export function testCivetRule(
 
 		const ruleEffects = await rule.applyRule(
 			DummyContextBuilder.aCivetContext()
-				.withplayer("Alban")
+				.withPlayer("Alban")
 				.withRuleRunner(new RuleRunner([new VeluteRule()]))
 				.build(),
 		);
@@ -177,7 +177,7 @@ export function testCivetRule(
 
 		const ruleEffects = await rule.applyRule(
 			DummyContextBuilder.aCivetContext()
-				.withplayer("Alban")
+				.withPlayer("Alban")
 				.withRuleRunner(
 					new RuleRunner([
 						new BleuRougeRule(bleuRougeResolver),
@@ -219,7 +219,7 @@ export function testCivetRule(
 		const rule = new CivetRule(civetResolver);
 		const ruleEffects = await rule.applyRule(
 			DummyContextBuilder.aCivetContext()
-				.withplayer("Alban")
+				.withPlayer("Alban")
 				.withRuleRunner(
 					new RuleRunner([new AttrapeOiseauRule(attrapeOiseauResolver)]),
 				)
@@ -256,7 +256,7 @@ export function testCivetRule(
 		const rule = new CivetRule(civetResolver);
 		const ruleEffects = await rule.applyRule(
 			DummyContextBuilder.aCivetContext()
-				.withplayer("Alban")
+				.withPlayer("Alban")
 				.withRuleRunner(
 					new RuleRunner([new VerdierRule(verdierResolver), new VeluteRule()]),
 				)

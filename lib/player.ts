@@ -9,10 +9,6 @@ export function sortPlayersStartingBy(
 	players: Array<Player>,
 	sirotant: Player,
 ): Array<Player> {
-	if (!sirotant) {
-		return [];
-	}
-
 	const sirotantIndex = players.findIndex((p) => p === sirotant);
 
 	const firstPart = players.slice(0, sirotantIndex);

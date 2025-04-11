@@ -65,7 +65,6 @@ export enum NotImplementedRuleEffectEvent {
 	GRAINES = "Graines",
 	CONTRE_SIROP = "Contre-sirop",
 	SIROP_JEANNOT = "Sirop-Jeannot",
-	CIVET_DOUBLE = "Civet doublé",
 	PASSE_GRELOT = "Passe-grelot",
 	RIGODON = "Rigodon",
 	CUL_DE_CHOUETTE_DOUBLE = "Cul de chouette doublé",

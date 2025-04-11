@@ -4,7 +4,6 @@ import {
 	type GameContextWrapper,
 } from "../../game-context-event";
 import type { UnknownGameContext } from "../../game-context.ts";
-import { isVelute } from "../basic-rules/velute-rule";
 import type { DiceRoll, DieValue } from "../dice-rule";
 import { type Rule, Rules } from "../rule";
 import {
@@ -55,7 +54,7 @@ export class VerdierRule implements Rule {
 			player,
 		});
 
-		const isVerdierWon = isVelute(diceRoll);
+		const isVerdierWon = isVerdierValid(diceRoll);
 
 		return [
 			...diceRollRuleEffects,
@@ -79,7 +78,7 @@ export class VerdierRule implements Rule {
 }
 
 //TODO: create type for DiceForm
-export function isVerdierApplicable(diceForm: DiceForm): boolean {
+export function isVerdierValid(diceForm: DiceForm): boolean {
 	const invalidValues = diceForm.filter((dieValue) => {
 		return dieValue === 1 || dieValue === 3 || dieValue === 5;
 	});

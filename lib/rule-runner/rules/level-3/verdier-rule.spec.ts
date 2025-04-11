@@ -8,7 +8,7 @@ import {
 	type VerdierResolution,
 	type VerdierResolutionPayload,
 	VerdierRule,
-	isVerdierApplicable,
+	isVerdierValid,
 } from "./verdier-rule";
 
 describe("isApplicableToGameContext", () => {
@@ -51,7 +51,7 @@ describe("applyRule", () => {
 
 		const ruleEffects = await rule.applyRule(
 			DummyContextBuilder.aVerdierContext()
-				.withplayer("Alban")
+				.withPlayer("Alban")
 				.withDiceValues([2, 4])
 				.withRuleRunner(new RuleRunner([new ChouetteRule()]))
 				.build(),
@@ -76,7 +76,7 @@ describe("applyRule", () => {
 
 		const ruleEffects = await rule.applyRule(
 			DummyContextBuilder.aVerdierContext()
-				.withplayer("Alban")
+				.withPlayer("Alban")
 				.withDiceValues([2, 4])
 				.build(),
 		);
@@ -106,7 +106,37 @@ describe("applyRule", () => {
 
 		const ruleEffects = await rule.applyRule(
 			DummyContextBuilder.aVerdierContext()
-				.withplayer("Alban")
+				.withPlayer("Alban")
+				.withDiceValues([2, 4])
+				.build(),
+		);
+
+		expect(ruleEffects).toContainEqual<RuleEffect>({
+			event: RuleEffectEvent.VERDIER_LOST,
+			player: "Alban",
+			value: -5,
+		});
+
+		expect(ruleEffects).toContainEqual<RuleEffect>({
+			event: RuleEffectEvent.VERDIER_LOST,
+			player: "Delphin",
+			value: -5,
+		});
+	});
+
+	it("registers the verdier as lost when the end result is a chouette velute", async () => {
+		const resolver: Resolver<VerdierResolution, VerdierResolutionPayload> = {
+			getResolution: vi.fn().mockResolvedValue({
+				bettingPlayers: ["Alban", "Delphin"],
+				lastDieValue: 2,
+			} as VerdierResolution),
+		};
+
+		const rule = new VerdierRule(resolver);
+
+		const ruleEffects = await rule.applyRule(
+			DummyContextBuilder.aVerdierContext()
+				.withPlayer("Alban")
 				.withDiceValues([2, 4])
 				.build(),
 		);
@@ -127,25 +157,25 @@ describe("applyRule", () => {
 
 describe("isVerdierApplicable", () => {
 	it("returns false when given 0-0-0", () => {
-		const result = isVerdierApplicable([null, null, null]);
+		const result = isVerdierValid([null, null, null]);
 
 		expect(result).toBe(false);
 	});
 
 	it("returns false when given 0-0-5", () => {
-		const result = isVerdierApplicable([null, null, 5]);
+		const result = isVerdierValid([null, null, 5]);
 
 		expect(result).toBe(false);
 	});
 
 	it("returns true when given 4-0-2", () => {
-		const result = isVerdierApplicable([4, null, 2]);
+		const result = isVerdierValid([4, null, 2]);
 
 		expect(result).toBe(true);
 	});
 
 	it("returns false when given 2-2-0", () => {
-		const result = isVerdierApplicable([null, 2, 2]);
+		const result = isVerdierValid([null, 2, 2]);
 
 		expect(result).toBe(false);
 	});

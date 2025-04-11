@@ -29,7 +29,7 @@ import { type JSX, useState } from "react";
 import type { Player } from "../../../../../lib/player.ts";
 import type { DieValue } from "../../../../../lib/rule-runner/rules/dice-rule.ts";
 import { CivetBet } from "../../../../../lib/rule-runner/rules/level-1/civet-rule.ts";
-import { isVerdierApplicable } from "../../../../../lib/rule-runner/rules/level-3/verdier-rule.ts";
+import { isVerdierValid } from "../../../../../lib/rule-runner/rules/level-3/verdier-rule.ts";
 import { BevueModalHeader } from "../../../../components/custom-modal/BevueModalHeader.tsx";
 import { OneLineDiceForm } from "../../../../components/dice/OneLineDiceForm.tsx";
 import {
@@ -82,8 +82,7 @@ export function CivetModalResolver(): JSX.Element {
 		value,
 	}));
 
-	const isVerdierActivable =
-		isVerdierApplicable(diceForm) && selectedBet !== null;
+	const isVerdierActivable = isVerdierValid(diceForm) && selectedBet !== null;
 	const isFormValid = selectedBet !== null && isDiceFormValid(diceForm);
 
 	const resetForm = () => {
