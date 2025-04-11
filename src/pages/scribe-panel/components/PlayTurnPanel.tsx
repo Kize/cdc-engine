@@ -12,7 +12,7 @@ import type { JSX } from "react";
 import { TbArrowBackUp } from "react-icons/tb";
 import { GameContextEvent } from "../../../../lib/rule-runner/game-context-event.ts";
 import type { DieValue } from "../../../../lib/rule-runner/rules/dice-rule.ts";
-import { isVerdierApplicable } from "../../../../lib/rule-runner/rules/level-3/verdier-rule.ts";
+import { isVerdierValid } from "../../../../lib/rule-runner/rules/level-3/verdier-rule.ts";
 import { OneLineDiceForm } from "../../../components/dice/OneLineDiceForm.tsx";
 import type { DiceForm } from "../../../components/dice/dice-form.ts";
 import {
@@ -32,7 +32,7 @@ export function PlayTurnPanel(props: {
 	const isVerdierRuleEnabled = useAppSelector(
 		(state) => state.currentGame.rulesConfiguration.isVerdierEnabled,
 	);
-	const isVerdierActivable = isVerdierApplicable(props.diceForm);
+	const isVerdierActivable = isVerdierValid(props.diceForm);
 
 	const lastEventMessage = useAppSelector(selectLastEventMessage);
 
