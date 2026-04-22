@@ -35,6 +35,9 @@ export const currentGameSlice = createSlice({
 			state.rulesConfiguration = newState.rulesConfiguration;
 			state.isDoublette = newState.isDoublette;
 		},
+		updateRules: (state, { payload }: PayloadAction<{ rulesConfiguration: RulesConfiguration }>) => {
+			state.rulesConfiguration = { ...payload.rulesConfiguration };
+		},
 		addEvent: (state, { payload }: PayloadAction<GameEvent>) => {
 			state.events.push(payload);
 		},

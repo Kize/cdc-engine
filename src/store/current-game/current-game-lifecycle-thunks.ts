@@ -28,3 +28,7 @@ export const resetGameThunk = (): AsyncAppThunk => async (dispatch) => {
 	dispatch(currentGameSlice.actions.resetGame());
 	await router.navigate("/");
 };
+
+export const updateGameRulesThunk = (rulesConfiguration: RulesConfiguration): AsyncAppThunk => async (dispatch) => {
+	dispatch(currentGameSlice.actions.updateRules({ rulesConfiguration }));
+}
