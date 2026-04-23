@@ -129,7 +129,7 @@ export function ScribeDrawer({
 
 				<DrawerFooter>
 					<Stack direction="column" spacing={4} mx="auto">
-						<EditRulesButton />
+						<EditRulesButton onCloseScribeDrawer={onClose} />
 
 						<CancelGameButton />
 

@@ -17,7 +17,11 @@ import { selectRulesConfiguration } from "../../../store/current-game/current-ga
 import { configureGameHandlerRules } from "../../../utils/game-handler-configuration.ts";
 import type { RulesConfiguration } from "../../../../lib/rule-runner/rule-runner-configuration.ts";
 
-export function EditRulesButton(): JSX.Element {
+interface Props {
+	onCloseScribeDrawer?: () => void;
+}
+
+export function EditRulesButton({ onCloseScribeDrawer }: Props): JSX.Element {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const rulesConfiguration = useAppSelector(selectRulesConfiguration);
 	const [rulesFrom, setRulesFrom] = useState(rulesConfiguration);
@@ -35,6 +39,11 @@ export function EditRulesButton(): JSX.Element {
 	const isRulesDisabled = (
 		Object.keys(rulesConfiguration) as Array<keyof RulesConfiguration>
 	).every((key) => rulesFrom[key] === rulesConfiguration[key]);
+
+	const handleClose = () => {
+		onClose();
+		onCloseScribeDrawer?.();
+	};
 
 	return (
 		<>
@@ -62,7 +71,7 @@ export function EditRulesButton(): JSX.Element {
 						</AlertDialogBody>
 
 						<AlertDialogFooter>
-							<Button ref={cancelRef} onClick={onClose}>
+							<Button ref={cancelRef} onClick={handleClose}>
 								Revenir en jeu
 							</Button>
 
@@ -71,7 +80,7 @@ export function EditRulesButton(): JSX.Element {
 								colorScheme="green"
 								onClick={async () => {
 									await dispatch(updateGameRulesThunk(rulesFrom));
-									onClose();
+									handleClose();
 								}}
 								ml={3}
 							>
