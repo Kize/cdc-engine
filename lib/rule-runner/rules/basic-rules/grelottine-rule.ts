@@ -68,16 +68,21 @@ export class GrelottineRule implements Rule {
 			lastCombinationRuleEffects[0].event,
 		);
 
+		console.log("lastCombinationRuleEffects", lastCombinationRuleEffects)
+
+		const isPoulette = lastCombinationRuleEffects[0].event === RuleEffectEvent.NEANT;
+		console.log(isPoulette)
+
 		const getLoserScore = () => -gambledAmount;
 		const getWinnerScore = () => gambledAmount;
 
 		return [
+			...lastCombinationRuleEffects,
 			{
 				event: RuleEffectEvent.REMOVE_GRELOTTINE,
 				player: grelottinPlayer,
 				value: 0,
 			},
-			...lastCombinationRuleEffects,
 			{
 				event: isGrelottineWon
 					? RuleEffectEvent.GRELOTTINE_CHALLENGE_LOST
