@@ -31,6 +31,6 @@ export const resetGameThunk = (): AsyncAppThunk => async (dispatch) => {
 };
 
 export const updateGameRulesThunk = (rulesConfiguration: RulesConfiguration): AsyncAppThunk => async (dispatch) => {
-	configureGameHandlerRules(rulesConfiguration);	
-	dispatch(currentGameSlice.actions.updateRules({ rulesConfiguration }));
+	configureGameHandlerRules(rulesConfiguration);
+	dispatch(currentGameSlice.actions.setRulesConfiguration(rulesConfiguration));
 }
