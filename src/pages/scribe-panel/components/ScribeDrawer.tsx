@@ -29,6 +29,7 @@ import {
 import { resolversSlice } from "../../../store/resolvers/resolvers.slice.ts";
 import { useAppDispatch } from "../../../store/store.ts";
 import { CancelGameButton } from "./CancelGameButton.tsx";
+import { EditRulesButton } from "./EditRulesButton.tsx";
 
 interface Props {
 	isOpen: boolean;
@@ -128,6 +129,8 @@ export function ScribeDrawer({
 
 				<DrawerFooter>
 					<Stack direction="column" spacing={4} mx="auto">
+						<EditRulesButton onCloseScribeDrawer={onClose} />
+
 						<CancelGameButton />
 
 						<Center>
