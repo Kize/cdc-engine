@@ -71,10 +71,8 @@ export class GrelottineRule implements Rule {
 			});
 		}
 
-		const isGrelottineWon = lastCombinationRuleEffects.some(
-			(effect) =>
-				grelottineBetToRuleEffectsToCheck[grelottinBet].has(effect.event) ||
-				effect.event === RuleEffectEvent.REMOVE_GRELOTTINE,
+		const isGrelottineWon = grelottineBetToRuleEffectsToCheck[grelottinBet].has(
+			lastCombinationRuleEffects[0].event,
 		);
 
 		const getLoserScore = () => -gambledAmount;

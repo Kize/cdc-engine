@@ -179,6 +179,8 @@ export function GrelottineModalResolver(): JSX.Element {
 			} else {
 				grelottineResolver.resolve(resolution);
 			}
+
+			resetForm();
 		}
 	};
 
@@ -197,17 +199,18 @@ export function GrelottineModalResolver(): JSX.Element {
 			return 0;
 		}
 
-		console.log("grelottinePlayers in grelottine modal / getMaximumBetAmount", grelottinePlayers);
-		console.log("grelottinPlayer", grelottinPlayer);
-		console.log("challengedPlayer", challengedPlayer);
-
 		const grelottinScore = grelottinePlayers.find(
 			(p) => p.player === grelottinPlayer,
-		)!.score;
+		)?.score;
 
 		const challengedPlayerScore = grelottinePlayers.find(
 			(p) => p.player === challengedPlayer,
-		)!.score;
+		)?.score;
+
+		if (grelottinScore === undefined || challengedPlayerScore === undefined) {
+			return 0;
+		}
+
 		const lowestScore = Math.min(grelottinScore, challengedPlayerScore);
 
 		return getMaxGrelottinePossibleAmount(lowestScore, grelottinBet);

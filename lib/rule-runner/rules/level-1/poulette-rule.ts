@@ -35,23 +35,29 @@ export class PouletteRule extends GrelottineRule {
 		);
 
 		if (isNeant) {
-			const score = resolution.poulettePlayers.length === 2 ? -10 : 10;
-            console.log("resolution", resolution);
-            console.log("score", score);
+			const { poulettePlayers } = resolution;
 
-			const pouletteEffects: RuleEffects = resolution.poulettePlayers.map(
-				(player) => ({
-					event: RuleEffectEvent.POULETTE,
-					player,
-					value: score,
-				}),
+			let score = 0;
+			if (poulettePlayers.length === 1) {
+				score = 10;
+			} else if (poulettePlayers.length === 2) {
+				score = -10;
+			}
+
+			const pouletteEffects: RuleEffects = poulettePlayers.map(
+				(playerCandidate) => {
+					const player =
+						typeof playerCandidate === "string"
+							? playerCandidate
+							: (playerCandidate as any).player;
+
+					return {
+						event: RuleEffectEvent.POULETTE,
+						player,
+						value: score,
+					};
+				},
 			);
-
-			console.log('in isNeant pouletteEffects', pouletteEffects);
-			console.log('in isNeant score', score);
-			console.log('in isNeant effects', effects);
-
-
 
 			return [...effects, ...pouletteEffects];
 		}

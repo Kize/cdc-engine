@@ -3,14 +3,14 @@ import {
 	ButtonGroup,
 	Checkbox,
 	CheckboxGroup,
-	Heading,
+	FormLabel,
 	Modal,
 	ModalBody,
+	ModalCloseButton,
 	ModalContent,
 	ModalFooter,
 	ModalOverlay,
-	Stack,
-	Text,
+	SimpleGrid,
 	VStack,
 	Icon,
 } from "@chakra-ui/react";
@@ -18,6 +18,7 @@ import { type JSX, useState } from "react";
 import { GiChicken } from "react-icons/gi";
 import type { Player } from "../../../../../lib/player.ts";
 import { useAppDispatch, useAppSelector } from "../../../../store/store.ts";
+import { BevueModalHeader } from "../../../../components/custom-modal/BevueModalHeader.tsx";
 import { pouletteRuleResolver } from "../../../../store/resolvers/rules/poulette-rule.resolver.ts";
 import { resolversSlice } from "../../../../store/resolvers/resolvers.slice.ts";
 
@@ -30,8 +31,6 @@ export function PouletteModalResolver(): JSX.Element {
 	const [selectedPoulettePlayers, setSelectedPoulettePlayers] = useState<
 		Array<Player>
 	>([]);
-
-	// console.log("selectedPoulettePlayers", selectedPoulettePlayers);
 
 	const isOpen = active && isPouletteStep;
 
@@ -63,25 +62,22 @@ export function PouletteModalResolver(): JSX.Element {
 	};
 
 	return (
-		<Modal isOpen={isOpen} onClose={onClose} size="xl" isCentered>
-			<ModalOverlay backdropFilter="blur(8px) brightness(0.8)" />
-			<ModalContent
-				borderRadius="3xl"
-				overflow="hidden"
-				boxShadow="2xl"
-				bg="white"
-			>
-				<ModalBody px={8} py={12}>
-					<VStack spacing={8} textAlign="center">
-						<Icon as={GiChicken} w={16} h={16} color="orange.400" />
-						<VStack spacing={2}>
-							<Heading fontSize="3xl" color="gray.800">
-								Elle est où la poulette ?
-							</Heading>
-							<Text color="gray.500" fontSize="lg">
+		<Modal isOpen={isOpen} onClose={onClose} size="xl">
+			<ModalOverlay />
+			<ModalContent>
+				<ModalCloseButton />
+				<BevueModalHeader
+					title="Elle est où la poulette ?"
+				/>
+				<ModalBody>
+					<VStack spacing={2} align="stretch">
+						<VStack spacing={4} align="center">
+							<Icon as={GiChicken} w={8} h={8} color="orange.400" />
+							<FormLabel textAlign="center" m={0} fontSize="lg" fontWeight="semibold">
 								Sélectionnez le(s) joueur(s) qui a/ont crié la phrase.
-							</Text>
+							</FormLabel>
 						</VStack>
+						
 
 						<CheckboxGroup
 							colorScheme="orange"
@@ -90,57 +86,28 @@ export function PouletteModalResolver(): JSX.Element {
 								setSelectedPoulettePlayers(values as Array<Player>)
 							}
 						>
-							<Stack spacing={8} direction="row" justify="center">
+							<SimpleGrid spacing={4} px={4}>
 								{players.map((player) => (
 									<Checkbox
 										key={player}
 										value={player}
 										size="lg"
-										sx={{
-											".chakra-checkbox__control": {
-												borderRadius: "xl",
-												width: "32px",
-												height: "32px",
-											},
-											".chakra-checkbox__label": {
-												fontSize: "2xl",
-												fontWeight: "bold",
-												ml: 4,
-											},
-										}}
 									>
 										{player}
 									</Checkbox>
 								))}
-							</Stack>
+							</SimpleGrid>
 						</CheckboxGroup>
 					</VStack>
 				</ModalBody>
 
-				<ModalFooter bg="gray.50" px={8} py={8}>
-					<ButtonGroup spacing={6} width="full">
-						<Button
-							onClick={onClose}
-							variant="ghost"
-							flex={1}
-							size="lg"
-							borderRadius="2xl"
-							_hover={{
-								transform: "translateY(-2px)",
-							}}
-						>
-							Annuler
-						</Button>
+				<ModalFooter>
+					<ButtonGroup>
+						<Button onClick={onClose}>Annuler</Button>
 
 						<Button
 							colorScheme="orange"
 							onClick={onValidate}
-							flex={2}
-							size="lg"
-							borderRadius="2xl"
-							_hover={{
-								transform: "translateY(-2px)",
-							}}
 						>
 							Valider la poulette
 						</Button>
