@@ -1,5 +1,6 @@
 import type { Player } from "../../../lib/player.ts";
 import type { RulesConfiguration } from "../../../lib/rule-runner/rule-runner-configuration.ts";
+import { configureGameHandlerRules } from "../../utils/game-handler-configuration.ts";
 import { router } from "../../router.tsx";
 import type { AsyncAppThunk } from "../store.ts";
 import {
@@ -28,3 +29,8 @@ export const resetGameThunk = (): AsyncAppThunk => async (dispatch) => {
 	dispatch(currentGameSlice.actions.resetGame());
 	await router.navigate("/");
 };
+
+export const updateGameRulesThunk = (rulesConfiguration: RulesConfiguration): AsyncAppThunk => async (dispatch) => {
+	configureGameHandlerRules(rulesConfiguration);
+	dispatch(currentGameSlice.actions.setRulesConfiguration(rulesConfiguration));
+}
