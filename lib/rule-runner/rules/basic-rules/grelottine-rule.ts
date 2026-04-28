@@ -22,20 +22,27 @@ export interface GrelottineResolution {
 export class GrelottineRule implements Rule {
 	name = Rules.GRELOTTINE;
 
-	constructor(private readonly resolver: Resolver<GrelottineResolution>) {}
+	constructor(protected readonly resolver: Resolver<GrelottineResolution>) {}
 
 	isApplicableToGameContext(context: UnknownGameContext): boolean {
 		return context.event === GameContextEvent.CHALLENGE_GRELOTTINE;
 	}
 
 	async applyRule(context: GameContextWrapper): Promise<RuleEffects> {
-		const {
+		const resolution = await this.resolver.getResolution();
+		return this.applyWithResolution(context, resolution);
+	}
+
+	protected async applyWithResolution(
+		context: GameContextWrapper,
+		{
 			challengedPlayer,
 			diceRoll,
 			gambledAmount,
 			grelottinBet,
 			grelottinPlayer,
-		} = await this.resolver.getResolution();
+		}: GrelottineResolution,
+	): Promise<RuleEffects> {
 		const runner = context.asChallengeGrelottine().runner;
 
 		let lastCombinationRuleEffects: RuleEffects;
@@ -64,14 +71,11 @@ export class GrelottineRule implements Rule {
 			});
 		}
 
-		const isGrelottineWon = grelottineBetToRuleEffectsToCheck[grelottinBet].has(
-			lastCombinationRuleEffects[0].event,
+		const isGrelottineWon = lastCombinationRuleEffects.some(
+			(effect) =>
+				grelottineBetToRuleEffectsToCheck[grelottinBet].has(effect.event) ||
+				effect.event === RuleEffectEvent.REMOVE_GRELOTTINE,
 		);
-
-		console.log("lastCombinationRuleEffects", lastCombinationRuleEffects)
-
-		const isPoulette = lastCombinationRuleEffects[0].event === RuleEffectEvent.NEANT;
-		console.log(isPoulette)
 
 		const getLoserScore = () => -gambledAmount;
 		const getWinnerScore = () => gambledAmount;

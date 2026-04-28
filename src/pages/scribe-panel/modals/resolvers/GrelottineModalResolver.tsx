@@ -45,10 +45,22 @@ import {
 import type { PlayerCardDetails } from "../../../../components/player-cards/player-card-details.ts";
 import { selectPlayerCardDetails } from "../../../../store/current-game/current-game-selectors.ts";
 import { grelottineResolver } from "../../../../store/resolvers/rules/grelottine-rule.resolver.ts";
-import { useAppSelector } from "../../../../store/store.ts";
+import { pouletteRuleResolver } from "../../../../store/resolvers/rules/poulette-rule.resolver.ts";
+import { useAppDispatch, useAppSelector } from "../../../../store/store.ts";
+import { resolversSlice } from "../../../../store/resolvers/resolvers.slice.ts";
 
 export function GrelottineModalResolver(): JSX.Element {
-	const { active } = useAppSelector((state) => state.resolvers.grelottine);
+	const { active: isGrelottineActive } = useAppSelector(
+		(state) => state.resolvers.grelottine,
+	);
+	const { active: isPouletteActive, isPouletteStep } = useAppSelector(
+		(state) => state.resolvers.poulette,
+	);
+
+	const dispatch = useAppDispatch();
+
+	const active = (isGrelottineActive || isPouletteActive) && !isPouletteStep;
+
 	const grelottinePlayers = useAppSelector(selectPlayerCardDetails).filter(
 		(details) => details.hasGrelottine && details.score > 0,
 	);
@@ -96,7 +108,11 @@ export function GrelottineModalResolver(): JSX.Element {
 	};
 
 	const onClose = () => {
-		grelottineResolver.reject();
+		if (isPouletteActive) {
+			pouletteRuleResolver.reject();
+		} else {
+			grelottineResolver.reject();
+		}
 
 		resetForm();
 	};
@@ -106,13 +122,36 @@ export function GrelottineModalResolver(): JSX.Element {
 			return;
 		}
 
-		grelottineResolver.resolve({
+		const isNeant = checkIsNeant(diceForm);
+
+		const resolution = {
 			grelottinPlayer,
 			challengedPlayer,
 			grelottinBet,
 			gambledAmount,
 			diceRoll: diceForm,
-		});
+		};
+
+		if (isPouletteActive && isNeant) {
+			dispatch(
+				resolversSlice.actions.setPoulette({
+					active: true,
+					players: [grelottinPlayer, challengedPlayer],
+					isPouletteStep: true,
+					grelottineData: resolution,
+				}),
+			);
+			return;
+		}
+
+		if (isPouletteActive) {
+			pouletteRuleResolver.resolve({
+				...resolution,
+				poulettePlayers: [],
+			});
+		} else {
+			grelottineResolver.resolve(resolution);
+		}
 
 		resetForm();
 	};
@@ -125,12 +164,21 @@ export function GrelottineModalResolver(): JSX.Element {
 			grelottinBet &&
 			gambledAmount
 		) {
-			grelottineResolver.resolve({
+			const resolution = {
 				grelottinPlayer,
 				challengedPlayer,
 				grelottinBet,
 				gambledAmount,
-			});
+			};
+
+			if (isPouletteActive) {
+				pouletteRuleResolver.resolve({
+					...resolution,
+					poulettePlayers: [],
+				});
+			} else {
+				grelottineResolver.resolve(resolution);
+			}
 		}
 	};
 
@@ -148,6 +196,10 @@ export function GrelottineModalResolver(): JSX.Element {
 			setGambledAmount(0);
 			return 0;
 		}
+
+		console.log("grelottinePlayers in grelottine modal / getMaximumBetAmount", grelottinePlayers);
+		console.log("grelottinPlayer", grelottinPlayer);
+		console.log("challengedPlayer", challengedPlayer);
 
 		const grelottinScore = grelottinePlayers.find(
 			(p) => p.player === grelottinPlayer,
@@ -168,7 +220,10 @@ export function GrelottineModalResolver(): JSX.Element {
 			<ModalOverlay />
 			<ModalContent>
 				<ModalCloseButton />
-				<BevueModalHeader title={"Défi de Grelottine"} bgColor="yellow.300" />
+				<BevueModalHeader
+					title="Défi de Grelottine"
+					bgColor="yellow.300"
+				/>
 
 				<ModalBody hidden={!isEnoughPlayers}>
 					<SimpleGrid columns={[1, 1, 4]} spacingY={2}>
@@ -347,4 +402,17 @@ function GrelottineCustomRadioGroup({
 			</RadioGroup>
 		</FormControl>
 	);
+}
+
+function checkIsNeant(diceRoll: [number, number, number]): boolean {
+	const [d1, d2, d3] = diceRoll;
+	// Chouette / Cul de Chouette
+	if (d1 === d2 || d1 === d3 || d2 === d3) return false;
+	// Velute
+	if (d1 + d2 === d3 || d1 + d3 === d2 || d2 + d3 === d1) return false;
+	// Suite
+	const sorted = [...diceRoll].sort((a, b) => a - b);
+	if (sorted[0] + 1 === sorted[1] && sorted[1] + 1 === sorted[2]) return false;
+
+	return true;
 }

@@ -17,6 +17,10 @@ import type {
 	CivetResolutionPayload,
 } from "./rules/level-1/civet-rule.ts";
 import type {
+	PouletteResolution,
+	PouletteResolutionPayload
+} from "./rules/level-1/poulette-rule.ts";
+import type {
 	SiropResolutionPayload,
 	SirotageResolution,
 } from "./rules/level-1/sirotage-rule.ts";
@@ -57,6 +61,7 @@ export interface RulesConfiguration {
 	isBleuRougeEnabled: boolean;
 	isDoubleBevueEnabled: boolean;
 	isTichetteEnabled: boolean;
+	isPouletteEnabled: boolean;
 }
 
 export interface Resolvers {
@@ -105,6 +110,10 @@ export interface Resolvers {
 		RobobrolResolution,
 		RobobrolResolutionPayload
 	>;
+	pouletteRuleResolver?: RuleResolver<
+		PouletteResolution,
+		PouletteResolutionPayload
+	>;
 }
 
 export const BASIC_RULES: Array<Rules> = [
@@ -119,6 +128,7 @@ export const BASIC_RULES: Array<Rules> = [
 ];
 
 export const ALL_RULES_ORDERED: Array<Rules> = [
+	Rules.POULETTE,
 	Rules.GRELOTTINE,
 	Rules.CIVET_DOUBLED,
 	Rules.CIVET,

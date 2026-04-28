@@ -17,6 +17,7 @@ import { AttrapeOiseauRule } from "./rules/level-1/attrape-oiseau-rule.ts";
 import { CivetRule } from "./rules/level-1/civet-rule.ts";
 import { SirotageRule } from "./rules/level-1/sirotage-rule.ts";
 import { SouffletteRule } from "./rules/level-1/soufflette-rule.ts";
+import { PouletteRule } from "./rules/level-1/poulette-rule.ts";
 import { ArtichetteRule } from "./rules/level-2/artichette-rule.ts";
 import { CivetDoubledRule } from "./rules/level-2/civet-doubled-rule.ts";
 import { BleuRougeRule } from "./rules/level-3/bleu-rouge-rule.ts";
@@ -69,6 +70,10 @@ export function getAllRulesEnabled(
 		enabledRules.add(Rules.TICHETTE);
 	}
 
+	if (rulesConfiguration.isPouletteEnabled) {
+		enabledRules.add(Rules.POULETTE);
+	}
+
 	return ALL_RULES_ORDERED.filter((rule) => enabledRules.has(rule));
 }
 
@@ -96,6 +101,11 @@ export function instanciateRules(
 				return new SuiteRule(resolvers.suiteRuleResolver);
 			case Rules.CUL_DE_CHOUETTE:
 				return new CulDeChouetteRule(resolvers.culDeChouetteRuleResolver);
+			case Rules.POULETTE:
+				if (!resolvers.pouletteRuleResolver) {
+					throw new ResolverNotProvidedError(ruleName);
+				}
+				return new PouletteRule(resolvers.pouletteRuleResolver);
 			case Rules.SOUFFLETTE:
 				if (!resolvers.souffletteRuleResolver) {
 					throw new ResolverNotProvidedError(ruleName);
