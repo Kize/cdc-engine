@@ -5,7 +5,7 @@ import { RuleEffectEvent, type RuleEffects } from "../rule-effect";
 import type { Resolver } from "../rule-resolver";
 import { GameContextWrapper } from "../../game-context-event";
 
-export interface PouletteResolution extends GrelottineResolution {
+export interface PouletteResolution {
 	poulettePlayers: Array<Player>;
 }
 
@@ -17,17 +17,17 @@ export class PouletteRule extends GrelottineRule {
 	name = Rules.POULETTE;
 
 	constructor(
+		grelottineResolver: Resolver<GrelottineResolution>,
 		private readonly pouletteResolver: Resolver<
 			PouletteResolution,
 			PouletteResolutionPayload
 		>,
 	) {
-		super(pouletteResolver as unknown as Resolver<GrelottineResolution>);
+		super(grelottineResolver);
 	}
 
 	async applyRule(context: GameContextWrapper): Promise<RuleEffects> {
-		const resolution = await this.pouletteResolver.getResolution({} as any);
-
+		const resolution = await this.resolver.getResolution();
 		const effects = await this.applyWithResolution(context, resolution);
 
 		const isNeant = effects.some(
@@ -35,7 +35,9 @@ export class PouletteRule extends GrelottineRule {
 		);
 
 		if (isNeant) {
-			const { poulettePlayers } = resolution;
+			const { poulettePlayers } = await this.pouletteResolver.getResolution({
+				grelottinePlayers: [resolution.grelottinPlayer, resolution.challengedPlayer] as [Player, Player]
+			});
 
 			let score = 0;
 			if (poulettePlayers.length === 1) {

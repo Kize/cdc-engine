@@ -16,7 +16,6 @@ export interface ResolversState {
 		active: boolean;
 		players: Array<Player>;
 		isPouletteStep: boolean;
-		grelottineData?: GrelottineResolution;
 	};
 	culDeChouette: { active: boolean; player: Player };
 	suite: { active: boolean; player: Player };

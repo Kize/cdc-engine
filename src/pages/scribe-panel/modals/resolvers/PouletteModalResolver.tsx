@@ -24,7 +24,7 @@ import { resolversSlice } from "../../../../store/resolvers/resolvers.slice.ts";
 
 export function PouletteModalResolver(): JSX.Element {
 	const dispatch = useAppDispatch();
-	const { active, isPouletteStep, players, grelottineData } = useAppSelector(
+	const { active, isPouletteStep, players } = useAppSelector(
 		(state) => state.resolvers.poulette,
 	);
 
@@ -46,19 +46,15 @@ export function PouletteModalResolver(): JSX.Element {
 				active: false,
 				players: [],
 				isPouletteStep: false,
-				grelottineData: undefined,
 			}),
 		);
 	};
 
 	const onValidate = () => {
-		if (grelottineData) {
-			pouletteRuleResolver.resolve({
-				...grelottineData,
-				poulettePlayers: selectedPoulettePlayers,
-			});
-			resetForm();
-		}
+		pouletteRuleResolver.resolve({
+			poulettePlayers: selectedPoulettePlayers,
+		});
+		resetForm();
 	};
 
 	return (

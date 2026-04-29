@@ -105,7 +105,10 @@ export function instanciateRules(
 				if (!resolvers.pouletteRuleResolver) {
 					throw new ResolverNotProvidedError(ruleName);
 				}
-				return new PouletteRule(resolvers.pouletteRuleResolver);
+				return new PouletteRule(
+					resolvers.grelottineRuleResolver,
+					resolvers.pouletteRuleResolver,
+				);
 			case Rules.SOUFFLETTE:
 				if (!resolvers.souffletteRuleResolver) {
 					throw new ResolverNotProvidedError(ruleName);

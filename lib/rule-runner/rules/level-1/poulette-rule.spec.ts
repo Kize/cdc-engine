@@ -9,8 +9,9 @@ import { ChouetteRule } from "../basic-rules/chouette-rule";
 
 describe("PouletteRule", () => {
 	it("is not applicable to non-grelottine context", () => {
-		const resolver = { getResolution: vi.fn() };
-		const rule = new PouletteRule(resolver as any);
+		const grelottineResolver = { getResolution: vi.fn() };
+		const pouletteResolver = { getResolution: vi.fn() };
+		const rule = new PouletteRule(grelottineResolver as any, pouletteResolver as any);
 		expect(
 			rule.isApplicableToGameContext(
 				DummyContextBuilder.aDiceRollContext().build().asDiceRoll(),
@@ -19,18 +20,22 @@ describe("PouletteRule", () => {
 	});
 
 	it("applies poulette effect when grelottine challenge is néant and two players say 'elle est où la poulette'", async () => {
-		const resolver = {
+		const grelottineResolver = {
 			getResolution: vi.fn().mockResolvedValue({
 				grelottinPlayer: "Alban",
 				challengedPlayer: "Delphin",
 				grelottinBet: GrelottineBet.CHOUETTE,
 				diceRoll: [3, 6, 5],
 				gambledAmount: 10,
+			}),
+		};
+		const pouletteResolver = {
+			getResolution: vi.fn().mockResolvedValue({
 				poulettePlayers: [{ player: "Alban" }, { player: "Delphin" }],
 			}),
 		};
 
-		const rule = new PouletteRule(resolver as any);
+		const rule = new PouletteRule(grelottineResolver as any, pouletteResolver as any);
 		const ruleRunner = new RuleRunner([new NeantRule()]);
 		const effects = await rule.applyRule(
 			DummyContextBuilder.aGrelottineContext()
@@ -52,18 +57,22 @@ describe("PouletteRule", () => {
 	});
 
 	it("applies poulette effect when grelottine challenge is néant and one player says 'elle est où la poulette'", async () => {
-		const resolver = {
+		const grelottineResolver = {
 			getResolution: vi.fn().mockResolvedValue({
 				grelottinPlayer: "Alban",
 				challengedPlayer: "Delphin",
 				grelottinBet: GrelottineBet.CHOUETTE,
 				diceRoll: [3, 6, 5],
 				gambledAmount: 10,
+			}),
+		};
+		const pouletteResolver = {
+			getResolution: vi.fn().mockResolvedValue({
 				poulettePlayers: [{ player: "Alban" }],
 			}),
 		};
 
-		const rule = new PouletteRule(resolver as any);
+		const rule = new PouletteRule(grelottineResolver as any, pouletteResolver as any);
 		const ruleRunner = new RuleRunner([new NeantRule()]);
 		const effects = await rule.applyRule(
 			DummyContextBuilder.aGrelottineContext()
@@ -84,18 +93,22 @@ describe("PouletteRule", () => {
 	});
 
 	it("does not apply poulette effect when grelottine challenge is not néant", async () => {
-		const resolver = {
+		const grelottineResolver = {
 			getResolution: vi.fn().mockResolvedValue({
 				grelottinPlayer: "Alban",
 				challengedPlayer: "Delphin",
 				grelottinBet: GrelottineBet.CHOUETTE,
 				diceRoll: [3, 3, 5],
 				gambledAmount: 10,
+			}),
+		};
+		const pouletteResolver = {
+			getResolution: vi.fn().mockResolvedValue({
 				poulettePlayers: [{ player: "Alban" }, { player: "Delphin" }],
 			}),
 		};
 
-		const rule = new PouletteRule(resolver as any);
+		const rule = new PouletteRule(grelottineResolver as any, pouletteResolver as any);
 		const ruleRunner = new RuleRunner([new ChouetteRule()]);
 		const effects = await rule.applyRule(
 			DummyContextBuilder.aGrelottineContext()

@@ -45,21 +45,12 @@ import {
 import type { PlayerCardDetails } from "../../../../components/player-cards/player-card-details.ts";
 import { selectPlayerCardDetails } from "../../../../store/current-game/current-game-selectors.ts";
 import { grelottineResolver } from "../../../../store/resolvers/rules/grelottine-rule.resolver.ts";
-import { pouletteRuleResolver } from "../../../../store/resolvers/rules/poulette-rule.resolver.ts";
-import { useAppDispatch, useAppSelector } from "../../../../store/store.ts";
-import { resolversSlice } from "../../../../store/resolvers/resolvers.slice.ts";
+import { useAppSelector } from "../../../../store/store.ts";
 
 export function GrelottineModalResolver(): JSX.Element {
-	const { active: isGrelottineActive } = useAppSelector(
+	const { active } = useAppSelector(
 		(state) => state.resolvers.grelottine,
 	);
-	const { active: isPouletteActive, isPouletteStep } = useAppSelector(
-		(state) => state.resolvers.poulette,
-	);
-
-	const dispatch = useAppDispatch();
-
-	const active = (isGrelottineActive || isPouletteActive) && !isPouletteStep;
 
 	const grelottinePlayers = useAppSelector(selectPlayerCardDetails).filter(
 		(details) => details.hasGrelottine && details.score > 0,
@@ -108,12 +99,7 @@ export function GrelottineModalResolver(): JSX.Element {
 	};
 
 	const onClose = () => {
-		if (isPouletteActive) {
-			pouletteRuleResolver.reject();
-		} else {
-			grelottineResolver.reject();
-		}
-
+		grelottineResolver.reject();
 		resetForm();
 	};
 
@@ -122,36 +108,13 @@ export function GrelottineModalResolver(): JSX.Element {
 			return;
 		}
 
-		const isNeant = checkIsNeant(diceForm);
-
-		const resolution = {
+		grelottineResolver.resolve({
 			grelottinPlayer,
 			challengedPlayer,
 			grelottinBet,
 			gambledAmount,
 			diceRoll: diceForm,
-		};
-
-		if (isPouletteActive && isNeant) {
-			dispatch(
-				resolversSlice.actions.setPoulette({
-					active: true,
-					players: [grelottinPlayer, challengedPlayer],
-					isPouletteStep: true,
-					grelottineData: resolution,
-				}),
-			);
-			return;
-		}
-
-		if (isPouletteActive) {
-			pouletteRuleResolver.resolve({
-				...resolution,
-				poulettePlayers: [],
-			});
-		} else {
-			grelottineResolver.resolve(resolution);
-		}
+		});
 
 		resetForm();
 	};
@@ -164,21 +127,12 @@ export function GrelottineModalResolver(): JSX.Element {
 			grelottinBet &&
 			gambledAmount
 		) {
-			const resolution = {
+			grelottineResolver.resolve({
 				grelottinPlayer,
 				challengedPlayer,
 				grelottinBet,
 				gambledAmount,
-			};
-
-			if (isPouletteActive) {
-				pouletteRuleResolver.resolve({
-					...resolution,
-					poulettePlayers: [],
-				});
-			} else {
-				grelottineResolver.resolve(resolution);
-			}
+			});
 
 			resetForm();
 		}
@@ -405,17 +359,4 @@ function GrelottineCustomRadioGroup({
 			</RadioGroup>
 		</FormControl>
 	);
-}
-
-function checkIsNeant(diceRoll: [number, number, number]): boolean {
-	const [d1, d2, d3] = diceRoll;
-	// Chouette / Cul de Chouette
-	if (d1 === d2 || d1 === d3 || d2 === d3) return false;
-	// Velute
-	if (d1 + d2 === d3 || d1 + d3 === d2 || d2 + d3 === d1) return false;
-	// Suite
-	const sorted = [...diceRoll].sort((a, b) => a - b);
-	if (sorted[0] + 1 === sorted[1] && sorted[1] + 1 === sorted[2]) return false;
-
-	return true;
 }
