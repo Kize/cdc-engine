@@ -47,6 +47,8 @@ export enum RuleEffectEvent {
 	REMOVE_GRELOTTINE = "Retrait de la Grelottine",
 	GRELOTTINE_CHALLENGE_WON = "Défi de grelottine gagné",
 	GRELOTTINE_CHALLENGE_LOST = "Défi de grelottine perdu",
+	POULETTE_WON = "Gain d'un Poulette",
+	POULETTE_LOST = "Perte à la Poulette",
 
 	VERDIER_WON = "Pari du Verdier gagné",
 	VERDIER_LOST = "Pari du Verdier perdu",
