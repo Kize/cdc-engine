@@ -15,7 +15,6 @@ class PouletteRuleResolver extends RuleResolver<
             resolversSlice.actions.setPoulette({
                 active: true,
                 players: payload?.grelottinePlayers ?? [],
-                isPouletteStep: true,
             }),
         );
     }
@@ -25,7 +24,6 @@ class PouletteRuleResolver extends RuleResolver<
             resolversSlice.actions.setPoulette({
                 active: false,
                 players: [],
-                isPouletteStep: false,
             }),
         );
     }

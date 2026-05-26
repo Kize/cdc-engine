@@ -1,9 +1,15 @@
-import { GrelottineRule, GrelottineResolution } from "../basic-rules/grelottine-rule";
+import {
+	GrelottineRule,
+	type GrelottineResolution,
+} from "../basic-rules/grelottine-rule";
 import type { Player } from "../../../player.ts";
-import { Rules } from "../rule";
-import { RuleEffectEvent, type RuleEffects } from "../rule-effect";
+import {
+	type RuleEffect,
+	RuleEffectEvent,
+	type RuleEffects,
+} from "../rule-effect";
 import type { Resolver } from "../rule-resolver";
-import { GameContextWrapper } from "../../game-context-event";
+import type { GameContextWrapper } from "../../game-context-event";
 
 export interface PouletteResolution {
 	poulettePlayers: Array<Player>;
@@ -14,8 +20,6 @@ export interface PouletteResolutionPayload {
 }
 
 export class PouletteRule extends GrelottineRule {
-	name = Rules.POULETTE;
-
 	constructor(
 		grelottineResolver: Resolver<GrelottineResolution>,
 		private readonly pouletteResolver: Resolver<
@@ -27,43 +31,53 @@ export class PouletteRule extends GrelottineRule {
 	}
 
 	async applyRule(context: GameContextWrapper): Promise<RuleEffects> {
-		const resolution = await this.resolver.getResolution();
-		const effects = await this.applyWithResolution(context, resolution);
-
-		const isNeant = effects.some(
-			(effect) => effect.event === RuleEffectEvent.NEANT,
+		const grelottineRuleEffects = await super.applyRule(context);
+		const pouletteRuleEffects = await this.handlePouletteRule(
+			grelottineRuleEffects,
 		);
 
-		if (isNeant) {
-			const { poulettePlayers } = await this.pouletteResolver.getResolution({
-				grelottinePlayers: [resolution.grelottinPlayer, resolution.challengedPlayer] as [Player, Player]
-			});
+		return [...grelottineRuleEffects, ...pouletteRuleEffects];
+	}
 
-			let score = 0;
-			if (poulettePlayers.length === 1) {
-				score = 10;
-			} else if (poulettePlayers.length === 2) {
-				score = -10;
-			}
+	private async handlePouletteRule(grelottineRuleEffects: Array<RuleEffect>) {
+		const isFirstRulEffectANeant =
+			grelottineRuleEffects[0]?.event === RuleEffectEvent.NEANT;
 
-			const pouletteEffects: RuleEffects = poulettePlayers.map(
-				(playerCandidate) => {
-					const player =
-						typeof playerCandidate === "string"
-							? playerCandidate
-							: (playerCandidate as any).player;
-
-					return {
-						event: RuleEffectEvent.POULETTE,
-						player,
-						value: score,
-					};
-				},
-			);
-
-			return [...effects, ...pouletteEffects];
+		if (!isFirstRulEffectANeant) {
+			return [];
 		}
 
-		return effects;
+		const grelottinePlayers = grelottineRuleEffects.reduce(
+			(acc: [Player, Player], effect) => {
+				if (effect.event === RuleEffectEvent.GRELOTTINE_CHALLENGE_WON) {
+					acc[0] = effect.player;
+				}
+
+				if (effect.event === RuleEffectEvent.GRELOTTINE_CHALLENGE_LOST) {
+					acc[1] = effect.player;
+				}
+
+				return acc;
+			},
+			["", ""],
+		);
+
+		const { poulettePlayers } = await this.pouletteResolver.getResolution({
+			grelottinePlayers,
+		});
+
+		if (poulettePlayers.length === 0) {
+			return [];
+		}
+
+		const isPouletteWon = poulettePlayers.length === 1;
+
+		return poulettePlayers.map<RuleEffect>((player) => ({
+			event: isPouletteWon
+				? RuleEffectEvent.POULETTE_WON
+				: RuleEffectEvent.POULETTE_LOST,
+			player,
+			value: isPouletteWon ? 10 : -10,
+		}));
 	}
 }

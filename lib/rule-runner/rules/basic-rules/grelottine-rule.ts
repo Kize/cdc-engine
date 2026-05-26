@@ -22,27 +22,20 @@ export interface GrelottineResolution {
 export class GrelottineRule implements Rule {
 	name = Rules.GRELOTTINE;
 
-	constructor(protected readonly resolver: Resolver<GrelottineResolution>) {}
+	constructor(private readonly resolver: Resolver<GrelottineResolution>) {}
 
 	isApplicableToGameContext(context: UnknownGameContext): boolean {
 		return context.event === GameContextEvent.CHALLENGE_GRELOTTINE;
 	}
 
 	async applyRule(context: GameContextWrapper): Promise<RuleEffects> {
-		const resolution = await this.resolver.getResolution();
-		return this.applyWithResolution(context, resolution);
-	}
-
-	protected async applyWithResolution(
-		context: GameContextWrapper,
-		{
+		const {
 			challengedPlayer,
 			diceRoll,
 			gambledAmount,
 			grelottinBet,
 			grelottinPlayer,
-		}: GrelottineResolution,
-	): Promise<RuleEffects> {
+		} = await this.resolver.getResolution();
 		const runner = context.asChallengeGrelottine().runner;
 
 		let lastCombinationRuleEffects: RuleEffects;

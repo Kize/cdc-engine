@@ -58,7 +58,8 @@ export enum RuleEffectEvent {
 
 	TICHETTE_WON = "Gain d'une Tichette",
 	TICHETTE_LOST = "Perte d'une Tichette",
-	POULETTE = "La poulette",
+	POULETTE_WON = "Gain d'une Poulette",
+	POULETTE_LOST = "Perte à la Poulette",
 }
 
 export enum NotImplementedRuleEffectEvent {

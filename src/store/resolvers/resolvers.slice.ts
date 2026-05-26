@@ -2,7 +2,6 @@ import { type PayloadAction, createSlice } from "@reduxjs/toolkit";
 import type { Player } from "../../../lib/player.ts";
 import type { DieValue } from "../../../lib/rule-runner/rules/dice-rule.ts";
 import type { PlayableBid } from "../../../lib/rule-runner/rules/level-1/sirotage-rule.types.ts";
-import type { GrelottineResolution } from "../../../lib/rule-runner/rules/basic-rules/grelottine-rule.ts";
 
 export interface ResolversState {
 	addOperations: { active: boolean };
@@ -15,7 +14,6 @@ export interface ResolversState {
 	poulette: {
 		active: boolean;
 		players: Array<Player>;
-		isPouletteStep: boolean;
 	};
 	culDeChouette: { active: boolean; player: Player };
 	suite: { active: boolean; player: Player };
@@ -57,7 +55,6 @@ function initialState(): ResolversState {
 		poulette: {
 			active: false,
 			players: [],
-			isPouletteStep: false,
 		},
 		culDeChouette: {
 			active: false,

@@ -24,15 +24,13 @@ import { resolversSlice } from "../../../../store/resolvers/resolvers.slice.ts";
 
 export function PouletteModalResolver(): JSX.Element {
 	const dispatch = useAppDispatch();
-	const { active, isPouletteStep, players } = useAppSelector(
+	const { active, players } = useAppSelector(
 		(state) => state.resolvers.poulette,
 	);
 
 	const [selectedPoulettePlayers, setSelectedPoulettePlayers] = useState<
 		Array<Player>
 	>([]);
-
-	const isOpen = active && isPouletteStep;
 
 	const onClose = () => {
 		pouletteRuleResolver.reject();
@@ -45,7 +43,6 @@ export function PouletteModalResolver(): JSX.Element {
 			resolversSlice.actions.setPoulette({
 				active: false,
 				players: [],
-				isPouletteStep: false,
 			}),
 		);
 	};
@@ -58,7 +55,7 @@ export function PouletteModalResolver(): JSX.Element {
 	};
 
 	return (
-		<Modal isOpen={isOpen} onClose={onClose} size="xl">
+		<Modal isOpen={active} onClose={onClose} size="xl">
 			<ModalOverlay />
 			<ModalContent>
 				<ModalCloseButton />
