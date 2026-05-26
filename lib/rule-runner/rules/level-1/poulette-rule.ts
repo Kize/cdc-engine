@@ -47,9 +47,7 @@ export class PouletteRule extends GrelottineRule {
 			return [];
 		}
 
-		const reducedGrelottinePlayers = grelottineRuleEffects.reduce<
-			[Player, Player]
-		>(
+		const grelottinePlayers = grelottineRuleEffects.reduce<[Player, Player]>(
 			(acc, effect) => {
 				if (effect.event === RuleEffectEvent.GRELOTTINE_CHALLENGE_WON) {
 					acc[0] = effect.player;
@@ -64,17 +62,9 @@ export class PouletteRule extends GrelottineRule {
 			["", ""],
 		);
 
-		if (
-			reducedGrelottinePlayers[0] === "" ||
-			reducedGrelottinePlayers[1] === ""
-		) {
+		if (grelottinePlayers[0] === "" || grelottinePlayers[1] === "") {
 			throw new Error("Grelottine players are not defined");
 		}
-
-		const grelottinePlayers: [Player, Player] = [
-			reducedGrelottinePlayers[0],
-			reducedGrelottinePlayers[1],
-		];
 
 		const { poulettePlayers } = await this.pouletteResolver.getResolution({
 			grelottinePlayers,
