@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 import { DummyContextBuilder } from "../../../tests/dummy-game-context-builder";
 import { RuleRunner } from "../../rule-runner";
-import { type RuleEffect, RuleEffectEvent } from "../rule-effect";
+import { RuleEffectEvent } from "../rule-effect";
 import {
 	type PouletteResolution,
 	type PouletteResolutionPayload,
