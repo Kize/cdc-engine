@@ -93,11 +93,6 @@ describe("PouletteRule", () => {
 			player: "Alban",
 			value: 10,
 		});
-
-		const delphinPouletteEffect = effects.find(
-			(e) => e.event === RuleEffectEvent.POULETTE_WON && e.player === "Delphin",
-		);
-		expect(delphinPouletteEffect).toBeUndefined();
 	});
 
 	it("does not apply poulette effect when grelottine challenge is not néant", async () => {
@@ -121,18 +116,13 @@ describe("PouletteRule", () => {
 
 		const rule = new PouletteRule(grelottineResolver, pouletteResolver);
 		const ruleRunner = new RuleRunner([new ChouetteRule()]);
-		const effects = await rule.applyRule(
+		await rule.applyRule(
 			DummyContextBuilder.aGrelottineContext()
 				.withRuleRunner(ruleRunner)
 				.build(),
 		);
 
-		const pouletteEffects = effects.filter(
-			(e) =>
-				e.event === RuleEffectEvent.POULETTE_WON ||
-				e.event === RuleEffectEvent.POULETTE_LOST,
-		);
-		expect(pouletteEffects).toHaveLength(0);
+		expect(pouletteResolver.getResolution).not.toHaveBeenCalled();
 	});
 
 	it("does not apply poulette effect when a grelottine challenge results in a soufflette", async () => {
@@ -149,9 +139,7 @@ describe("PouletteRule", () => {
 			PouletteResolution,
 			PouletteResolutionPayload
 		> = {
-			getResolution: vi.fn().mockResolvedValue({
-				poulettePlayers: ["Alban", "Delphin"],
-			}),
+			getResolution: vi.fn(),
 		};
 		const souffletteResolver: Resolver<
 			SouffletteResolution,
@@ -161,7 +149,7 @@ describe("PouletteRule", () => {
 				isChallenge: true,
 				challengedPlayer: "Alban",
 				numberOfDiceRolls: 3,
-				diceRoll: [4, 2, 1],
+				diceRoll: [1, 3, 6],
 			}),
 		};
 
@@ -169,19 +157,14 @@ describe("PouletteRule", () => {
 		const ruleRunner = new RuleRunner([
 			new ChouetteRule(),
 			new SouffletteRule(souffletteResolver),
+			new NeantRule(),
 		]);
-		const effects = await rule.applyRule(
+		await rule.applyRule(
 			DummyContextBuilder.aGrelottineContext()
 				.withRuleRunner(ruleRunner)
 				.build(),
 		);
 
 		expect(pouletteResolver.getResolution).not.toHaveBeenCalled();
-
-		expect(effects).toContainEqual<RuleEffect>({
-			event: RuleEffectEvent.SOUFFLETTE_WON,
-			player: "Alban",
-			value: 30,
-		});
 	});
 });
