@@ -14,6 +14,7 @@ import { souffletteRuleResolver } from "../store/resolvers/rules/soufflette-rule
 import { suiteRuleResolver } from "../store/resolvers/rules/suite-rule.resolver.ts";
 import { tichetteRuleResolver } from "../store/resolvers/rules/tichette-rule.resolver.ts";
 import { verdierRuleResolver } from "../store/resolvers/rules/verdier-rule.resolver.ts";
+import { pouletteRuleResolver } from "../store/resolvers/rules/poulette-rule.resolver.ts";
 
 export const cdcGameHandler = new GameHandler();
 
@@ -35,5 +36,6 @@ export function configureGameHandlerRules(
 		verdierRuleResolver: verdierRuleResolver,
 		tichetteRuleResolver: tichetteRuleResolver,
 		robobrolRuleResolver: robobrolRuleResolver,
+		pouletteRuleResolver: pouletteRuleResolver,
 	});
 }

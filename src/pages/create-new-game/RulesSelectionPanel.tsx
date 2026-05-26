@@ -21,6 +21,7 @@ const rulesByLevel: Array<{
 		level: 1,
 		rules: [
 			"isSouffletteEnabled",
+			"isPouletteEnabled",
 			"isSiropEnabled",
 			"isAttrapeOiseauEnabled",
 			"isCivetEnabled",
@@ -62,6 +63,7 @@ export function RulesSelectionPanel({ rules, setRules }: Props): JSX.Element {
 			isBleuRougeEnabled: false,
 			isDoubleBevueEnabled: false,
 			isTichetteEnabled: false,
+			isPouletteEnabled: false,
 		};
 
 		for (const ruleKey of newForm) {
@@ -172,6 +174,8 @@ function translateRuleLabel(ruleLabel: keyof RulesConfiguration): Rules {
 			return Rules.SOUFFLETTE;
 		case "isBleuRougeEnabled":
 			return Rules.BLEU_ROUGE;
+		case "isPouletteEnabled":
+			return Rules.POULETTE;
 		case "isDoubleBevueEnabled":
 			return Rules.DOUBLE_BEVUE;
 		case "isVerdierEnabled":

@@ -23,6 +23,7 @@ export enum Rules {
 	CHOUETTE_VELUTE = " La Chouette-Velute",
 	CIVET = "Le Civet",
 	CIVET_DOUBLED = "Le Civet doublé",
+	POULETTE = "La Poulette",
 	SIROP = "Le Sirop",
 	ATTRAPE_OISEAU = "L'Attrape-oiseau",
 	ARTICHETTE = "L'Artichette",

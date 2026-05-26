@@ -62,6 +62,7 @@ export function getNewCurrentGameState(): CurrentGameState {
 		events: [],
 		rulesConfiguration: {
 			isSouffletteEnabled: true,
+			isPouletteEnabled: true,
 			isSiropEnabled: true,
 			isAttrapeOiseauEnabled: true,
 			isCivetEnabled: true,

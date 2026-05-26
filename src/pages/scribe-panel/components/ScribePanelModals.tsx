@@ -8,6 +8,7 @@ import { ChouetteVeluteModalResolver } from "../modals/resolvers/ChouetteVeluteM
 import { CivetModalResolver } from "../modals/resolvers/CivetModalResolver.tsx";
 import { CulDeChouetteModalResolver } from "../modals/resolvers/CulDeChouetteModalResolver.tsx";
 import { GrelottineModalResolver } from "../modals/resolvers/GrelottineModalResolver.tsx";
+import { PouletteModalResolver } from "../modals/resolvers/PouletteModalResolver.tsx";
 import { RobobrolModalResolver } from "../modals/resolvers/RobobrolModalResolver.tsx";
 import { SiropModalResolver } from "../modals/resolvers/SiropModalResolver.tsx";
 import { SouffletteModalResolver } from "../modals/resolvers/SouffletteModalResolver.tsx";
@@ -21,6 +22,7 @@ export function ScribePanelModals(): JSX.Element {
 			<AddOperationsModal />
 			<ChanteSloubiModal />
 			<GrelottineModalResolver />
+			<PouletteModalResolver />
 
 			<CulDeChouetteModalResolver />
 			<SuiteModalResolver />

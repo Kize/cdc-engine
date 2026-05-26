@@ -49,6 +49,7 @@ import { useAppSelector } from "../../../../store/store.ts";
 
 export function GrelottineModalResolver(): JSX.Element {
 	const { active } = useAppSelector((state) => state.resolvers.grelottine);
+
 	const grelottinePlayers = useAppSelector(selectPlayerCardDetails).filter(
 		(details) => details.hasGrelottine && details.score > 0,
 	);
@@ -97,7 +98,6 @@ export function GrelottineModalResolver(): JSX.Element {
 
 	const onClose = () => {
 		grelottineResolver.reject();
-
 		resetForm();
 	};
 
@@ -131,6 +131,8 @@ export function GrelottineModalResolver(): JSX.Element {
 				grelottinBet,
 				gambledAmount,
 			});
+
+			resetForm();
 		}
 	};
 
@@ -156,6 +158,7 @@ export function GrelottineModalResolver(): JSX.Element {
 		const challengedPlayerScore = grelottinePlayers.find(
 			(p) => p.player === challengedPlayer,
 		)!.score;
+
 		const lowestScore = Math.min(grelottinScore, challengedPlayerScore);
 
 		return getMaxGrelottinePossibleAmount(lowestScore, grelottinBet);
@@ -168,7 +171,7 @@ export function GrelottineModalResolver(): JSX.Element {
 			<ModalOverlay />
 			<ModalContent>
 				<ModalCloseButton />
-				<BevueModalHeader title={"Défi de Grelottine"} bgColor="yellow.300" />
+				<BevueModalHeader title="Défi de Grelottine" bgColor="yellow.300" />
 
 				<ModalBody hidden={!isEnoughPlayers}>
 					<SimpleGrid columns={[1, 1, 4]} spacingY={2}>
